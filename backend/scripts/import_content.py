@@ -26,7 +26,10 @@ from app.models.curriculum import (  # noqa: E402
 )
 from app.models.progress import AssessmentAttempt, LabAttempt, UserProgress, Bookmark  # noqa: E402
 
-CONTENT_DIR = r"C:\Data\node\linotutor\content"
+# Resolve the content folder relative to the repository root so this works
+# on any OS/CI (Windows dev machine, Render Linux, GitHub Actions, ...).
+_REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+CONTENT_DIR = os.environ.get("CONTENT_DIR") or os.path.join(_REPO_ROOT, "content")
 
 STAGE_PATHS = {1: "beginner", 2: "administrator", 3: "devops", 4: "advanced", 5: "troubleshooter"}
 

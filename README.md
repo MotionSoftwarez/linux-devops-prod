@@ -4,6 +4,25 @@ An interactive, responsive educational platform for learning Linux systematicall
 
 > ⚠️ The terminal labs are **browser-simulated** — clearly labeled as simulated. No user-entered command ever executes on the application server. Real isolated Linux labs are on the roadmap.
 
+## Deployment (Vercel + Render)
+
+**Frontend → Vercel**
+1. Push this repo to GitHub.
+2. Vercel → *Add New Project* → import the repo.
+3. Set **Root Directory** = `frontend` (framework auto-detects Next.js; build `next build`).
+4. Environment variable: `NEXT_PUBLIC_API_BASE` = `https://<your-render-url>/api/v1`
+   (leave unset for local dev — the Next.js proxy handles it).
+5. Deploy.
+
+**Backend → Render** (`render.yaml` blueprint included)
+1. Render → *New Blueprint* → select this repo.
+2. It builds FastAPI, seeds the DB (`scripts/seed.py` + `import_content.py` + `import_cheatsheets.py`) and starts uvicorn. Health check: `/api/v1/health`.
+3. ⚠️ Free tier = ephemeral disk: lesson content reseeds on every deploy/reset,
+   but **user accounts & progress reset** when the service restarts. For real
+   persistence attach a persistent disk (Starter plan) with
+   `DATABASE_URL=sqlite:////var/data/linotutor.db` on a mounted disk, or migrate to
+   PostgreSQL and set `DATABASE_URL=postgres://...`.
+
 ## Features implemented (vertical slice)
 
 - **Curriculum**: all 6 goal-based learning paths, 22 modules across 5 stages
