@@ -1,0 +1,470 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-12">Linux for DevOps — Module 1, Lesson 12</h2><h2 id="disk-management-and-storage-troubleshooting-on-ubuntu">Disk management and storage troubleshooting on Ubuntu</h2><p>Module 1</p>
+<p>Lesson 12</p>
+<p>Beginner → Practical</p>
+<p>Learn to inspect disks, understand Linux filesystems and mount points, diagnose disk-space and inode exhaustion, and troubleshoot storage problems safely on Ubuntu servers.</p>
+<h2 id="1-understand-linux-storage">1. Understand Linux storage</h2><p>Imagine an Ubuntu server hosting a Python web application. The application suddenly reports:</p>
+<pre><code>OSError: [Errno 28] No space left on device</code></pre><p>This error doesn't always mean the physical disk is completely full. Possible causes include:</p>
+<ul>
+<li>The filesystem has run out of available space.</li>
+<li>The filesystem has run out of inodes.</li>
+<li>The application is writing to a different, full mount point.</li>
+<li>A deleted file is still being held open by a running process.</li>
+</ul>
+<p>The first step is to investigate rather than delete files blindly.</p>
+<h3 id="the-linux-storage-hierarchy">The Linux storage hierarchy</h3><p>Physical or virtual disk</p>
+<p>Example: <code>/dev/sda</code> or <code>/dev/vda</code></p>
+<p>Partitions or logical volumes</p>
+<p>Example: <code>/dev/sda1</code>, <code>/dev/mapper/ubuntu--vg-root</code></p>
+<p>Filesystem</p>
+<p>Example: ext4 or XFS; some setups use Btrfs</p>
+<p>Mount point</p>
+<p>Example: <code>/</code>, <code>/var</code>, <code>/home</code>, <code>/mnt/data</code></p>
+<p>Think of it like a building:</p>
+<ul>
+<li>Disk: the entire building.</li>
+<li>Partition or logical volume: a separate area within the building.</li>
+<li>Filesystem: the system that organizes and tracks stored items.</li>
+<li>Mount point: the location where Linux makes that filesystem accessible.</li>
+</ul>
+<p>Not every server uses partitions directly. Cloud servers often use virtual disks, and Logical Volume Manager (LVM) can place filesystems on logical volumes instead of directly on partitions.</p>
+<h2 id="2-inspect-disks-with-lsblk">2. Inspect disks with <code>lsblk</code></h2><p><code>lsblk</code> lists block devices such as disks, partitions, and logical volumes.</p>
+<p>Start with:</p>
+<pre><code>lsblk</code></pre><p>For more useful information:</p>
+<pre><code>lsblk -f</code></pre><p>To include filesystem type, UUID, size, and mount point in a more explicit layout:</p>
+<pre><code>lsblk -o NAME,SIZE,TYPE,FSTYPE,UUID,MOUNTPOINTS</code></pre><p>Example output (illustrative):</p>
+<pre><code>NAME        SIZE TYPE FSTYPE UUID        MOUNTPOINTS
+sda          80G disk
+├─sda1        1G part ext4   abc123...   /boot
+└─sda2       79G part
+  └─vg-root  40G lvm  ext4   def456...   /
+sdb         100G disk
+└─sdb1      100G part xfs    ghi789...   /mnt/data</code></pre><p>This example shows a disk containing a boot partition and an LVM-backed root filesystem, plus a separate disk mounted at <code>/mnt/data</code>. Your actual device names and layout will differ.</p>
+<h3 id="interactive-command-explorer">Interactive command explorer</h3><p>Choose a command to see what it helps you discover.</p>
+<p>Select a command</p>
+<p><code>lsblk -f</code> — devices and filesystems</p>
+<p><code>lsblk -o ...</code> — detailed device inventory</p>
+<p><code>df -hT</code> — mounted filesystem usage</p>
+<p><code>findmnt</code> — mount tree</p>
+<p>What it does</p>
+<p>Lists block devices and their detected filesystem types, UUIDs, and mount points.</p>
+<p>Illustrative output</p>
+<p>NAME   FSTYPE UUID        MOUNTPOINTS<br>sda1   ext4   abc123...   /</p>
+<p> Copy command</p>
+<p>Safety tip: <code>lsblk</code> is a good starting point because it is an inspection command. Don't format, repartition, or reinitialize a disk simply because it appears without a mount point.</p>
+<h2 id="3-check-filesystem-capacity-with-df">3. Check filesystem capacity with <code>df</code></h2><p>The <code>df</code> command reports how much space is used and available on mounted filesystems.</p>
+<pre><code># Human-readable sizes
+df -h
+
+# Include filesystem types
+df -hT
+
+# Check a specific path
+df -h /var/log
+
+# Check inode usage
+df -i</code></pre><p>Example:</p>
+<pre><code>Filesystem      Size  Used Avail Use% Mounted on
+/dev/mapper/vg-root
+                 40G   38G  2.0G  95% /</code></pre><p>Here, the root filesystem is 95% used and has approximately 2 GB available. That may be a warning sign, particularly on a busy application server, but the appropriate threshold depends on workload and growth rate.</p>
+<h3 id="read-the-output-correctly">Read the output correctly</h3><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Filesystem</code></td>
+<td>The mounted storage device or filesystem</td>
+</tr>
+<tr>
+<td><code>Size</code></td>
+<td>Reported filesystem capacity</td>
+</tr>
+<tr>
+<td><code>Used</code></td>
+<td>Space counted as used</td>
+</tr>
+<tr>
+<td><code>Avail</code></td>
+<td>Space available to ordinary users, subject to filesystem rules</td>
+</tr>
+<tr>
+<td><code>Use%</code></td>
+<td>Percentage used</td>
+</tr>
+<tr>
+<td><code>Mounted on</code></td>
+<td>Directory where the filesystem is accessible</td>
+</tr>
+</tbody></table>
+<p>A common mistake is to check only <code>df -h /</code>. If <code>/var</code> or <code>/mnt/data</code> is a separate filesystem, it can fill up while <code>/</code> still has plenty of free space.</p>
+<p>For a specific application directory:</p>
+<pre><code>df -h /opt/myapp
+df -h /var/log
+df -h /tmp</code></pre><p>These commands help identify the filesystem that actually backs each path.</p>
+<h2 id="4-find-large-directories-with-du">4. Find large directories with <code>du</code></h2><p><code>df</code> tells you about a filesystem. <code>du</code> helps you find which directories and files are consuming space.</p>
+<pre><code># Total size of a directory
+du -sh /var/log
+
+# Sizes of immediate subdirectories
+sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h
+
+# Check a project directory
+du -sh /opt/myapp</code></pre><p>Explanation of common options:</p>
+<ul>
+<li><code>-s</code> — summarize rather than list every item.</li>
+<li><code>-h</code> — display readable units such as MB and GB.</li>
+<li><code>-d1</code> — limit the summary to one directory level on Ubuntu's GNU <code>du</code>.</li>
+<li><code>-x</code> — stay on the same filesystem.</li>
+<li><code>sort -h</code> — sort sizes in human-readable order.</li>
+</ul>
+<p>To find the largest files in a directory, one option is:</p>
+<pre><code>sudo find /var/log -xdev -type f -printf '%s %p\n' \
+  2&gt;/dev/null | sort -n | tail -n 20</code></pre><p>This lists up to 20 of the largest files by byte size, with the largest near the bottom. The byte counts are not human-readable, but they are useful for sorting accurately.</p>
+<h3 id="why-can-df-and-du-disagree-">Why can <code>df</code> and <code>du</code> disagree?</h3><p>Suppose <code>df -h /var</code> reports that the filesystem is nearly full, but <code>du -sh /var/log</code> seems to account for very little usage.</p>
+<p>Possible explanations include:</p>
+<ol>
+<li>Large files elsewhere on that filesystem.</li>
+<li>Files hidden beneath a mount point.</li>
+<li>Deleted files still open by running processes.</li>
+<li>Filesystem metadata, reserved space, or accounting differences.</li>
+<li>Files on a different mount than the one you intended to inspect.</li>
+</ol>
+<p>To investigate deleted-but-open files, if the tool is installed:</p>
+<pre><code>sudo lsof +L1</code></pre><p>Look for large files with a link count of zero. A process may still occupy disk space through an open file descriptor even after the filename has been removed. The space is normally released when the process closes that descriptor. Prefer an application-supported log reopen or restart procedure instead of killing processes blindly.</p>
+<h2 id="5-filesystems-ext4-xfs-and-others">5. Filesystems: ext4, XFS, and others</h2><p>A filesystem organizes files, directories, metadata, and free-space tracking on a storage device.</p>
+<p>Common types include:</p>
+<p><a href="https://images.openai.com/static-rsc-4/dqDD_eekIiNBaEdaDtuHSxSixi10SqhqjVi_wdKXavwU0_MCHPoNZA6ipycP0VPE1Zma1EYndYXl-QVkfS5mWAbSOI3SZoO742UxAHjpbesFmcbsfiamSt5n2xR-LE7ZB1XmRw1BObYFvxqOlhfmh4MazuFPea3BhgZ3mLbT-8s?purpose=inline">ext4 Demystified: From On-Disk Layout to Hands-On Inspection | by DevOpsIsRil | Medium</a></p>
+<p>ext4</p>
+<p>A widely used Linux filesystem and a common choice for Ubuntu root and data volumes. It supports file permissions, directories, journaling, and inode-based file tracking.</p>
+<p><a href="https://images.openai.com/static-rsc-4/hRs65FjPsVh1P035zArYcDq6yGKFgswFlIzQ2W0TvllCWf0PM9CCVhf61u8_sYp5Z0tqz_BeECliPLnL9okw1r3pW5m9UdSX9O90OeJ9P0QKp19qd07V1FgkLlOdqcXXuogCNpiNdXFuWlmNv-gVXYYrzfZJJSccJJnVY0dMW3A?purpose=inline">XFS for Scalable File Storage | simplyblock</a></p>
+<p>XFS</p>
+<p>A high-performance journaling filesystem used in many server environments. Its capacity and inode usage can be inspected with standard tools such as <code>df</code>.</p>
+<p><a href="https://images.openai.com/static-rsc-4/yE8StzVCLeSrtZsIu28YA8jNI5hTF68AF7OYaPQvEgsL0myjgdJ0JjhA4nm4JcEPl-KMN-EExJzqWSwMQQSFjRQyvHfPKHZ8ASOcTJREn9DlusBQMKpT-y7l7_GGC4g9oMpENaFdZMn4ccKB0Q4MS_gRY5YjYCxmQoXz-8zGoL4?purpose=inline">Btrfs File System: Definition, Features, Pros &amp; Cons</a></p>
+<p>Btrfs</p>
+<p>A copy-on-write filesystem with features such as snapshots and checksums. Snapshot and subvolume usage can make space accounting more nuanced.</p>
+<p>Discover filesystem types and identifiers:</p>
+<pre><code>lsblk -f
+sudo blkid</code></pre><p><code>blkid</code> reads block-device metadata such as filesystem type and UUID. Some device details may require elevated permissions.</p>
+<h3 id="what-is-a-uuid-">What is a UUID?</h3><p>A UUID is an identifier associated with a filesystem or block-device structure. It can be used in mount configuration so a system doesn't depend solely on device names such as <code>/dev/sda1</code>, which may vary across environments.</p>
+<p>Example:</p>
+<pre><code>UUID=1234abcd-...   /mnt/data   ext4   defaults   0  2</code></pre><p>This is an illustrative <code>/etc/fstab</code> entry, not a value to copy onto a real server.</p>
+<p>Never assume the filesystem type or UUID. Read them from your own system before configuring a mount.</p>
+<h2 id="6-mount-points-and-findmnt">6. Mount points and <code>findmnt</code></h2><p>A mount point is a directory through which a filesystem becomes accessible.</p>
+<p>Examples:</p>
+<ul>
+<li><code>/</code> — root filesystem.</li>
+<li><code>/boot</code> — often a separate boot filesystem.</li>
+<li><code>/home</code> — users' home directories.</li>
+<li><code>/var</code> — frequently contains logs and variable application data.</li>
+<li><code>/mnt/data</code> — a common manually configured data mount point.</li>
+<li><code>/media</code> — often used for removable media.</li>
+</ul>
+<p>Inspect the mount tree:</p>
+<pre><code>findmnt
+findmnt /
+findmnt /var/log
+findmnt /mnt/data</code></pre><p>If a path is not a separate mount point, <code>findmnt</code> may show the parent filesystem that contains it. This is useful for identifying which filesystem backs a particular directory.</p>
+<h3 id="mounting-a-filesystem">Mounting a filesystem</h3><p>A normal mount command has the form:</p>
+<pre><code>sudo mount DEVICE DIRECTORY</code></pre><p>For example, on a test machine, after confirming the device and filesystem and creating the mount directory:</p>
+<pre><code>sudo mkdir -p /mnt/data
+sudo mount /dev/CONFIRMED_DEVICE /mnt/data</code></pre><p><code>/dev/CONFIRMED_DEVICE</code> is a placeholder, not a literal device name. Do not run this example unchanged.</p>
+<p>Mounting an existing filesystem at the wrong location can hide the directory's previous contents while the mount is active. Formatting a device can destroy data. Always identify the device and existing data before making storage changes.</p>
+<p>To unmount a filesystem:</p>
+<pre><code>sudo umount /mnt/data</code></pre><p>Unmounting can fail if processes are using the filesystem. Identify the users and stop or redirect them appropriately instead of forcing an unmount as the first response.</p>
+<h2 id="7-configure-persistent-mounts-with-etc-fstab">7. Configure persistent mounts with <code>/etc/fstab</code></h2><p>The file <code>/etc/fstab</code> describes filesystems that should be mounted according to system configuration, often automatically during boot.</p>
+<p>Inspect it without editing:</p>
+<pre><code>cat /etc/fstab</code></pre><p>A typical entry has six fields:</p>
+<pre><code>UUID=your-filesystem-uuid  /mnt/data  ext4  defaults  0  2</code></pre><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>UUID=...</code></td>
+<td>Identifies the device or filesystem</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>/mnt/data</code></td>
+<td>Mount point</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ext4</code></td>
+<td>Filesystem type</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>defaults</code></td>
+<td>Mount options</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>0</code></td>
+<td>Legacy <code>dump</code> setting</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>2</code></td>
+<td>Filesystem-check ordering where applicable</td>
+</tr>
+</tbody></table>
+<p>The values depend on the actual filesystem and server setup.</p>
+<h3 id="safe-workflow-for-editing-etc-fstab">Safe workflow for editing <code>/etc/fstab</code></h3><p>A mistake in this file can prevent a filesystem from mounting and may complicate boot or recovery.</p>
+<ol>
+<li>Identify the device with <code>lsblk -f</code> and <code>blkid</code>.</li>
+<li>Verify the intended mount point and filesystem type.</li>
+<li>Back up the existing configuration.</li>
+<li>Edit carefully, preserving all existing entries.</li>
+<li>Test the configuration before rebooting.</li>
+<li>Check the mount result and relevant logs.</li>
+</ol>
+<p>Example of a backup:</p>
+<pre><code>sudo cp -a /etc/fstab /etc/fstab.bak</code></pre><p>After editing, on a systemd-based Ubuntu server:</p>
+<pre><code>sudo findmnt --verify --verbose</code></pre><p>This checks the mount-table configuration, but it does not guarantee that every device is available or that a mount will succeed during boot.</p>
+<p>If the configuration is appropriate for the current system and the device is available, you can test mounting configured filesystems:</p>
+<pre><code>sudo mount -a</code></pre><p>Caution: <code>mount -a</code> may attempt to mount every applicable entry that is not already mounted. Review the configuration first and be especially careful on production systems. Check the results afterward:</p>
+<pre><code>findmnt --target /mnt/data
+df -h /mnt/data</code></pre><p>Do not reboot simply to test a new mount entry when a safer validation is possible.</p>
+<h2 id="8-inodes-why-a-disk-can-have-free-space-but-still-fail">8. Inodes: why a disk can have free space but still fail</h2><p>An inode is a filesystem data structure that tracks a file or directory's metadata, including ownership, permissions, timestamps, and references to the file's data blocks.</p>
+<p>In simple terms, a filesystem needs both:</p>
+<ul>
+<li>Data blocks to store file contents.</li>
+<li>Inodes to track files and directories.</li>
+</ul>
+<h2 id="two-different-storage-limits">Two different storage limits</h2><p>Disk blocks</p>
+<p>Large log or archive files consume lots of space.</p>
+<p>Example: most blocks used</p>
+<p>Inodes</p>
+<p>Huge numbers of small files consume inode entries.</p>
+<p>Example: inode limit reached</p>
+<p>Illustration only; the bars are not actual measurements from a server.</p>
+<h3 id="check-inode-availability">Check inode availability</h3><pre><code>df -i</code></pre><p>Example:</p>
+<pre><code>Filesystem      Inodes   IUsed   IFree IUse% Mounted on
+/dev/sda1      2621440 2621440       0  100% /</code></pre><p>Here, the filesystem has no free inodes. Even if <code>df -h</code> shows several gigabytes available, creating additional files may fail.</p>
+<h3 id="what-causes-inode-exhaustion-">What causes inode exhaustion?</h3><p>Typical causes include:</p>
+<ul>
+<li>An application creating thousands or millions of tiny files.</li>
+<li>Temporary files that are never cleaned up.</li>
+<li>Session or cache directories with uncontrolled growth.</li>
+<li>Mail queues or job directories accumulating files.</li>
+<li>Application code generating a separate file for every request or event.</li>
+</ul>
+<p>To count files in a known application directory, including nested files:</p>
+<pre><code>sudo find /opt/myapp/cache -xdev -type f 2&gt;/dev/null | wc -l</code></pre><p>This traverses the directory and may take time on a very large tree. Replace the path with the actual directory under investigation.</p>
+<p>To find directories containing many immediate entries:</p>
+<pre><code>sudo find /var/tmp -xdev -type d -print</code></pre><p>That command lists directories; it doesn't count or rank their contents. For a real inode incident, investigate likely application cache or temporary-file directories first, then use targeted counting and sorting if necessary.</p>
+<p>Do not delete files simply because there are many of them. Determine what creates them, whether they are still needed, and what cleanup process the application supports.</p>
+<h2 id="9-realistic-devops-case-study-disk-full-after-deployment">9. Realistic DevOps case study: disk full after deployment</h2><p>A Python application on an Ubuntu server starts failing after a new release. Users see HTTP 500 responses, and the application logs include:</p>
+<pre><code>OSError: [Errno 28] No space left on device</code></pre><p>The service may still be running, but it can no longer write logs, temporary files, caches, or application data.</p>
+<h3 id="step-1-check-capacity-and-inodes">Step 1 — Check capacity and inodes</h3><pre><code>df -h
+df -i</code></pre><p>Imagine the relevant filesystem reports:</p>
+<pre><code>Filesystem      Size Used Avail Use% Mounted on
+/dev/sda1        40G  40G     0 100% /</code></pre><p>This points to exhausted filesystem capacity. If <code>df -i</code> also reports 100% inode usage, there may be two problems to investigate.</p>
+<h3 id="step-2-identify-the-affected-mount">Step 2 — Identify the affected mount</h3><pre><code>df -h /var/log
+df -h /opt/myapp
+df -h /tmp</code></pre><p>These checks tell you which filesystem backs the directories the application may be using.</p>
+<h3 id="step-3-find-what-is-consuming-space">Step 3 — Find what is consuming space</h3><p>If <code>/var/log</code> is on the affected filesystem:</p>
+<pre><code>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</code></pre><p>Suppose the output shows that <code>/var/log/myapp</code> is unusually large. Inspect the directory:</p>
+<pre><code>sudo ls -lh /var/log/myapp/</code></pre><p>Then inspect the relevant log's contents without making changes:</p>
+<pre><code>sudo tail -n 100 /var/log/myapp/app.log</code></pre><p>If the file is huge, <code>tail</code> is generally preferable to printing the entire file.</p>
+<h3 id="step-4-confirm-the-root-cause">Step 4 — Confirm the root cause</h3><p>Suppose investigation reveals that debug logging was accidentally enabled during deployment, and the application has been writing excessively verbose messages.</p>
+<p>The cause is not simply “Linux has a full disk.” The cause is uncontrolled log growth.</p>
+<h3 id="step-5-recover-safely">Step 5 — Recover safely</h3><p>A sensible recovery plan is to:</p>
+<ol>
+<li>Stop the uncontrolled log growth using the application's approved configuration and deployment procedure.</li>
+<li>Preserve the incident evidence required by the organization.</li>
+<li>Follow the log-retention policy to archive or remove only approved, unneeded data.</li>
+<li>Restore sufficient free space using an approved cleanup or storage-expansion plan.</li>
+<li>Configure suitable log rotation and retention to prevent recurrence.</li>
+</ol>
+<p>Avoid blindly truncating active logs, deleting entire log directories, or removing system files.</p>
+<h3 id="step-6-verify">Step 6 — Verify</h3><pre><code>df -h
+df -i
+sudo systemctl status myapp --no-pager -l
+sudo journalctl -u myapp --since "10 minutes ago" --no-pager</code></pre><p>Test the application endpoint as well. A disk that now has free space doesn't automatically mean the application has recovered.</p>
+<h3 id="the-diagnostic-lesson">The diagnostic lesson</h3><p>Observe</p>
+<p>Check <code>df -h</code>, <code>df -i</code>, and the mount point.</p>
+<p>Investigate</p>
+<p>Use <code>du</code>, <code>find</code>, and logs to identify the actual cause.</p>
+<p>Recover</p>
+<p>Apply the smallest safe fix that addresses the cause.</p>
+<p>Verify and prevent</p>
+<p>Confirm capacity, application health, log rotation, and monitoring.</p>
+<h2 id="10-interactive-exercises">10. Interactive exercises</h2><p>Use these exercises to build confidence with storage troubleshooting. Read-only commands are preferred for initial diagnosis.</p>
+<h2 id="storage-practice-checklist">Storage practice checklist</h2><p>0/6</p>
+<p>Inspect disk devices</p>
+<p>lsblk -f</p>
+<p> Copy</p>
+<p>Identify disks, partitions, filesystem types, UUIDs, and mount points.</p>
+<p>Check filesystem capacity</p>
+<p>df -hT</p>
+<p> Copy</p>
+<p>Find mounted filesystems that are close to full.</p>
+<p>Check inode availability</p>
+<p>df -i</p>
+<p> Copy</p>
+<p>Find filesystems that have exhausted inode capacity.</p>
+<p>Find large log subdirectories</p>
+<p>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</p>
+<p> Copy</p>
+<p>Compare the disk usage of directories on the same filesystem.</p>
+<p>Identify which filesystem backs a path</p>
+<p>findmnt --target /var/log</p>
+<p> Copy</p>
+<p>Check the mount that contains /var/log.</p>
+<p>Inspect filesystem identifiers</p>
+<p>sudo blkid</p>
+<p> Copy</p>
+<p>Review detected block-device UUIDs and filesystem types.</p>
+<h3 id="challenge-disk-space-or-inodes-">Challenge: disk space or inodes?</h3><p>Your application reports <code>No space left on device</code>. The output of <code>df -h</code> shows 25 GB available on the relevant filesystem, but <code>df -i</code> shows <code>IUse%</code> at 100%.</p>
+<p>What should you investigate first?</p>
+<p>Find directories containing large video files.</p>
+<p>Investigate directories containing excessive numbers of small files.</p>
+<p>Format the filesystem immediately.</p>
+<p>Increase the log level to debug.</p>
+<h2 id="11-safe-storage-troubleshooting-rules">11. Safe storage troubleshooting rules</h2><ul>
+<li>Never run <code>mkfs</code>, <code>fdisk</code>, <code>parted</code>, or destructive disk commands casually. They can destroy data or alter partitions.</li>
+<li>Verify device names and UUIDs before editing <code>/etc/fstab</code> or mounting filesystems.</li>
+<li>Don't delete files just because they are large. Check what they are, who owns them, and whether an application is using them.</li>
+<li>Don't assume a reboot will fix a full disk. It can interrupt workloads and leave the underlying cause unresolved.</li>
+<li>Check both blocks and inodes when a process reports that it cannot create a file.</li>
+<li>Use backups and recovery plans before storage configuration changes, especially on production systems.</li>
+<li>Verify after every change with <code>df</code>, <code>findmnt</code>, application health checks, and relevant logs.</li>
+</ul>
+<h2 id="12-lesson-12-quiz">12. Lesson 12 quiz</h2><p>Test your understanding of Linux disk management and storage troubleshooting.</p>
+<p>On Ubuntu, which command shows filesystem capacity, used space, available space, and usage percentage for mounted filesystems?</p>
+<p>1 of 5</p>
+<p>Adf -h</p>
+<p>Blsblk -f</p>
+<p>Cblkid</p>
+<p>Ddu -sh /</p>
+<p>Next</p>
+<h2 id="13-assignment-tracker">13. Assignment tracker</h2><p>Complete these tasks on a test system or a server you are authorized to inspect.</p>
+<h2 id="assignment-progress">Assignment progress</h2><h3 id="0-8">0/8</h3><p>Run lsblk -f and identify the root filesystem and any separate data volumes.</p>
+<p>Run df -hT and explain which mounted filesystem has the highest usage.</p>
+<p>Run df -i and compare inode usage with filesystem space usage.</p>
+<p>Use du to identify the largest subdirectories within an authorized application or log directory.</p>
+<p>Use findmnt to determine which filesystem backs /var/log and /opt/myapp.</p>
+<p>Inspect blkid output and explain what UUIDs and filesystem types represent.</p>
+<p>Read /etc/fstab and explain its six fields for one entry without modifying it.</p>
+<p>Write a disk-full incident report covering evidence, cause, safe recovery, and verification.</p>
+<p> Copy assignment checklist</p>
+<h2 id="14-lesson-12-cheat-sheet">14. Lesson 12 cheat sheet</h2><p>Devices and filesystem identifiers</p>
+<p>lsblk<br>lsblk -f<br>lsblk -o NAME,SIZE,TYPE,FSTYPE,UUID,MOUNTPOINTS<br>sudo blkid</p>
+<p> Copy commands</p>
+<p>Space and inode usage</p>
+<p>df -h<br>df -hT<br>df -i<br>df -h /var/log</p>
+<p> Copy commands</p>
+<p>Find large directories</p>
+<p>du -sh /var/log<br>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h<br>sudo lsof +L1</p>
+<p> Copy commands</p>
+<p>Mount points and configuration</p>
+<p>findmnt<br>findmnt --target /mnt/data<br>cat /etc/fstab<br>sudo findmnt --verify --verbose</p>
+<p> Copy commands</p>
+<p>Disk-full investigation</p>
+<p>df -h<br>df -i<br>lsblk -f<br>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h<br>sudo journalctl -p err --since '1 hour ago'</p>
+<p> Copy commands</p>
+<p>Use actual device names and mount points from your server. These commands primarily inspect the system; review output and authorization before performing any storage changes.</p>
+<h3 id="lesson-12-completion-checklist">Lesson 12 completion checklist</h3><p>I can distinguish disks, partitions, filesystems, and mount points.</p>
+<p>I can use lsblk, blkid, df, du, and findmnt.</p>
+<p>I understand the purpose and risks of /etc/fstab.</p>
+<p>I can explain inode exhaustion and diagnose a disk-full incident.</p>
+<p>I know to investigate before deleting files or changing storage.</p>
+<h2 id="next-lesson-module-1-lesson-13">Next lesson — Module 1, Lesson 13</h2><h2 id="ssh-and-secure-remote-access">SSH and secure remote access</h2><p>Learn how DevOps engineers connect securely to remote Ubuntu servers and troubleshoot SSH authentication problems.</p>
+<p>The next lesson will cover:</p>
+<ul>
+<li>How SSH client and server connections work</li>
+<li>SSH keys and public-key authentication</li>
+<li>Permissions for <code>~/.ssh</code> and <code>authorized_keys</code></li>
+<li>Connecting to servers with <code>ssh</code> and copying files with <code>scp</code></li>
+<li>Troubleshooting timeouts, permission errors, and refused connections</li>
+<li>Safe SSH configuration changes, practical exercises, quiz, and assignment tracker</li>
+</ul>
+<p>Continue to Lesson 13 </p>
+
+</div>

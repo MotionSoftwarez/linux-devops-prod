@@ -1,0 +1,626 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-18">Linux for DevOps — Module 1, Lesson 18</h2><h2 id="linux-security-fundamentals-and-hardening-on-ubuntu">Linux Security Fundamentals and Hardening on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/mdeOcS8vJDvePLu3og8Yw4joTAO646Jwm-3Qk1PTPEPNOwQ6LOwXM9QYDpIdG3A1nGCQye3MfROVoZ0BwB2CYx2LEa-lIPvU9zTjf5jPQ6Hm6YIeJbqHFH-CpIhHl1VdG6sObCxezY9ezM4EXv0x7G0arYaqcDWKXJmtIHs5ZKA?purpose=inline">The Beginner's Guide to Securing a Linux Server | Falcon Internet Blog</a></p>
+<p><a href="https://www.falconinternet.net/blog/beginners-guide-to-securing-a-linux-server?utm_source=chatgpt.com">falconinternet.net</a></p>
+<p>In this lesson, you'll learn how to secure an Ubuntu server using practical, beginner-friendly techniques. We'll build on your knowledge of Linux users, permissions, SSH, systemd, logs, environment variables, and cron.</p>
+<p>The goal isn't to make a server impossible to attack. It's to reduce unnecessary access, limit exposure, detect suspicious activity, and recover safely when something goes wrong.</p>
+<p>By the end, you will be able to:</p>
+<ul>
+<li>Apply the principle of least privilege to users and <code>sudo</code>.</li>
+<li>Review and harden SSH without locking yourself out.</li>
+<li>Configure Ubuntu's UFW firewall safely.</li>
+<li>Keep packages updated and understand security updates.</li>
+<li>Inspect file permissions and authentication logs.</li>
+<li>Recognize common security mistakes and investigate a realistic incident.</li>
+</ul>
+<h2 id="1-what-does-linux-hardening-mean-">1. What does Linux hardening mean?</h2><p>Hardening means changing a system's configuration to reduce security risks.</p>
+<p>An Ubuntu server might run a Python web application, a Perl validation tool, a database, and SSH for remote administration. Each service or account can create a potential entry point if it is configured carelessly.</p>
+<h3 id="visual-overview">Visual overview</h3><p>Hardened Ubuntu server</p>
+<p>Access control</p>
+<p>Users, groups, sudo</p>
+<p>Secure remote access</p>
+<p>SSH keys, validation</p>
+<p>Network protection</p>
+<p>Firewall, fewer ports</p>
+<p>Detection and recovery</p>
+<p>Logs, updates, backups</p>
+<p>A useful security cycle is:</p>
+<ol>
+<li>Prevent unnecessary access.</li>
+<li>Detect unusual activity.</li>
+<li>Respond to incidents.</li>
+<li>Recover using tested backups and a known-good configuration.</li>
+</ol>
+<p>Security is an ongoing process, not a single command.</p>
+<h2 id="2-least-privilege-give-each-account-only-the-access-it-needs">2. Least privilege: give each account only the access it needs</h2><p>The principle of least privilege means a user, script, or service should receive only the permissions required to perform its job.</p>
+<p>For example, a support engineer may need to read application logs and restart one service, but may not need unrestricted root access.</p>
+<h3 id="inspect-users-and-groups">Inspect users and groups</h3><p>Run these read-only commands:</p>
+<pre><code>whoami
+id
+groups
+getent passwd
+getent group sudo</code></pre><p>To inspect a particular account:</p>
+<pre><code>id deploy
+getent passwd deploy</code></pre><p>Replace <code>deploy</code> with a real account on your server.</p>
+<ul>
+<li><code>whoami</code> shows your current username.</li>
+<li><code>id</code> shows your UID, primary group, and supplementary groups.</li>
+<li><code>getent passwd</code> lists accounts known through the system's configured account databases.</li>
+<li><code>getent group sudo</code> shows the members of the <code>sudo</code> group when that group is configured locally.</li>
+</ul>
+<h3 id="understand-the-privilege-boundary">Understand the privilege boundary</h3><p>Regular user</p>
+<p>Normal files and permitted commands</p>
+<p>sudo authorization</p>
+<p>Authentication and policy checks</p>
+<p>Privileged operation</p>
+<p>Only the authorized action should be performed</p>
+<h3 id="use-sudo-carefully">Use <code>sudo</code> carefully</h3><p>Check your current permissions:</p>
+<pre><code>sudo -l</code></pre><p>Run individual administrative commands when needed:</p>
+<pre><code>sudo systemctl status nginx
+sudo journalctl -u nginx -n 50</code></pre><p>Avoid using a root shell for routine work. A typo in a privileged shell can have system-wide consequences.</p>
+<p>Important: membership in the <code>sudo</code> group commonly grants broad administrative privileges on Ubuntu. It is not a limited-access support role by itself.</p>
+<p>Before changing group membership, inspect the existing policy and understand how it affects the account. Don't remove your own administrative access on a remote server unless you have confirmed another authorized administrator and a working recovery route.</p>
+<h3 id="practical-exercise">Practical exercise</h3><p>Inspect your current account:</p>
+<pre><code>whoami
+id
+sudo -l</code></pre><p>Write down:</p>
+<ul>
+<li>Your username and groups.</li>
+<li>Whether you have administrative privileges.</li>
+<li>Which tasks actually require elevated access.</li>
+</ul>
+<p>No configuration changes are needed for this exercise.</p>
+<h2 id="3-file-permissions-protect-application-files-and-secrets">3. File permissions: protect application files and secrets</h2><p>Linux permissions control who can read, modify, or execute files.</p>
+<p>The three permission classes are:</p>
+<ul>
+<li>Owner — the file's owning user.</li>
+<li>Group — users in the file's owning group.</li>
+<li>Others — everyone else.</li>
+</ul>
+<p>Permissions are <code>r</code> (read), <code>w</code> (write), and <code>x</code> (execute).</p>
+<h3 id="common-permission-modes">Common permission modes</h3><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>755</code></td>
+<td>Owner can read/write/execute; others can read/execute</td>
+<td>Publicly accessible directories and executables where appropriate</td>
+</tr>
+<tr>
+<td><code>644</code></td>
+<td>Owner can read/write; others can read</td>
+<td>Non-sensitive configuration or documentation</td>
+</tr>
+<tr>
+<td><code>700</code></td>
+<td>Owner only: read/write/execute</td>
+<td>Private directories</td>
+</tr>
+<tr>
+<td><code>600</code></td>
+<td>Owner only: read/write</td>
+<td>Private configuration or key files</td>
+</tr>
+<tr>
+<td><code>750</code></td>
+<td>Owner full access; group read/execute</td>
+<td>Restricted application directories</td>
+</tr>
+<tr>
+<td><code>640</code></td>
+<td>Owner read/write; group read; others no access</td>
+<td>Restricted group-readable configuration</td>
+</tr>
+</tbody></table>
+<p>These modes are examples, not universal defaults. The correct setting depends on the application and which account must access the file.</p>
+<h3 id="inspect-permissions-before-changing-them">Inspect permissions before changing them</h3><pre><code>ls -l /etc/ssh/sshd_config
+namei -l /etc/ssh/sshd_config</code></pre><p>Example:</p>
+<pre><code>-rw-r--r-- 1 root root ... /etc/ssh/sshd_config</code></pre><p>This indicates that the owner can read and write the file, while group and others can read it. Your actual output may differ.</p>
+<p>Inspect application files too:</p>
+<pre><code>ls -ld /opt/myapp
+ls -l /opt/myapp</code></pre><h3 id="change-permissions-deliberately">Change permissions deliberately</h3><p>For a private configuration file owned by your current user:</p>
+<pre><code>chmod 600 "$HOME/devops-lab/config/app.env"</code></pre><p>For an application directory intended to be accessible only to its owner:</p>
+<pre><code>chmod 700 "$HOME/devops-lab/config"</code></pre><p>Only use these examples when the current owner is the correct account. A service running as another user may need carefully granted access.</p>
+<p>Avoid <code>chmod 777</code>. It grants read, write, and execute permissions to everyone. It can conceal the actual ownership problem while creating a serious security risk.</p>
+<p>Never apply recursive permission or ownership changes to <code>/</code>, <code>/etc</code>, <code>/usr</code>, or an entire application tree without first understanding the impact.</p>
+<h2 id="4-ssh-hardening-secure-remote-administration">4. SSH hardening: secure remote administration</h2><p>SSH provides encrypted remote access. It is essential for managing many Ubuntu servers, but a poorly configured SSH service can expose administrative access.</p>
+<h3 id="step-1-check-ssh-status">Step 1 — Check SSH status</h3><p>On the server:</p>
+<pre><code>sudo systemctl status ssh
+sudo ss -lntp</code></pre><p>Ubuntu commonly uses TCP port 22, but your server may use a different port or configuration.</p>
+<p>Check the effective server configuration if you need to understand what SSH is actually applying:</p>
+<pre><code>sudo sshd -T | grep -E '^(port|permitrootlogin|passwordauthentication|pubkeyauthentication)'</code></pre><p><code>sshd -T</code> prints effective settings. Configuration can be influenced by included files and <code>Match</code> rules, so inspect the relevant configuration if the output is unexpected.</p>
+<h3 id="step-2-prefer-key-based-authentication">Step 2 — Prefer key-based authentication</h3><p>A common key type for a new user key is Ed25519:</p>
+<pre><code>ssh-keygen -t ed25519 -C "devops-laptop"</code></pre><p>This creates a private key and a public key in your SSH directory by default.</p>
+<ul>
+<li>Private key: keep it secret and protected by appropriate permissions; use a passphrase where practical.</li>
+<li>Public key: can be installed on the destination account.</li>
+<li>Never send the private key to a server administrator as a substitute for the public key.</li>
+</ul>
+<p>If authorized, install the public key:</p>
+<pre><code>ssh-copy-id deploy@SERVER_HOST</code></pre><p>Replace the username and host with your actual server details. Then test a new SSH session before changing authentication settings.</p>
+<h3 id="step-3-harden-the-server-carefully">Step 3 — Harden the server carefully</h3><p>SSH server configuration is commonly located at:</p>
+<pre><code>/etc/ssh/sshd_config
+/etc/ssh/sshd_config.d/</code></pre><p>Inspect the main file and any included configuration. Settings worth reviewing include:</p>
+<ul>
+<li><code>PermitRootLogin</code></li>
+<li><code>PasswordAuthentication</code></li>
+<li><code>PubkeyAuthentication</code></li>
+<li><code>AllowUsers</code> or <code>AllowGroups</code>, where appropriate</li>
+<li><code>MaxAuthTries</code></li>
+</ul>
+<p>Disabling root login or password authentication can reduce risk, but only after verifying that the approved administrative account can log in using a working alternative. Some environments deliberately use a managed identity or other authentication mechanism.</p>
+<h3 id="the-safe-ssh-change-procedure">The safe SSH change procedure</h3><p>1. Keep a working session open</p>
+<p>Do not close your only administrative connection.</p>
+<p>2. Back up the configuration</p>
+<p>Make a protected backup before editing.</p>
+<p>3. Validate the configuration</p>
+<p>Run the syntax check before reloading SSH.</p>
+<p>4. Reload and test a second session</p>
+<p>Confirm new access works before closing the original session.</p>
+<p>5. Keep a recovery route</p>
+<p>Use an approved cloud console, hypervisor console, or out-of-band access method.</p>
+<p>For a configuration change, the following illustrates the validation procedure. Run it only when you have the required permissions and a planned change:</p>
+<pre><code>sudo cp -a /etc/ssh/sshd_config \
+  /etc/ssh/sshd_config.backup
+
+sudo sshd -t</code></pre><p>If you have edited the configuration, run <code>sudo sshd -t</code> again. No output usually means the syntax check passed. If it reports an error, correct the issue before reloading.</p>
+<p>Then, after confirming the intended settings and recovery plan:</p>
+<pre><code>sudo systemctl reload ssh</code></pre><p>Open a second terminal and test a fresh login. If access fails, keep the original session open and use the recovery plan.</p>
+<p>Do not blindly copy a hardening configuration from the internet; the right settings depend on your Ubuntu release, authentication method, and environment.</p>
+<h2 id="5-ufw-firewall-basics-on-ubuntu">5. UFW firewall basics on Ubuntu</h2><p>A firewall controls which network traffic is permitted. Ubuntu's Uncomplicated Firewall, or UFW, provides a convenient interface for common host firewall rules.</p>
+<h3 id="understand-the-traffic-flow">Understand the traffic flow</h3><p>Incoming network traffic</p>
+<p>UFW firewall rules</p>
+<p>Allow or deny according to policy</p>
+<p>Allowed</p>
+<p>Blocked</p>
+<h3 id="step-1-inspect-the-current-firewall">Step 1 — Inspect the current firewall</h3><pre><code>sudo ufw status verbose</code></pre><p>If UFW is not installed, use the normal Ubuntu package-management process to install it. Do not assume that an inactive UFW means no firewall exists; cloud firewalls, network ACLs, other host-firewall tools, and upstream devices may also control traffic.</p>
+<h3 id="step-2-understand-the-rules">Step 2 — Understand the rules</h3><p>For a web server that should accept public HTTP and HTTPS traffic, the common rules are:</p>
+<pre><code>sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp</code></pre><p>For SSH, port 22 is only an example. First confirm the actual SSH port and how you connect. If it is port 22, an example rule is:</p>
+<pre><code>sudo ufw allow 22/tcp</code></pre><p>If SSH uses another port, permit the actual port instead. If access should be restricted to an approved source IP or VPN, use a narrower rule appropriate to your environment.</p>
+<h3 id="step-3-be-careful-when-enabling-ufw-remotely">Step 3 — Be careful when enabling UFW remotely</h3><p>Enabling a firewall before allowing your current management connection can lock you out.</p>
+<p>Before enabling it on a remote server:</p>
+<ol>
+<li>Confirm the active SSH port.</li>
+<li>Review the existing firewall and network policy.</li>
+<li>Add the required SSH allow rule.</li>
+<li>Confirm any necessary application ports.</li>
+<li>Ensure you have an approved recovery console.</li>
+<li>Only then consider enabling UFW and verify connectivity.</li>
+</ol>
+<p>On a disposable local lab or a server where you have confirmed the safe setup, enabling may be done with:</p>
+<pre><code>sudo ufw enable
+sudo ufw status numbered</code></pre><p>Don't run this blindly on a production or remotely managed server.</p>
+<h3 id="step-4-inspect-and-remove-rules-carefully">Step 4 — Inspect and remove rules carefully</h3><pre><code>sudo ufw status numbered</code></pre><p>If you identify a rule that should be removed, verify its number immediately before using:</p>
+<pre><code>sudo ufw delete RULE_NUMBER</code></pre><p>Replace <code>RULE_NUMBER</code> with the displayed number. Deleting a rule can disrupt SSH or application access; re-check the list after every change.</p>
+<h3 id="which-ports-should-be-exposed-">Which ports should be exposed?</h3><table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Typical purpose</th>
+<th>General guidance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>Restrict to approved management sources where possible</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td>HTTP</td>
+<td>Allow if the service needs public HTTP</td>
+</tr>
+<tr>
+<td>443/tcp</td>
+<td>HTTPS</td>
+<td>Allow if the service needs public HTTPS</td>
+</tr>
+<tr>
+<td>3306/tcp</td>
+<td>MySQL</td>
+<td>Usually keep private; avoid unrestricted public access</td>
+</tr>
+<tr>
+<td>5432/tcp</td>
+<td>PostgreSQL</td>
+<td>Usually keep private; allow only approved application sources</td>
+</tr>
+<tr>
+<td>8080/tcp</td>
+<td>Common alternate web port</td>
+<td>Expose only if required by the intended design</td>
+</tr>
+</tbody></table>
+<p>A port being open does not guarantee that a service is listening, and a listening service is not necessarily reachable from the internet. Check both host and network controls.</p>
+<h2 id="6-security-updates-and-package-hygiene">6. Security updates and package hygiene</h2><p>Outdated software can contain known vulnerabilities. Regularly review updates and apply them according to your organization's maintenance and testing policy.</p>
+<h3 id="step-1-refresh-package-information">Step 1 — Refresh package information</h3><pre><code>sudo apt update</code></pre><p>This refreshes package indexes. It does not install all available updates.</p>
+<h3 id="step-2-review-available-upgrades">Step 2 — Review available upgrades</h3><pre><code>apt list --upgradable</code></pre><p>You can inspect a specific package's candidate version with:</p>
+<pre><code>apt-cache policy openssh-server</code></pre><h3 id="step-3-apply-updates-responsibly">Step 3 — Apply updates responsibly</h3><p>On a suitable lab machine:</p>
+<pre><code>sudo apt upgrade</code></pre><p>On production servers, follow the maintenance policy, change approval process, and service-restart requirements. Review any proposed removals or major changes before proceeding.</p>
+<p>For security-related updates, Ubuntu provides the <code>unattended-upgrades</code> mechanism on many installations. Inspect its status and configuration rather than assuming automatic updates are enabled:</p>
+<pre><code>systemctl status unattended-upgrades</code></pre><p>You can check whether the package is installed with:</p>
+<pre><code>dpkg -s unattended-upgrades</code></pre><p>The service status alone doesn't prove that all security updates are being installed. Configuration, repository settings, package holds, and maintenance policies affect behavior.</p>
+<h3 id="useful-security-maintenance-commands">Useful security maintenance commands</h3><pre><code>cat /etc/os-release
+sudo apt update
+apt list --upgradable
+sudo journalctl --since "24 hours ago" -p err</code></pre><p>For production, also maintain:</p>
+<ul>
+<li>Tested backups and a recovery plan.</li>
+<li>An inventory of installed packages and exposed services.</li>
+<li>A process for applying urgent security fixes.</li>
+<li>Monitoring for failed updates and service restarts.</li>
+<li>A supported Ubuntu release with a suitable security-maintenance plan.</li>
+</ul>
+<p>Remember: updates reduce known vulnerabilities, but they do not replace access controls, network restrictions, or monitoring.</p>
+<h2 id="7-authentication-logs-and-security-monitoring">7. Authentication logs and security monitoring</h2><p>Logs can help you investigate failed logins, service failures, and suspicious activity.</p>
+<p>On Ubuntu systems using systemd, the journal is often a useful starting point.</p>
+<h3 id="inspect-ssh-service-logs">Inspect SSH service logs</h3><p>Depending on the Ubuntu release and SSH unit configuration, use:</p>
+<pre><code>sudo journalctl -u ssh --since "1 hour ago"</code></pre><p>For recent entries:</p>
+<pre><code>sudo journalctl -u ssh -n 100 --no-pager</code></pre><p>Follow new entries while troubleshooting:</p>
+<pre><code>sudo journalctl -u ssh -f</code></pre><p>Press <code>Ctrl+C</code> to stop following logs.</p>
+<h3 id="inspect-authentication-records">Inspect authentication records</h3><p>On systems using the traditional authentication log:</p>
+<pre><code>sudo tail -n 100 /var/log/auth.log</code></pre><p>To look for common SSH authentication messages:</p>
+<pre><code>sudo grep -iE 'failed password|accepted publickey|invalid user' \
+  /var/log/auth.log | tail -n 50</code></pre><p>The file may not exist on every Ubuntu installation, and logging formats can vary. If it is absent, inspect the system journal and the relevant logging configuration rather than assuming logging is broken.</p>
+<h3 id="what-do-the-messages-mean-">What do the messages mean?</h3><table>
+<thead>
+<tr>
+<th>Log message</th>
+<th>Possible interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Failed password</td>
+<td>An authentication attempt failed</td>
+</tr>
+<tr>
+<td>Accepted publickey</td>
+<td>A public-key login succeeded</td>
+</tr>
+<tr>
+<td>Invalid user</td>
+<td>A login was attempted for an unknown account</td>
+</tr>
+<tr>
+<td>Connection closed</td>
+<td>A connection ended; context determines whether it matters</td>
+</tr>
+<tr>
+<td>Repeated attempts from one source</td>
+<td>Could indicate automated scanning or a brute-force attempt</td>
+</tr>
+</tbody></table>
+<p>A failed login is not proof of a successful compromise. Internet-facing servers routinely receive automated connection attempts. Look at timestamps, source addresses, account names, successful logins, and surrounding activity before drawing conclusions.</p>
+<h3 id="check-who-is-currently-logged-in">Check who is currently logged in</h3><pre><code>who
+w
+last</code></pre><p>These commands provide session or login-history information based on available system records. They are useful signals, but not a complete security audit.</p>
+<h3 id="optional-audit-with-auditd">Optional: audit with <code>auditd</code></h3><p>For systems that need more detailed auditing, Linux Audit can record selected system events.</p>
+<p>Check whether the audit service is installed and running:</p>
+<pre><code>systemctl status auditd</code></pre><p>If your environment requires it, install and configure <code>auditd</code> through the approved package and security process. Audit rules should be chosen for a specific monitoring need; excessive rules can create large volumes of data. Use the applicable tools and retention policy to review audit events.</p>
+<p>Security monitoring is most useful when logs are retained, access-controlled, and reviewed or alerted on—not merely collected.</p>
+<h2 id="8-common-linux-security-mistakes">8. Common Linux security mistakes</h2><p>Mistake 1: Using <code>chmod 777</code> to fix access errors</p>
+<p>Better: inspect ownership, group membership, parent-directory permissions, and the service account. Grant only the necessary access.</p>
+<p>Mistake 2: Disabling SSH password login before testing key access</p>
+<p>Better: test a fresh key-based session first and keep a working session and recovery route.</p>
+<p>Mistake 3: Enabling a firewall without allowing SSH</p>
+<p>Better: inspect the active port and rules, confirm the management path, and prepare recovery access before enabling.</p>
+<p>Mistake 4: Leaving secrets in scripts or logs</p>
+<p>Better: use an approved secret-delivery method, restrict access, avoid tracing sensitive commands, and rotate exposed credentials.</p>
+<p>Mistake 5: Updating production packages without a plan</p>
+<p>Better: review changes, follow maintenance policy, prepare recovery, and verify service health afterward.</p>
+<h2 id="9-realistic-devops-case-study-securing-a-journal-validation-server">9. Realistic DevOps case study: securing a journal validation server</h2><p>Imagine your Ubuntu server runs a Perl-based journal delivery validator. The server has SSH access, a scheduled health check, and an internal web application.</p>
+<p>A routine review reveals three concerns:</p>
+<ul>
+<li>A service configuration directory is readable by more accounts than necessary.</li>
+<li>SSH authentication logs contain repeated failed login attempts.</li>
+<li>The firewall and exposed application ports have not been reviewed recently.</li>
+</ul>
+<p>Your task is to reduce risk without disrupting journal processing.</p>
+<h3 id="step-1-collect-evidence-before-making-changes">Step 1 — Collect evidence before making changes</h3><p>Run read-only checks:</p>
+<pre><code>whoami
+id
+sudo -l
+sudo ss -lntup
+sudo ufw status verbose
+sudo journalctl -u ssh --since "24 hours ago"</code></pre><p>If the traditional authentication log is present:</p>
+<pre><code>sudo tail -n 100 /var/log/auth.log</code></pre><p>Inspect relevant application directories:</p>
+<pre><code>ls -ld /opt/myapp
+ls -l /opt/myapp</code></pre><p>Record which services are listening, which users own application files, and whether SSH authentication attempts succeeded or failed.</p>
+<h3 id="step-2-rank-the-risks">Step 2 — Rank the risks</h3><table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Investigation</th>
+<th>Possible remediation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Broad file permissions</td>
+<td>Identify who needs access</td>
+<td>Correct ownership and narrowly scoped permissions</td>
+</tr>
+<tr>
+<td>Repeated SSH failures</td>
+<td>Review sources, timestamps, and successful logins</td>
+<td>Restrict access, review authentication policy, and add appropriate monitoring</td>
+</tr>
+<tr>
+<td>Unexpected listening port</td>
+<td>Identify the process and business purpose</td>
+<td>Remove or restrict exposure only after confirming dependencies</td>
+</tr>
+<tr>
+<td>Outdated packages</td>
+<td>Review candidate versions and maintenance policy</td>
+<td>Apply approved updates and verify service health</td>
+</tr>
+</tbody></table>
+<p>Don't automatically block an IP just because it has failed logins, and don't close a port without checking whether a legitimate application or monitoring system depends on it.</p>
+<h3 id="step-3-implement-changes-safely">Step 3 — Implement changes safely</h3><p>For SSH, verify the intended administrative account and authentication method, validate configuration, and test a second connection before closing the original.</p>
+<p>For UFW, identify the required management and application ports before changing the rules. If this is a remote server, confirm console recovery access.</p>
+<p>For file permissions, correct only the affected paths and confirm the validation service can still read its required files.</p>
+<p>For updates, follow the server's maintenance procedure and check whether a restart is required.</p>
+<h3 id="step-4-verify-the-result">Step 4 — Verify the result</h3><p>After each approved change, verify the relevant component.</p>
+<pre><code>sudo systemctl status ssh
+sudo ufw status verbose
+sudo ss -lntup
+sudo journalctl -u ssh --since "30 minutes ago"</code></pre><p>Then run the existing health check from Lesson 15, if its service argument matches the service you intend to test:</p>
+<pre><code>bash "$HOME/devops-lab/health_check.sh" cron 80</code></pre><p>A successful health check is one signal, not proof that the entire server is secure. Confirm application-specific functionality and the expected scheduled processing as well.</p>
+<h3 id="step-5-document-the-outcome">Step 5 — Document the outcome</h3><p>A useful incident or change report should include:</p>
+<ul>
+<li>Initial finding and supporting evidence.</li>
+<li>Affected service or files.</li>
+<li>Change made and why it was necessary.</li>
+<li>Validation performed before and after.</li>
+<li>Remaining risks and rollback procedure.</li>
+</ul>
+<p>The key DevOps habit is measure, change deliberately, verify, and document—not blindly running a list of hardening commands.</p>
+<h2 id="10-safe-hands-on-security-lab">10. Safe hands-on security lab</h2><p>These exercises are primarily read-only. Do them on your Ubuntu lab or an authorized server. Do not change SSH or firewall settings on a remote production server as part of this exercise.</p>
+<h2 id="security-lab-checklist">Security lab checklist</h2><p>0/8</p>
+<p>Inventory your account</p>
+<p>Run whoami, id, groups, and sudo -l.</p>
+<p>Inspect file permissions</p>
+<p>Use ls -l and namei -l on a configuration path.</p>
+<p>Review SSH settings</p>
+<p>Check sshd -T and identify the active SSH port.</p>
+<p>Review listening ports</p>
+<p>Run sudo ss -lntup and identify each expected service.</p>
+<p>Inspect UFW</p>
+<p>Run sudo ufw status verbose; don't enable or change rules blindly.</p>
+<p>Review authentication records</p>
+<p>Inspect journalctl -u ssh and, if available, /var/log/auth.log.</p>
+<p>Review package updates</p>
+<p>Run sudo apt update and apt list --upgradable.</p>
+<p>Write a security review</p>
+<p>Record one risk, evidence, a proposed fix, and a verification step.</p>
+<p>Copy lab checklist</p>
+<h3 id="optional-investigation-challenge">Optional investigation challenge</h3><p>Imagine a process is listening on TCP port <code>8080</code>, but the application owner says it should be internal only.</p>
+<p>Use these commands to investigate without changing anything:</p>
+<pre><code>sudo ss -lntp
+sudo ufw status verbose
+ip addr
+ip route</code></pre><p>Answer these questions in your notes:</p>
+<ol>
+<li>Which process owns the listening socket?</li>
+<li>Is it bound to <code>127.0.0.1</code>, a particular interface address, or <code>0.0.0.0</code>?</li>
+<li>Is there a host firewall rule affecting it?</li>
+<li>Are there upstream cloud or network firewall rules?</li>
+<li>What evidence would you need before restricting access?</li>
+</ol>
+<p>Remember, <code>0.0.0.0</code> means all local IPv4 interfaces, not automatically "publicly reachable." Routing and firewall controls determine reachability.</p>
+<h2 id="11-interactive-quiz">11. Interactive quiz</h2><p>Answer all eight questions, then select Check answers to see explanations.</p>
+<h2 id="knowledge-check">Knowledge check</h2><p>0/8 answered</p>
+<p>1. What does least privilege mean?</p>
+<p>Give every user sudo access</p>
+<p>Give each user or service only the access needed</p>
+<p>Run all applications as root</p>
+<p>2. What should you do before disabling SSH password authentication on a remote server?</p>
+<p>Close the current SSH session</p>
+<p>Verify an alternative login works and keep recovery access</p>
+<p>Enable UFW immediately</p>
+<p>3. What does `sshd -t` do?</p>
+<p>Tests SSH server configuration syntax</p>
+<p>Restarts the SSH service</p>
+<p>Lists every logged-in user</p>
+<p>4. Which command displays the current UFW status?</p>
+<p>ufw show-all-users</p>
+<p>sudo ufw status verbose</p>
+<p>sudo systemctl status ufw-firewall</p>
+<p>5. What is the safest general approach to `chmod 777`?</p>
+<p>Use it whenever a script fails</p>
+<p>Use it only on secret files</p>
+<p>Avoid it; investigate ownership and required permissions</p>
+<p>6. Select all good security practices.</p>
+<p>Select all that apply.</p>
+<p>Review authentication logs</p>
+<p>Apply updates through a planned process</p>
+<p>Put real API tokens in Git</p>
+<p>Verify service health after changes</p>
+<p>7. True or false: A failed SSH login proves the server has been compromised.</p>
+<p>True</p>
+<p>False</p>
+<p>8. True or false: Enabling a firewall before allowing the management connection can lock you out.</p>
+<p>True</p>
+<p>False</p>
+<p>Check answers</p>
+<h2 id="12-assignment-tracker">12. Assignment tracker</h2><p>Complete these tasks to turn the lesson into practical DevOps skills.</p>
+<h2 id="your-assignments">Your assignments</h2><h3 id="0-10">0/10</h3><p>Record the current user, groups, and sudo privileges.</p>
+<p>Inspect permissions on an application directory and configuration file.</p>
+<p>Explain why chmod 777 is dangerous.</p>
+<p>Identify the effective SSH port and review SSH authentication settings.</p>
+<p>Write down a safe SSH change and rollback procedure.</p>
+<p>Review UFW rules without changing the firewall.</p>
+<p>Identify listening services and explain which ports need exposure.</p>
+<p>Review Ubuntu package updates and your maintenance process.</p>
+<p>Inspect SSH authentication logs and distinguish failed from successful logins.</p>
+<p>Write a security review with evidence, remediation, and verification steps.</p>
+<p>Copy assignment tracker</p>
+<h2 id="13-security-cheat-sheet">13. Security cheat sheet</h2><table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Inspect current account</td>
+<td><code>id</code></td>
+</tr>
+<tr>
+<td>Review sudo permissions</td>
+<td><code>sudo -l</code></td>
+</tr>
+<tr>
+<td>Inspect file permissions</td>
+<td><code>ls -l PATH</code></td>
+</tr>
+<tr>
+<td>Inspect permissions along a path</td>
+<td><code>namei -l PATH</code></td>
+</tr>
+<tr>
+<td>Check SSH syntax</td>
+<td><code>sudo sshd -t</code></td>
+</tr>
+<tr>
+<td>View effective SSH settings</td>
+<td><code>sudo sshd -T</code></td>
+</tr>
+<tr>
+<td>Check listening sockets</td>
+<td><code>sudo ss -lntup</code></td>
+</tr>
+<tr>
+<td>Inspect UFW rules</td>
+<td><code>sudo ufw status verbose</code></td>
+</tr>
+<tr>
+<td>Review available updates</td>
+<td><code>apt list --upgradable</code></td>
+</tr>
+<tr>
+<td>Refresh package indexes</td>
+<td><code>sudo apt update</code></td>
+</tr>
+<tr>
+<td>Review SSH journal</td>
+<td><code>sudo journalctl -u ssh -n 100</code></td>
+</tr>
+<tr>
+<td>Follow SSH journal</td>
+<td><code>sudo journalctl -u ssh -f</code></td>
+</tr>
+<tr>
+<td>Check recent login history</td>
+<td><code>last</code></td>
+</tr>
+<tr>
+<td>Check current sessions</td>
+<td><code>who</code></td>
+</tr>
+<tr>
+<td>Check system errors</td>
+<td><code>sudo journalctl -p err --since "24 hours ago"</code></td>
+</tr>
+<tr>
+<td>Check application service</td>
+<td><code>sudo systemctl status myapp</code></td>
+</tr>
+</tbody></table>
+<p>Replace <code>PATH</code> and <code>myapp</code> with actual paths and service names. Review commands before running them with elevated privileges.</p>
+<h2 id="14-lesson-completion-checklist">14. Lesson completion checklist</h2><h2 id="am-i-ready-for-lesson-19-">Am I ready for Lesson 19?</h2><p>I understand least privilege and sudo.</p>
+<p>I can inspect file ownership and permissions.</p>
+<p>I understand how to validate SSH changes without losing access.</p>
+<p>I know how to inspect UFW without blindly changing firewall rules.</p>
+<p>I understand package updates and planned maintenance.</p>
+<p>I can inspect authentication logs and interpret failed login attempts.</p>
+<p>I completed the quiz and reviewed my assignments.</p>
+<p>0 of 7 goals completed.</p>
+<h2 id="continue-to-module-1-lesson-19">Continue to Module 1, Lesson 19</h2><h2 id="lesson-19-troubleshooting-linux-servers-systematically">Lesson 19: Troubleshooting Linux Servers Systematically</h2><p>Incident triage · Service failures · Network diagnostics · CPU and memory issues · Disk-full incidents · Root-cause analysis</p>
+<p>You'll bring together the commands from earlier lessons to diagnose real server incidents methodically, gather evidence, avoid risky fixes, and verify recovery.</p>
+<p>Continue to Lesson 19 </p>
+<p>Lesson 18 takeaway: Secure servers by reducing unnecessary access, exposing only required services, keeping software maintained, protecting files, and monitoring authentication activity. Before making security changes remotely, always plan how you'll verify the result and recover if access breaks.</p>
+
+</div>

@@ -1,0 +1,287 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-from-zero-to-production">Linux for DevOps — From Zero to Production</h2><p>An interactive, goal-based tutorial that takes you from your first Linux command to troubleshooting real-world production incidents.</p>
+<p>The tutorial will follow the syllabus above, with structured chapters, practical examples, case studies, terminal exercises, assignments, quizzes, and quick-reference charts. We'll learn by solving problems rather than memorizing commands.</p>
+<p><a href="https://images.openai.com/static-rsc-4/35TZ4sUqiXUmtl_b3yYQei5tnWiIFcKdylceen_BAauTvFxY340ZukwlVciERR_MF-4Pj_bXWmivu1HR0cff3e2AEXCh8x3JYcsxHHs08rUYyCzwsAQW4oPRdRSBEHLYLlj5adsQCLoV5RWnAoBWPdlbvIQ91zi2CSbFqA1Ny8E?purpose=inline">Мой терминал: alacritty, zsh, tmux, nvim - YU0DEV</a></p>
+<p><a href="https://yu-leo.github.io/yu0dev/posts/my-terminal/?utm_source=chatgpt.com">yu-leo.github.io</a></p>
+<p>22 learning modules</p>
+<p>Foundations to advanced engineering</p>
+<p>Hands-on practice</p>
+<p>Commands, outputs, and troubleshooting</p>
+<p>Real-world missions</p>
+<p>Solve practical DevOps problems</p>
+<p>Assignments &amp; quizzes</p>
+<p>Test and reinforce every chapter</p>
+<h2 id="your-learning-roadmap">Your learning roadmap</h2><h3 id="stage-1-linux-foundations">Stage 1 — Linux Foundations</h3><p>Modules 1–4 · Learn the command line</p>
+<p>Beginner</p>
+<p>Module 1. Introduction to Linux and DevOps</p>
+<ul>
+<li>What Linux is and why DevOps engineers use it</li>
+<li>Kernel, shell, terminal, and distributions</li>
+<li>Your first commands and understanding their output</li>
+</ul>
+<p>Module 2. Terminal Fundamentals</p>
+<p>- Commands, flags, paths, help, and command history</p>
+<p>Module 3. Files and Directories</p>
+<p>- Navigate, create, copy, move, and find files</p>
+<p>Module 4. Reading and Editing Files</p>
+<p>- Read configuration files, inspect logs, and search text</p>
+<h3 id="stage-2-linux-administration">Stage 2 — Linux Administration</h3><p>Modules 5–11 · Manage and troubleshoot servers</p>
+<p>Users and permissions, packages, processes, systemd services, storage, networking, logs, and systematic troubleshooting.</p>
+<h3 id="stage-3-linux-for-devops">Stage 3 — Linux for DevOps</h3><p>Modules 12–17 · Automate operations</p>
+<p>Bash scripting, scheduled jobs, SSH, Git, web servers, containers, and the Linux foundations behind Kubernetes.</p>
+<h3 id="stage-4-advanced-linux-engineering">Stage 4 — Advanced Linux Engineering</h3><p>Modules 18–21 · Operate production systems</p>
+<p>Advanced text processing, security hardening, performance analysis, kernel concepts, and boot troubleshooting.</p>
+<h3 id="stage-5-production-capstone">Stage 5 — Production Capstone</h3><p>Module 22 · Apply everything</p>
+<p>Investigate a broken application, find the root cause, restore service, verify recovery, and write an incident report.</p>
+<h2 id="module-1-introduction-to-linux-and-devops">Module 1 — Introduction to Linux and DevOps</h2><p>Lesson 1 of Module 1</p>
+<p>Beginner</p>
+<p>15–20 minutes</p>
+<h2 id="understand-linux-before-learning-commands">Understand Linux before learning commands</h2><h2 id="1-1-what-is-linux-">1.1 What is Linux?</h2><p>Linux is an operating system kernel. The kernel manages the computer's hardware and provides the foundation on which programs run.</p>
+<p>A Linux distribution, such as Ubuntu, combines the kernel with system utilities, package management, libraries, and other software to provide a usable operating system.</p>
+<p>Think of a Linux server as a restaurant:</p>
+<p><a href="https://images.openai.com/static-rsc-4/eBPFWIOEL0NrpuhFWNCnWVsP-x6GxKmam1v1-aG4xqqR18Eby9jB6O_c_Ik5voc43AI9KTrz7AyLSKaB7ZIuXvpR4s03MLnx1FV7Lza2AxI9Fe2tk9VvzXlVY2HR9JzUdU7_vALVRolx8-s02X1h-ySU-RmlE0o_Ru7BSigC9DPJqUuJg53it0-ksUXZnoqN?purpose=inline">Male restaurant manager writing on clipboard while interacting to head chef</a></p>
+<p>Kernel — The kitchen manager</p>
+<p>Manages CPU time, memory, devices, and running processes.</p>
+<p><a href="https://images.openai.com/static-rsc-4/hxw8gJq12JD4Gm_oPHK7dHkxMw6V6j7N8eZW8LC1nqX3uiEUTNYR8gNb1Jymcr1L9GPjoGgwEmEmGAuPWUzc2ygjhgECWM5E6h9wsBHFBfa199V6D_1w1jiF9Nre7-fPIEGchFZWZPMGfG3MkAzxDxmiTXEC8YbHe0lu7IvivrPn1haU3BEQbIIka70Q_hai?purpose=inline">Woman waiter is giving order to chef cook on kitchen in restaurant.</a></p>
+<p>Shell — The order interpreter</p>
+<p>Reads commands, interprets them, and starts programs.</p>
+<p><a href="https://images.openai.com/static-rsc-4/QYG8zcyvcH7jFpEeA1_TUYRL61EWHiTgF4y9Uqg6slqQmx0o6YOc_a-FwXg6c4FhrStTr_3NnSmPNdXm3xMgCSmTHsEhQaZrNDlNOwVlBdMXE3nZJrLR-hWfB4REEEp0DaIXZebCeTebbSRYhYjmJZVF_gfcEdkB8MX-K70F_ck?purpose=inline">Sleek Linux Command: Minimalist Design for Terminal | AI Art Generator | Easy-Peasy.AI</a></p>
+<p>Terminal — Your communication window</p>
+<p>Displays text so you can interact with a shell.</p>
+<p><a href="https://images.openai.com/static-rsc-4/FBEYgTjFv4OqVQDHrgT10HJau9LjjbwuzrK6xlOhC0UhPC-3qogMi5Ui0iQxoVMFOQcvKZG1wxOPqx9eAsn4sC_PpjQt7Z2jz8muCn-7fdMqwhEeDDhAm9ZE50-my9VbLNx0HV7Z49L1ijaKrIod6SJO8LEnUIxSvtBURh6CI8M?purpose=inline">Flüssigkeitskühlung oder Luftkühlung fürs Rechenzentrum? - IT&amp;Production</a></p>
+<p>Server — The working environment</p>
+<p>Runs applications, websites, databases, and background jobs.</p>
+<p>This analogy is simplified, but it provides a useful mental model.</p>
+<h2 id="1-2-why-do-devops-engineers-need-linux-">1.2 Why do DevOps engineers need Linux?</h2><p>Imagine a company runs a website on an Ubuntu server. Suddenly, users report that the website is unavailable.</p>
+<p>A DevOps engineer may need to:</p>
+<ul>
+<li>Check whether the web server is running.</li>
+<li>Read error logs to identify the failure.</li>
+<li>Check whether the disk is full.</li>
+<li>Verify that the correct network port is listening.</li>
+<li>Fix file permissions or a configuration problem.</li>
+<li>Restart the service and verify that the website works.</li>
+</ul>
+<p>These tasks are commonly performed through the Linux command line, often over SSH from another computer.</p>
+<p>The goal of this tutorial is to make you capable of investigating these problems methodically.</p>
+<h2 id="1-3-your-first-five-linux-commands">1.3 Your first five Linux commands</h2><p>You can run these commands on Ubuntu, most other Linux distributions, or a suitable Linux environment such as WSL.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Example result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pwd</code></td>
+<td>Show current directory</td>
+<td><code>/home/student</code></td>
+</tr>
+<tr>
+<td><code>whoami</code></td>
+<td>Show current username</td>
+<td><code>student</code></td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>Show system date and time</td>
+<td>Current date and time</td>
+</tr>
+<tr>
+<td><code>uname -s</code></td>
+<td>Show kernel name</td>
+<td><code>Linux</code></td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>List directory contents</td>
+<td>Files and folders</td>
+</tr>
+</tbody></table>
+<p>Try them one at a time.</p>
+<p>Linux terminal demonstration</p>
+<p>Illustrative output</p>
+<p>student@ubuntu:~$ pwd<br>/home/student<br><br>student@ubuntu:~$ whoami<br>student<br><br>student@ubuntu:~$ uname -s<br>Linux<br><br>student@ubuntu:~$ ls<br>Documents  Downloads  Projects</p>
+<p>These are example results, not commands executed on your machine. Your output may differ.</p>
+<p>What did you learn?</p>
+<ul>
+<li><code>pwd</code> tells you where you are.</li>
+<li><code>whoami</code> tells you which user is running commands.</li>
+<li><code>uname -s</code> identifies the kernel.</li>
+<li><code>ls</code> shows what is in the current directory.</li>
+</ul>
+<h2 id="1-4-how-to-read-a-linux-command">1.4 How to read a Linux command</h2><p>Consider:</p>
+<pre><code>ls -l /var/log</code></pre><h2 id="ls">ls</h2><p>Command</p>
+<p>Lists files and directories.</p>
+<h2 id="-l">-l</h2><p>Option</p>
+<p>Displays a detailed listing, including permissions, ownership, size, and modification time.</p>
+<h2 id="-var-log">/var/log</h2><p>Argument</p>
+<p>Specifies the directory whose contents you want to inspect.</p>
+<p>Important: <code>/var/log</code> is a common location for system and application logs. Some files require elevated privileges to read.</p>
+<h2 id="1-5-real-world-case-study-a-new-devops-engineer">1.5 Real-world case study: A new DevOps engineer</h2><h2 id="scenario-first-day-on-an-ubuntu-server">Scenario: First day on an Ubuntu server</h2><p>A team member asks you to investigate a server. Before changing anything, you need to establish your identity, location, operating system, and available files.</p>
+<p>Your mission</p>
+<ol>
+<li>Identify the current user.</li>
+<li>Find the current directory.</li>
+<li>Identify the kernel.</li>
+<li>List the available files.</li>
+<li>Record your findings before making changes.</li>
+</ol>
+<p>This exercise uses read-only inspection commands. No configuration changes are necessary.</p>
+<h2 id="1-6-practice-quiz">1.6 Practice quiz</h2><p>1. Which command displays your current directory?</p>
+<p>whoami</p>
+<p>pwd</p>
+<p>uname</p>
+<p>2. What is the main role of the Linux kernel?</p>
+<p>Manage hardware and system resources</p>
+<p>Display web pages</p>
+<p>Store every command in history</p>
+<p>3. In `ls -l /var/log`, what is `/var/log`?</p>
+<p>The command</p>
+<p>The option</p>
+<p>The argument specifying a path</p>
+<p>Check answers</p>
+<h2 id="1-7-chapter-assignment">1.7 Chapter assignment</h2><p>Complete these tasks on a Linux system if available. Otherwise, write down the commands you would use and predict their outputs.</p>
+<h2 id="assignment-1-linux-orientation">Assignment 1 — Linux orientation</h2><p>0/5 completed</p>
+<p>Run pwd and record the result.</p>
+<p>Identify the directory you are currently in.</p>
+<p>Run whoami and uname -s.</p>
+<p>Record the current username and kernel name.</p>
+<p>Run ls and ls -l.</p>
+<p>Compare the basic and detailed listings.</p>
+<p>Run date.</p>
+<p>Observe the system date and time.</p>
+<p>Explain the difference between a terminal, shell, and kernel.</p>
+<p>Use your own words and give one example of each.</p>
+<h2 id="1-8-cheat-sheet-lesson-1">1.8 Cheat sheet — Lesson 1</h2><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Remember it as</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pwd</code></td>
+<td>Where am I?</td>
+</tr>
+<tr>
+<td><code>whoami</code></td>
+<td>Who am I?</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>What is the system date and time?</td>
+</tr>
+<tr>
+<td><code>uname -s</code></td>
+<td>Which kernel is running?</td>
+</tr>
+<tr>
+<td><code>uname -r</code></td>
+<td>Which kernel version is running?</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>What is here?</td>
+</tr>
+<tr>
+<td><code>ls -l</code></td>
+<td>Show detailed file information</td>
+</tr>
+<tr>
+<td><code>clear</code></td>
+<td>Clear the terminal display</td>
+</tr>
+<tr>
+<td><code>history</code></td>
+<td>Show previous shell commands</td>
+</tr>
+<tr>
+<td><code>man ls</code></td>
+<td>Open the manual for <code>ls</code></td>
+</tr>
+</tbody></table>
+<p>Safety habit: start with inspection commands before attempting changes on a production server. Commands that modify files, permissions, services, or disks should be used only after understanding their effects.</p>
+<h2 id="continue-your-tutorial">Continue your tutorial</h2><p>The next lesson is Lesson 2 — Understanding the Linux filesystem, where you'll learn why Linux uses directories such as <code>/etc</code>, <code>/home</code>, <code>/var</code>, <code>/tmp</code>, and <code>/usr</code>, and solve your first file-navigation challenge.</p>
+<h2 id="choose-how-to-continue">Choose how to continue</h2><p>The default path is recommended for beginners. You can change your learning style at any time.</p>
+<p>Continue to Lesson 2 Learn through terminal challengesView the detailed syllabus and study plan</p>
+
+</div>

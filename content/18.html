@@ -1,0 +1,529 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-17">Linux for DevOps — Module 1, Lesson 17</h2><h2 id="environment-variables-configuration-and-secrets-on-ubuntu">Environment Variables, Configuration and Secrets on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/8-e74V8japrHoQ1epHB-x0JyCsj7MWkasx5vAKrJS5gV8OevIzh6ruCDWToedcFNNj8bMfsCsxYUcpZHl_k_MRxqYpjD952cotNAVZVf8iVAX0Yyw0ShmbgnPlWbXAYLoE893DN35mHyBdKovGuxBAG6YRX7y76mIz40KulJPcQ?purpose=inline">WhatsApp Web’s Data Journey: Storage Locations and End-to-End Encryption | by Emmanuel Akachukwu | Medium</a></p>
+<p><a href="https://medium.com/%40emmaakachukwu/whatsapp-webs-data-journey-storage-locations-and-end-to-end-encryption-412a0812cbb8?utm_source=chatgpt.com">medium.com</a></p>
+<p>Welcome to Lesson 17! In the previous lessons, you created a Bash health-check script and scheduled it with cron. Today, you'll learn how to give scripts and applications the configuration they need—without hardcoding every setting or exposing passwords.</p>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Understand shell variables versus exported environment variables.</li>
+<li>Explain how <code>PATH</code> and environment inheritance work.</li>
+<li>Use configuration files and <code>.env</code> files safely.</li>
+<li>Troubleshoot scripts that work manually but fail in cron.</li>
+<li>Protect secrets using permissions and safer configuration practices.</li>
+<li>Apply these concepts to your existing health-check script.</li>
+</ul>
+<h2 id="1-what-is-an-environment-variable-">1. What is an environment variable?</h2><p>An environment variable is a named value that a program can read while it runs. It provides configuration without requiring you to change the program's source code.</p>
+<p>For example, your journal validation application might need to know which environment it's running in:</p>
+<pre><code>APP_ENV=staging</code></pre><p>It could also use settings such as:</p>
+<pre><code>APP_NAME=journal-validator
+LOG_LEVEL=INFO
+PORT=8080</code></pre><p>These are examples of ordinary configuration values, not secrets.</p>
+<h3 id="a-simple-visual-diagram">A simple visual diagram</h3><p>Your Bash shell</p>
+<p>Sets configuration values</p>
+<p>Exported environment</p>
+<p>Values passed to child processes</p>
+<p>Bash script</p>
+<p>Python app</p>
+<p>Environment variables can control behavior, but they do not automatically create files, start services, or grant permissions. Your application must know how to read and use them.</p>
+<h2 id="2-shell-variables-versus-exported-variables">2. Shell variables versus exported variables</h2><p>This is one of the most important Linux concepts in this lesson.</p>
+<h3 id="a-create-a-shell-variable">A. Create a shell variable</h3><p>Run:</p>
+<pre><code>APP_ENV=staging
+echo "$APP_ENV"</code></pre><p>Expected output:</p>
+<pre><code>staging</code></pre><p>The variable exists in your current Bash shell. By default, a shell variable is not automatically passed to child processes.</p>
+<h3 id="b-export-the-variable">B. Export the variable</h3><pre><code>export APP_ENV=staging
+bash -c 'echo "$APP_ENV"'</code></pre><p>Expected output:</p>
+<pre><code>staging</code></pre><p>The <code>export</code> command marks the variable for inheritance by child processes.</p>
+<p>Compare the two behaviors:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Current shell can read it?</th>
+<th>Child process inherits it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>APP_ENV=staging</code></td>
+<td>Yes</td>
+<td>No, by default</td>
+</tr>
+<tr>
+<td><code>export APP_ENV=staging</code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<p>Try this example:</p>
+<pre><code>APP_ENV=staging
+bash -c 'echo "${APP_ENV:-not set}"'</code></pre><p>Expected output:</p>
+<pre><code>not set</code></pre><p>Now run:</p>
+<pre><code>export APP_ENV=staging
+bash -c 'echo "$APP_ENV"'</code></pre><p>Expected output:</p>
+<pre><code>staging</code></pre><p>The <code>${APP_ENV:-not set}</code> syntax means: use <code>APP_ENV</code> if it is set and non-empty; otherwise use <code>not set</code>.</p>
+<h3 id="c-run-a-command-with-a-temporary-variable">C. Run a command with a temporary variable</h3><p>You can provide a variable for one command without exporting it permanently in your current shell:</p>
+<pre><code>APP_ENV=staging bash -c 'echo "$APP_ENV"'</code></pre><p>This is useful for testing an application under a different configuration:</p>
+<pre><code>APP_ENV=test python3 app.py</code></pre><p>This assignment applies to that command and its child processes. It does not permanently change your shell's <code>APP_ENV</code>.</p>
+<h3 id="d-inspect-and-remove-variables">D. Inspect and remove variables</h3><pre><code>printenv APP_ENV
+env
+export -p
+unset APP_ENV</code></pre><ul>
+<li><code>printenv APP_ENV</code> prints the exported value if present.</li>
+<li><code>env</code> lists the current process environment.</li>
+<li><code>export -p</code> displays exported variables and their values or declarations.</li>
+<li><code>unset APP_ENV</code> removes the variable from the current shell.</li>
+</ul>
+<p>Security warning: Don't casually paste the output of <code>env</code> or <code>export -p</code> into tickets or chat. It may contain passwords, tokens, or other sensitive configuration.</p>
+<h2 id="3-understanding-path">3. Understanding <code>PATH</code></h2><p><code>PATH</code> tells the shell which directories to search when you enter a command without its full path.</p>
+<p>Inspect it:</p>
+<pre><code>echo "$PATH"</code></pre><p>A typical value might look like:</p>
+<pre><code>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</code></pre><p>Each directory is separated by a colon (<code>:</code>).</p>
+<p>How command lookup works</p>
+<p>You type <code>python3</code></p>
+<p>The shell searches directories in <code>PATH</code></p>
+<p>It finds an executable—or reports <code>command not found</code></p>
+<p>Check where commands are found:</p>
+<pre><code>command -v bash
+command -v python3
+command -v flock</code></pre><p>Example output could be <code>/usr/bin/python3</code>, but your actual paths may differ.</p>
+<h3 id="why-path-matters-in-cron">Why <code>PATH</code> matters in cron</h3><p>Your interactive terminal might know where <code>python3</code> or a custom tool is installed. Cron typically starts jobs with a smaller environment.</p>
+<p>A script that works in your terminal may fail under cron with:</p>
+<pre><code>python3: command not found</code></pre><p>Use the actual executable path returned by:</p>
+<pre><code>command -v python3</code></pre><p>For a Python virtual environment, prefer its explicit interpreter, for example:</p>
+<pre><code>/opt/myapp/venv/bin/python /opt/myapp/app.py</code></pre><p>You can also define a deliberate <code>PATH</code> in a crontab, but do not overwrite it blindly if the script depends on other directories.</p>
+<h2 id="4-where-environment-variables-are-configured">4. Where environment variables are configured</h2><p>Different configuration locations serve different purposes.</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Typical purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Current shell</td>
+<td>Temporary interactive work</td>
+</tr>
+<tr>
+<td><code>~/.bashrc</code></td>
+<td>Bash interactive-shell settings</td>
+</tr>
+<tr>
+<td><code>~/.profile</code></td>
+<td>Login-shell environment setup</td>
+</tr>
+<tr>
+<td><code>/etc/environment</code></td>
+<td>System-wide environment assignments handled by PAM on common Ubuntu configurations</td>
+</tr>
+<tr>
+<td>Crontab</td>
+<td>Environment for scheduled jobs</td>
+</tr>
+<tr>
+<td>systemd unit</td>
+<td>Environment for a managed service</td>
+</tr>
+<tr>
+<td>Application config file</td>
+<td>Application-specific settings</td>
+</tr>
+<tr>
+<td><code>.env</code> file</td>
+<td>Convention used by many frameworks and applications</td>
+</tr>
+</tbody></table>
+<p>Important: these locations are not interchangeable. For example, cron does not normally read your interactive <code>~/.bashrc</code>, and a <code>.env</code> file is not automatically loaded by every program.</p>
+<h3 id="a-set-a-variable-for-interactive-bash-sessions">A. Set a variable for interactive Bash sessions</h3><p>For a non-secret convenience setting, you might add this to <code>~/.bashrc</code>:</p>
+<pre><code>export EDITOR=nano</code></pre><p>Reload the file in the current shell:</p>
+<pre><code>source ~/.bashrc</code></pre><p>This is useful for interactive-shell preferences. It is generally not the best place to configure a production service or store credentials.</p>
+<h3 id="b-use-a-configuration-file-for-application-settings">B. Use a configuration file for application settings</h3><p>For example, an application might use:</p>
+<pre><code>APP_ENV=staging
+LOG_LEVEL=INFO
+PORT=8080</code></pre><p>These lines are a configuration format only if your application or a loader understands that format. Bash does not automatically load arbitrary files, and Python does not automatically load <code>.env</code> files unless code or a library does so.</p>
+<p>We'll use a controlled pattern in the next section.</p>
+<h2 id="5-env-files-and-safe-configuration-patterns">5. <code>.env</code> files and safe configuration patterns</h2><p>A <code>.env</code> file is a common way to store application settings as <code>KEY=value</code> pairs.</p>
+<p>For example, create a lab directory:</p>
+<pre><code>mkdir -p "$HOME/devops-lab/config"
+chmod 700 "$HOME/devops-lab/config"
+nano "$HOME/devops-lab/config/app.env"</code></pre><p>Add non-secret practice settings:</p>
+<pre><code>APP_ENV=staging
+APP_NAME=journal-validator
+LOG_LEVEL=INFO</code></pre><p>Save the file. Protect it from other local users:</p>
+<pre><code>chmod 600 "$HOME/devops-lab/config/app.env"
+ls -l "$HOME/devops-lab/config/app.env"</code></pre><p>The expected permission mode is similar to:</p>
+<pre><code>-rw------- ... app.env</code></pre><p>This means the file owner can read and write it; group and other users have no access. The parent directory's permissions also matter.</p>
+<h3 id="a-read-a-configuration-file-in-bash">A. Read a configuration file in Bash</h3><p>For a file containing simple <code>KEY=value</code> assignments, Bash can load it with <code>source</code>:</p>
+<pre><code>source "$HOME/devops-lab/config/app.env"
+printf 'Environment: %s\n' "$APP_ENV"</code></pre><p>However, <code>source</code> executes the file as shell code. Do this only with a file you trust and control. A malicious or modified file could run commands.</p>
+<p>Also, sourcing a file does not automatically export every variable. If a child process needs those values, you can export specific variables:</p>
+<pre><code>source "$HOME/devops-lab/config/app.env"
+
+export APP_ENV APP_NAME LOG_LEVEL</code></pre><p>Alternatively, <code>set -a</code> makes subsequently defined variables export automatically:</p>
+<pre><code>set -a
+source "$HOME/devops-lab/config/app.env"
+set +a</code></pre><p>Use this only for a trusted file containing intentional shell-compatible assignments. Avoid sourcing arbitrary <code>.env</code> files downloaded from somewhere or writable by untrusted users.</p>
+<h3 id="b-a-safer-approach-for-a-simple-bash-script">B. A safer approach for a simple Bash script</h3><p>For a script that needs only a few settings, it is often clearest to load the trusted config file and validate each required variable:</p>
+<pre><code>#!/usr/bin/env bash
+set -Eeuo pipefail
+
+CONFIG_FILE="$HOME/devops-lab/config/app.env"
+
+if [[ ! -r "$CONFIG_FILE" ]]; then
+    echo "ERROR: Config file is missing or unreadable" &gt;&amp;2
+    exit 2
+fi
+
+source "$CONFIG_FILE"
+
+: "${APP_ENV:?APP_ENV is required}"
+: "${APP_NAME:?APP_NAME is required}"
+
+printf 'Starting %s in %s mode\n' "$APP_NAME" "$APP_ENV"</code></pre><p>The expressions <code>${APP_ENV:?message}</code> and <code>${APP_NAME:?message}</code> stop execution if the variable is unset or empty. This prevents an application from silently running with missing configuration.</p>
+<p>This is a trusted shell configuration pattern—not a general-purpose parser for every <code>.env</code> format.</p>
+<h3 id="c-how-to-handle-a-env-file-in-python">C. How to handle a <code>.env</code> file in Python</h3><p>Python does not automatically read <code>.env</code> files. A common pattern is to use a library such as <code>python-dotenv</code>, installed into the application's virtual environment, and then read variables through <code>os.environ</code>.</p>
+<p>Example application code:</p>
+<pre><code>import osapp_env = os.environ.get("APP_ENV", "development")log_level = os.environ.get("LOG_LEVEL", "INFO")print(f"Environment: {app_env}")print(f"Log level: {log_level}")</code></pre><p>This reads the environment passed to the Python process. It does not itself load a <code>.env</code> file.</p>
+<p>If your project uses <code>python-dotenv</code>, a trusted local development setup might use:</p>
+<pre><code>from dotenv import load_dotenvload_dotenv()</code></pre><p>Install and pin dependencies according to your project's normal process. For production, explicit service configuration or a dedicated secrets manager is often preferable to relying on an implicit <code>.env</code> lookup.</p>
+<h2 id="6-secrets-passwords-tokens-and-api-keys">6. Secrets: passwords, tokens and API keys</h2><p>A secret is a value that must be protected against unauthorized access. Examples include:</p>
+<ul>
+<li>Database passwords</li>
+<li>API tokens</li>
+<li>SSH private keys</li>
+<li>Cloud credentials</li>
+<li>Signing keys</li>
+</ul>
+<p>Configuration and secrets are related, but they are not the same. <code>APP_ENV=staging</code> is usually ordinary configuration; <code>DATABASE_PASSWORD</code> is sensitive.</p>
+<h3 id="recommended-handling">Recommended handling</h3><p>Do</p>
+<ul>
+<li>Restrict config-file access with appropriate ownership and permissions.</li>
+<li>Use a secret manager or approved deployment mechanism when available.</li>
+<li>Keep secrets out of Git, logs, screenshots, and support tickets.</li>
+<li>Rotate a secret if it has been exposed.</li>
+</ul>
+<p>Don't</p>
+<ul>
+<li>Hardcode real credentials in scripts or source repositories.</li>
+<li>Run <code>cat</code> on a secret file and paste the result into a public issue.</li>
+<li>Print all environment variables in production diagnostics.</li>
+<li>Enable shell tracing with <code>set -x</code> when commands may expose secrets.</li>
+</ul>
+<h3 id="a-protect-a-file-containing-secrets">A. Protect a file containing secrets</h3><p>If your deployment process requires a local secret file, use the approved service account and deployment procedures. For a simple private file owned by the current user:</p>
+<pre><code>chmod 600 "$HOME/devops-lab/config/app.env"</code></pre><p>Verify ownership and permissions:</p>
+<pre><code>ls -l "$HOME/devops-lab/config/app.env"
+namei -l "$HOME/devops-lab/config/app.env"</code></pre><p><code>namei -l</code> helps you inspect permissions on each directory in a path. Remember, file permissions alone are not a complete secret-management solution.</p>
+<h3 id="b-why-environment-variables-are-not-a-perfect-secret-vault">B. Why environment variables are not a perfect secret vault</h3><p>Environment variables can be convenient for passing secrets to applications, but they are not automatically secret. Depending on the system, user permissions, process settings, and debugging tools, environment values may be visible to the process itself, privileged users, or other authorized inspection tools.</p>
+<p>For production credentials, prefer an approved secrets-management mechanism. If environment variables are used, restrict access to the process, host, service account, logs, and deployment configuration.</p>
+<h3 id="c-keep-secrets-out-of-git">C. Keep secrets out of Git</h3><p>Check a repository's status before committing:</p>
+<pre><code>git status --short</code></pre><p>A typical <code>.gitignore</code> entry might be:</p>
+<pre><code>.env
+.env.*
+!.env.example</code></pre><p>Use <code>.env.example</code> for placeholder names only, such as:</p>
+<pre><code>APP_ENV=staging
+DATABASE_URL=
+API_TOKEN=</code></pre><p>This pattern is only a starting point. Review your repository's actual ignore rules and do not assume that adding a file to <code>.gitignore</code> removes it from Git history if it was already committed. If a real secret was committed, revoke or rotate it and follow your incident process.</p>
+<h2 id="7-configuration-with-cron">7. Configuration with cron</h2><p>In Lesson 16, you scheduled your health-check script. Cron jobs often fail because they don't receive the same environment as your interactive terminal.</p>
+<p>A typical crontab might define:</p>
+<pre><code>SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin</code></pre><p>Then use absolute paths for the script and its dependencies.</p>
+<p>For example:</p>
+<pre><code>*/15 * * * * /usr/bin/bash /home/YOUR_USER/devops-lab/health_check.sh cron 80 &gt;&gt; /home/YOUR_USER/devops-lab/logs/health-check.log 2&gt;&amp;1</code></pre><p>Replace <code>YOUR_USER</code> with the actual home-directory path. Verify paths on your system before installing the job.</p>
+<h3 id="what-if-the-script-needs-app_env-">What if the script needs <code>APP_ENV</code>?</h3><p>For a non-secret setting, you can define it in the crontab:</p>
+<pre><code>APP_ENV=staging</code></pre><p>Then the job can inherit it. Or pass it explicitly to a command:</p>
+<pre><code>*/15 * * * * APP_ENV=staging /usr/bin/bash /home/YOUR_USER/devops-lab/health_check.sh cron 80 &gt;&gt; /home/YOUR_USER/devops-lab/logs/health-check.log 2&gt;&amp;1</code></pre><p>Use the actual path and only use this syntax for a variable the script or application is designed to read.</p>
+<p>For a trusted shell config file, a script can load it itself. That makes the dependency explicit and easier to test than assuming cron will read <code>~/.bashrc</code>.</p>
+<p>Do not put production passwords directly into a crontab. Crontabs may be readable by administrators and can be exposed through backups or diagnostics. Use an approved secrets mechanism and restrictive permissions.</p>
+<h2 id="8-configuration-for-systemd-services">8. Configuration for systemd services</h2><p>For a long-running application, systemd can supply environment variables to the service.</p>
+<p>An illustrative unit fragment:</p>
+<pre><code>[Service]
+Environment="APP_ENV=production"
+Environment="LOG_LEVEL=INFO"</code></pre><p>These are non-secret settings. After editing a unit file:</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl restart myapp
+sudo systemctl status myapp
+sudo journalctl -u myapp -n 50 --no-pager</code></pre><p><code>daemon-reload</code> reloads systemd's unit definitions. Restarting a service is a separate operation.</p>
+<h3 id="what-about-environmentfile-">What about <code>EnvironmentFile=</code>?</h3><p>A service can refer to a file:</p>
+<pre><code>[Service]
+EnvironmentFile=/etc/myapp/myapp.env</code></pre><p>Create and protect that file through your approved administrative process. Confirm that the service can read it and that it contains the expected syntax. systemd's environment-file format is not identical to every framework's <code>.env</code> format.</p>
+<p>For example, a service-specific configuration file may contain non-secret values such as:</p>
+<pre><code>APP_ENV=production
+LOG_LEVEL=INFO</code></pre><p>If a secret is involved, consider systemd credential facilities or your organization's secrets manager rather than treating a general environment file as a vault. Exact options depend on your Ubuntu and systemd versions.</p>
+<h2 id="9-realistic-devops-case-study-works-manually-fails-in-cron">9. Realistic DevOps case study: works manually, fails in cron</h2><p>Imagine your journal delivery validation team runs a health-check script every 15 minutes. When you execute it from the terminal, it works. When cron runs it, the log reports:</p>
+<pre><code>ERROR: APP_ENV is required</code></pre><p>Or the application reports:</p>
+<pre><code>ERROR: DATABASE_URL is missing</code></pre><h3 id="step-1-identify-the-execution-context">Step 1 — Identify the execution context</h3><p>Run the health check manually:</p>
+<pre><code>bash "$HOME/devops-lab/health_check.sh" cron 80</code></pre><p>Check whether the variable exists in your current shell:</p>
+<pre><code>printf 'APP_ENV=%s\n' "${APP_ENV:-not set}"</code></pre><p>If it prints <code>not set</code>, the script may have been relying on an environment variable that was never defined.</p>
+<h3 id="step-2-confirm-the-script-s-requirements">Step 2 — Confirm the script's requirements</h3><p>Inspect the script without exposing credentials:</p>
+<pre><code>grep -nE 'APP_ENV|DATABASE_URL|CONFIG_FILE' \
+  "$HOME/devops-lab/health_check.sh"</code></pre><p>Review the relevant code. Does the script expect an exported variable? Does it load a config file? Does it validate missing settings?</p>
+<p>Avoid printing actual secret values during this investigation.</p>
+<h3 id="step-3-choose-the-right-fix">Step 3 — Choose the right fix</h3><p>For this lesson's lab, we'll use a non-secret <code>APP_ENV</code> setting. Create a trusted configuration file:</p>
+<pre><code>mkdir -p "$HOME/devops-lab/config"
+chmod 700 "$HOME/devops-lab/config"
+nano "$HOME/devops-lab/config/app.env"</code></pre><p>Add:</p>
+<pre><code>APP_ENV=staging
+APP_NAME=journal-validator</code></pre><p>Then protect the file:</p>
+<pre><code>chmod 600 "$HOME/devops-lab/config/app.env"</code></pre><p>In the script, load it explicitly and validate required settings:</p>
+<pre><code>CONFIG_FILE="$HOME/devops-lab/config/app.env"
+
+if [[ ! -r "$CONFIG_FILE" ]]; then
+    echo "ERROR: Configuration file missing or unreadable" &gt;&amp;2
+    exit 2
+fi
+
+source "$CONFIG_FILE"
+: "${APP_ENV:?APP_ENV is required}"</code></pre><p>This example assumes the file is trusted shell-compatible configuration. If the application needs the values in a child process, export the specific variables:</p>
+<pre><code>export APP_ENV APP_NAME</code></pre><p>If the actual issue is a missing database credential, do not invent a password or paste one into the script. Retrieve the credential through your approved secret-delivery mechanism and ensure the application can access it securely.</p>
+<h3 id="step-4-test-before-changing-the-schedule">Step 4 — Test before changing the schedule</h3><pre><code>bash -n "$HOME/devops-lab/health_check.sh"
+bash "$HOME/devops-lab/health_check.sh" cron 80</code></pre><p><code>bash -n</code> checks shell syntax; it does not guarantee the script will run correctly. Execute the script and inspect its exit status:</p>
+<pre><code>bash "$HOME/devops-lab/health_check.sh" cron 80
+echo "Exit status: $?"</code></pre><p>For the Lesson 15 health-check script, the expected convention was <code>0</code> for passing checks, <code>1</code> for a failed check, and <code>2</code> for an invalid threshold or configuration. Confirm that the current version still follows that convention.</p>
+<h3 id="step-5-verify-the-cron-job">Step 5 — Verify the cron job</h3><p>Inspect your crontab:</p>
+<pre><code>crontab -l</code></pre><p>Review the configured absolute paths, output redirection, lock command if used, and any required non-secret environment variables. After the next scheduled run:</p>
+<pre><code>tail -n 50 "$HOME/devops-lab/logs/health-check.log"</code></pre><p>Check the log and the script's actual results—not merely whether cron launched the command. Cron does not automatically alert you for every nonzero exit status.</p>
+<h3 id="incident-report-example">Incident report example</h3><p>Incident: Scheduled health check reports missing configuration.</p>
+<p>Impact: Automated monitoring may not report the service's condition reliably.</p>
+<p>Root cause: The cron process did not inherit a variable that was available in the interactive shell.</p>
+<p>Resolution: Load trusted configuration explicitly, validate required variables, test manually, then verify the scheduled run.</p>
+<p>Prevention: Document required settings, protect configuration files, and alert on failed scheduled jobs.</p>
+<h2 id="10-practical-interactive-exercises">10. Practical interactive exercises</h2><p>Complete these in your Ubuntu lab. They are designed to be safe and do not require changing system-wide settings.</p>
+<h2 id="lesson-17-lab-checklist">Lesson 17 lab checklist</h2><p>0/8</p>
+<p>Create and inspect a shell variable</p>
+<p>Set APP_ENV=staging, print it, and then unset it.</p>
+<p>Compare shell and child-process variables</p>
+<p>Run the same bash -c test before and after export.</p>
+<p>Inspect PATH</p>
+<p>Run echo "$PATH" and command -v python3.</p>
+<p>Create a private config file</p>
+<p>Create app.env with non-secret settings and set chmod 600.</p>
+<p>Validate required configuration</p>
+<p>Use ${APP_ENV:?APP_ENV is required} in a small trusted test script.</p>
+<p>Review your cron environment</p>
+<p>Run crontab -l and confirm absolute paths and logging.</p>
+<p>Troubleshoot a missing variable</p>
+<p>Run a test with APP_ENV unset, then supply it explicitly.</p>
+<p>Write an incident report</p>
+<p>Document cause, evidence, resolution, and prevention.</p>
+<p>Copy lab checklist</p>
+<h3 id="exercise-commands">Exercise commands</h3><p>Try this complete sequence in your terminal:</p>
+<pre><code>APP_ENV=staging
+printf 'Current shell: %s\n' "$APP_ENV"
+bash -c 'printf "Child process: %s\n" "${APP_ENV:-not set}"'
+
+export APP_ENV
+bash -c 'printf "Exported value: %s\n" "$APP_ENV"'
+
+unset APP_ENV
+printf 'After unset: %s\n' "${APP_ENV:-not set}"</code></pre><p>Expected behavior: the first child process reports <code>not set</code>; the exported child receives <code>staging</code>; after <code>unset</code>, your current shell reports <code>not set</code>.</p>
+<p>For a private-file practice check:</p>
+<pre><code>mkdir -p "$HOME/devops-lab/config"
+chmod 700 "$HOME/devops-lab/config"
+printf '%s\n' 'APP_ENV=staging' 'LOG_LEVEL=INFO' \
+  &gt; "$HOME/devops-lab/config/app.env"
+chmod 600 "$HOME/devops-lab/config/app.env"
+ls -l "$HOME/devops-lab/config/app.env"</code></pre><p>These are non-secret sample values. Avoid using a real production credential in this exercise.</p>
+<h2 id="11-interactive-quiz">11. Interactive quiz</h2><p>Choose an answer for each question. You can check the explanation after answering.</p>
+<h2 id="knowledge-check">Knowledge check</h2><p>0 of 8 answered</p>
+<p>1. What does export do in Bash?</p>
+<p>Makes a variable available to child processes</p>
+<p>Writes a variable to a permanent file</p>
+<p>Starts a systemd service</p>
+<p>2. What is PATH used for?</p>
+<p>Storing database passwords</p>
+<p>Finding executables when commands are entered by name</p>
+<p>Setting the system time zone</p>
+<p>3. Does every application automatically load a .env file?</p>
+<p>Yes, all Linux programs do</p>
+<p>Only when run by cron</p>
+<p>No, the application or a loader must implement it</p>
+<p>4. Why might a script work in a terminal but fail under cron?</p>
+<p>Cron always runs as root</p>
+<p>Cron typically has a smaller environment and different working directory</p>
+<p>Cron automatically reads every user's .bashrc</p>
+<p>5. Which permission mode is a common choice for a private config file owned by your user?</p>
+<p>777</p>
+<p>644 for every sensitive file</p>
+<p>600</p>
+<p>6. Which is the safest response if a real API token was committed to Git?</p>
+<p>Only add .env to .gitignore</p>
+<p>Revoke or rotate the token and follow the incident process</p>
+<p>Rename the variable</p>
+<p>7. True or false: Environment variables are a perfect secret vault.</p>
+<p>True</p>
+<p>False</p>
+<p>8. True or false: `source file.env` is safe for any file that contains KEY=value lines.</p>
+<p>True</p>
+<p>False</p>
+<p>Check answers</p>
+<h2 id="12-assignment-tracker">12. Assignment tracker</h2><p>Use this tracker to measure your progress through Lesson 17.</p>
+<h2 id="your-progress">Your progress</h2><h3 id="0-10">0/10</h3><p>Explain the difference between a shell variable and an exported variable.</p>
+<p>Demonstrate how PATH locates a command using command -v.</p>
+<p>Create a configuration file containing only non-secret settings.</p>
+<p>Set and verify restrictive permissions on the config file.</p>
+<p>Write a Bash script that validates a required environment variable.</p>
+<p>Explain why cron may not inherit variables from ~/.bashrc.</p>
+<p>Inspect the Lesson 16 crontab and confirm its paths and logging.</p>
+<p>Document how you would handle a missing production database credential.</p>
+<p>Explain why .gitignore does not fix a secret already committed to Git.</p>
+<p>Write a short incident report for a scheduled job that fails due to missing configuration.</p>
+<p>Copy assignment tracker</p>
+<h2 id="13-cheat-sheet-commands-to-remember">13. Cheat sheet — commands to remember</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Print a variable</td>
+<td><code>echo "$APP_ENV"</code></td>
+</tr>
+<tr>
+<td>Print an exported variable</td>
+<td><code>printenv APP_ENV</code></td>
+</tr>
+<tr>
+<td>Export a variable</td>
+<td><code>export APP_ENV=staging</code></td>
+</tr>
+<tr>
+<td>Remove a variable</td>
+<td><code>unset APP_ENV</code></td>
+</tr>
+<tr>
+<td>List environment values</td>
+<td><code>env</code></td>
+</tr>
+<tr>
+<td>Inspect executable search path</td>
+<td><code>echo "$PATH"</code></td>
+</tr>
+<tr>
+<td>Locate a command</td>
+<td><code>command -v python3</code></td>
+</tr>
+<tr>
+<td>Load a trusted Bash config</td>
+<td><code>source "$HOME/devops-lab/config/app.env"</code></td>
+</tr>
+<tr>
+<td>Validate a required variable</td>
+<td><code>: "${APP_ENV:?APP_ENV is required}"</code></td>
+</tr>
+<tr>
+<td>Set private file permissions</td>
+<td><code>chmod 600 file.env</code></td>
+</tr>
+<tr>
+<td>Inspect file permissions</td>
+<td><code>ls -l file.env</code></td>
+</tr>
+<tr>
+<td>Check Bash syntax</td>
+<td><code>bash -n script.sh</code></td>
+</tr>
+<tr>
+<td>List cron jobs</td>
+<td><code>crontab -l</code></td>
+</tr>
+<tr>
+<td>Inspect a service's logs</td>
+<td><code>sudo journalctl -u myapp -n 50</code></td>
+</tr>
+</tbody></table>
+<h3 id="five-rules-to-remember">Five rules to remember</h3><ol>
+<li>Shell variables are not automatically exported.</li>
+<li>Cron has its own execution environment. Use explicit configuration and absolute paths.</li>
+<li>A <code>.env</code> file is not automatically loaded by every application.</li>
+<li>Protect secrets and avoid printing them into logs or tickets.</li>
+<li>Validate configuration before running production workloads.</li>
+</ol>
+<h2 id="14-lesson-completion-checklist">14. Lesson completion checklist</h2><h2 id="ready-for-lesson-18-">Ready for Lesson 18?</h2><p>I can explain shell variables versus exported variables.</p>
+<p>I understand PATH and process inheritance.</p>
+<p>I can create and protect a simple configuration file.</p>
+<p>I understand why environment variables are not a complete secret vault.</p>
+<p>I can diagnose missing configuration in a cron job.</p>
+<p>I completed the quiz and reviewed my assignments.</p>
+<p>0 of 6 completion goals achieved.</p>
+<h2 id="next-lesson">Next lesson</h2><h2 id="module-1-lesson-18">Module 1, Lesson 18</h2><p>Linux Security Fundamentals and Hardening on Ubuntu</p>
+<p>Users and least privilege · SSH hardening · Firewall basics · Updates · File permissions · Security logs · Practical hardening checklist</p>
+<p>You'll bring together your knowledge of users, permissions, SSH, services, logging, and configuration to build a safer Ubuntu server.</p>
+<p>Continue to Lesson 18 </p>
+<p>Lesson 17 complete: You now understand how configuration moves from your shell into scripts and applications, why scheduled jobs can behave differently from interactive commands, and how to handle sensitive configuration more responsibly.</p>
+
+</div>

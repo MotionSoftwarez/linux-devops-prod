@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 221.2 83.2% 53.3%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ---------- Imported chapter content (lesson-content) ---------- */
+.lesson-content {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.lesson-content h1, .lesson-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1.9em 0 0.7em;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid hsl(var(--border));
+}
+.lesson-content h1:first-child, .lesson-content h2:first-child { margin-top: 0; }
+.lesson-content h3 { font-size: 1.05rem; font-weight: 600; margin: 1.5em 0 0.55em; }
+.lesson-content p { margin: 0.75em 0; }
+.lesson-content ul, .lesson-content ol { margin: 0.75em 0; padding-left: 1.6em; }
+.lesson-content ul { list-style: disc; }
+.lesson-content ol { list-style: decimal; }
+.lesson-content li { margin: 0.35em 0; }
+.lesson-content strong { font-weight: 600; }
+.lesson-content a { color: hsl(var(--primary)); }
+.lesson-content blockquote {
+  border-left: 4px solid hsl(221.2 83.2% 53.3% / 0.6);
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground) / 0.9);
+  padding: 0.75em 1.1em;
+  margin: 1.1em 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.lesson-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.3rem;
+  padding: 0.1em 0.35em;
+}
+.lesson-content pre {
+  background: hsl(222 47% 6%);
+  color: #e5e7eb;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.6rem;
+  padding: 1em 1.15em;
+  margin: 1.2em 0;
+  overflow-x: auto;
+  font-size: 0.86em;
+  line-height: 1.6;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+.lesson-content pre code {
+  display: block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  min-width: max-content;
+  tab-size: 2;
+}
+.lesson-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  font-size: 0.88em;
+  display: table;
+  overflow-x: auto;
+}
+.lesson-content th {
+  background: hsl(var(--muted));
+  font-weight: 600;
+  text-align: left;
+}
+.lesson-content th, .lesson-content td {
+  border: 1px solid hsl(var(--border));
+  padding: 0.6em 0.75em;
+  vertical-align: top;
+}
+.lesson-content hr { border: 0; border-top: 1px solid hsl(var(--border)); margin: 2em 0; }
+.lesson-content img, .lesson-content svg { max-width: 100%; height: auto; }
+
+/* ================= DESIGN FX ================= */
+/* Animated gradient hero background */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--cx, 0px), var(--cy, 480px)) rotate(var(--cr, 540deg)); }
+}
+@keyframes ring-draw {
+  from { stroke-dashoffset: 308; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.35); }
+  50% { box-shadow: 0 0 0 8px hsl(var(--primary) / 0.08); }
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #34d399, #60a5fa);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.hero-mesh {
+  background:
+    radial-gradient(42rem 24rem at 8% -10%, hsl(221.2 83.2% 53.3% / 0.28), transparent 60%),
+    radial-gradient(38rem 22rem at 95% 0%, hsl(258 80% 66% / 0.22), transparent 55%),
+    radial-gradient(30rem 20rem at 50% 120%, hsl(160 84% 39% / 0.18), transparent 60%);
+  background-size: 200% 200%;
+  animation: gradient-shift 14s ease infinite;
+}
+
+.glass {
+  background: hsl(var(--card) / 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--border) / 0.8);
+}
+
+.hover-lift {
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.3, 1.2), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px hsl(222 47% 8% / 0.28);
+  border-color: hsl(var(--primary) / 0.45);
+}
+
+.animate-fade-up { animation: fade-up 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+.animate-float { animation: float-y 5s ease-in-out infinite; }
+.animate-glow { animation: glow-pulse 2.4s ease-in-out infinite; }
+
+.caret::after {
+  content: "?";
+  margin-left: 2px;
+  animation: blink-caret 1s step-end infinite;
+  color: #a3e635;
+}
+
+/* Terminal look */
+.mini-terminal {
+  background: hsl(222 47% 6%);
+  border: 1px solid hsl(217.2 32.6% 17.5%);
+  border-radius: 0.75rem;
+  box-shadow: 0 22px 45px hsl(222 47% 4% / 0.55), inset 0 0 0 1px hsl(0 0% 100% / 0.03);
+  color: #d1e5ff;
+}
+.mini-terminal .t-bar {
+  background: hsl(217.2 32.6% 17.5%);
+  border-bottom: 1px solid hsl(0 0% 100% / 0.06);
+}
+
+.stage-badge {
+  background: linear-gradient(135deg, var(--s1, #3b82f6), var(--s2, #8b5cf6));
+  color: white;
+  box-shadow: 0 6px 18px var(--s1, #3b82f6);
+}
+
+.reading-progress {
+  background: linear-gradient(90deg, #3b82f6, #a78bfa, #34d399);
+  transition: width 0.12s linear;
+  box-shadow: 0 0 10px hsl(221.2 83.2% 53.3% / 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up, .animate-float, .animate-glow, .gradient-text, .hero-mesh { animation: none; }
+}

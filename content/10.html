@@ -1,0 +1,449 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-9">Linux for DevOps — Module 1, Lesson 9</h2><h2 id="linux-package-management-on-ubuntu-with-apt">Linux package management on Ubuntu with <code>apt</code></h2><p>Beginner friendly</p>
+<p>Ubuntu / Debian</p>
+<p>DevOps fundamentals</p>
+<p>In this lesson, you’ll learn how to install software, update packages safely, manage repositories, resolve dependency problems, and install DevOps tools without unnecessarily risking a server.</p>
+<h2 id="1-what-is-package-management-">1. What is package management?</h2><p>Imagine an Ubuntu server is a workshop. You need tools such as Python, Git, Nginx, or <code>curl</code> to do your work.</p>
+<p>You could download each tool manually, find its dependencies, configure it, and update it yourself. Or you can use a package manager that handles much of that work for you.</p>
+<p>Ubuntu’s primary command-line package-management tool is <code>apt</code>.</p>
+<p>Your request</p>
+<p>“Install Git on this server.”</p>
+<h2 id="apt-package-manager">APT package manager</h2><p>Checks package information, dependencies and available versions</p>
+<p>Repositories</p>
+<p>Where package metadata and downloadable packages are published</p>
+<p>Installed system</p>
+<p>Files, binaries, libraries and configuration</p>
+<h3 id="understand-these-four-terms">Understand these four terms</h3><ul>
+<li>Package: a software bundle, usually a <code>.deb</code> file on Ubuntu.</li>
+<li>Repository: a configured software source that publishes package indexes and packages.</li>
+<li>Dependency: another package required by the software.</li>
+<li>Package manager: the tool that installs, upgrades, and removes packages while tracking their relationships.</li>
+</ul>
+<p><code>apt</code> is the user-facing package-management command. <code>dpkg</code> is the lower-level tool that works with Debian packages and installed-package records.</p>
+<h2 id="2-the-most-important-apt-workflow">2. The most important <code>apt</code> workflow</h2><p>The first commands to learn are:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sudo apt update</code></td>
+<td>Refresh available-package information</td>
+</tr>
+<tr>
+<td><code>apt list --upgradable</code></td>
+<td>Show packages with available upgrades</td>
+</tr>
+<tr>
+<td><code>sudo apt install git</code></td>
+<td>Install Git</td>
+</tr>
+<tr>
+<td><code>sudo apt remove git</code></td>
+<td>Remove Git while generally retaining its configuration files</td>
+</tr>
+<tr>
+<td><code>sudo apt purge git</code></td>
+<td>Remove Git and its package-managed configuration files</td>
+</tr>
+<tr>
+<td><code>sudo apt autoremove</code></td>
+<td>Remove automatically installed packages that are no longer needed</td>
+</tr>
+<tr>
+<td><code>apt show git</code></td>
+<td>Show information about the Git package</td>
+</tr>
+<tr>
+<td><code>dpkg -l git</code></td>
+<td>Check the installed-package record for Git</td>
+</tr>
+</tbody></table>
+<p>Critical distinction: <code>apt update</code> does not upgrade installed software. It refreshes the local package indexes. <code>apt upgrade</code> is the command that upgrades installed packages.</p>
+<h2 id="3-update-packages-safely">3. Update packages safely</h2><p>Before installing software or troubleshooting a package version, refresh the package index.</p>
+<pre><code>sudo apt update</code></pre><p>This downloads updated package lists from your configured repositories. It does not install every available update.</p>
+<p>Next, inspect what can be upgraded:</p>
+<pre><code>apt list --upgradable</code></pre><p>Upgrade installed packages:</p>
+<pre><code>sudo apt upgrade</code></pre><p>APT normally avoids removing installed packages to complete this standard upgrade. Review the proposed changes before confirming.</p>
+<h3 id="what-about-full-upgrade-">What about <code>full-upgrade</code>?</h3><pre><code>sudo apt full-upgrade</code></pre><p>This can install or remove packages when needed to complete an upgrade. It is more disruptive than a standard upgrade, so inspect the proposed changes carefully, especially on production servers.</p>
+<p>Safe production habit</p>
+<p>Check maintenance windows, backups or snapshots, disk space, service impact, and the proposed APT transaction before upgrading critical servers.</p>
+<p>A routine package update can still restart services or introduce compatibility changes, depending on the packages involved.</p>
+<h3 id="practice-predict-the-result">Practice: predict the result</h3><p>You run <code>sudo apt update</code>. What should you expect?</p>
+<p>All installed software is upgraded immediately.</p>
+<p>APT refreshes package indexes from configured repositories.</p>
+<p>APT removes old packages automatically.</p>
+<h2 id="4-install-inspect-and-remove-packages">4. Install, inspect, and remove packages</h2><p>Let’s use Git as an example. These commands are intended for an Ubuntu server where you have appropriate administrative access.</p>
+<h3 id="install-a-package">Install a package</h3><pre><code>sudo apt install git</code></pre><p>To install several packages together:</p>
+<pre><code>sudo apt install git curl unzip</code></pre><p>APT will display the packages to be installed, dependencies, download size, and additional disk space required. Read the summary before accepting.</p>
+<h3 id="check-the-package">Check the package</h3><pre><code>git --version
+apt show git
+dpkg -s git
+apt-cache policy git</code></pre><p>These commands answer different questions:</p>
+<ul>
+<li><code>git --version</code>: which Git version runs when invoked.</li>
+<li><code>apt show git</code>: package description and metadata.</li>
+<li><code>dpkg -s git</code>: installed package status and version, if installed.</li>
+<li><code>apt-cache policy git</code>: installed and repository candidate versions, where available.</li>
+</ul>
+<h3 id="search-for-software">Search for software</h3><pre><code>apt search nginx
+apt show nginx</code></pre><p>Search results may include packages that are not installed. Searching is not the same as installing.</p>
+<h3 id="remove-software">Remove software</h3><pre><code>sudo apt remove git</code></pre><p>This generally removes the package but leaves package-managed configuration files behind.</p>
+<p>To remove the package and its package-managed configuration:</p>
+<pre><code>sudo apt purge git</code></pre><p>To remove automatically installed dependencies that are no longer required:</p>
+<pre><code>sudo apt autoremove</code></pre><p>Important: Purging does not guarantee that every application-created file, user data, database, log, or file under a custom directory will be deleted. Conversely, it is not a backup mechanism. Inspect what APT proposes to remove before confirming.</p>
+<h3 id="visual-package-lifecycle">Visual: package lifecycle</h3><p>Search / inspect</p>
+<p><code>apt search</code>, <code>apt show</code>, <code>apt-cache policy</code></p>
+<p>Install</p>
+<p><code>sudo apt install package-name</code></p>
+<p>Maintain</p>
+<p><code>sudo apt update</code> → inspect upgrades → <code>sudo apt upgrade</code></p>
+<p>Remove if no longer needed</p>
+<p><code>remove</code>, <code>purge</code>, or reviewed <code>autoremove</code></p>
+<h2 id="5-repositories-where-packages-come-from">5. Repositories: where packages come from</h2><p>APT does not magically know about every application on the internet. It uses repositories configured on the machine.</p>
+<p>On modern Ubuntu systems, repository configuration commonly appears in:</p>
+<ul>
+<li><code>/etc/apt/sources.list</code></li>
+<li><code>/etc/apt/sources.list.d/</code> — files such as <code>.list</code> or <code>.sources</code></li>
+</ul>
+<p>Inspect your configuration:</p>
+<pre><code>ls -l /etc/apt/sources.list.d/
+cat /etc/apt/sources.list</code></pre><p>Some Ubuntu installations use the newer deb822 <code>.sources</code> format and may not have an active <code>/etc/apt/sources.list</code>. To inspect both common locations:</p>
+<pre><code>grep -R -nE '^(deb |Types:|URIs:|Suites:|Components:|Signed-By:)' \
+  /etc/apt/sources.list /etc/apt/sources.list.d/ 2&gt;/dev/null</code></pre><p>A missing <code>sources.list</code> file can be normal; the command may report that it cannot read it. Check the <code>.sources</code> files as well.</p>
+<h3 id="how-repository-configuration-works">How repository configuration works</h3><p>Repository configuration</p>
+<p>Repository URI + Ubuntu release (suite) + components + signing key</p>
+<p><code>sudo apt update</code></p>
+<p>Fetches metadata and verifies repository signatures</p>
+<p>APT package index</p>
+<p>Available versions and dependency information</p>
+<h3 id="what-do-repository-components-mean-">What do repository components mean?</h3><p>Ubuntu archives commonly divide software into components such as <code>main</code>, <code>universe</code>, <code>restricted</code>, and <code>multiverse</code>. Availability and support differ between components. Third-party repositories have their own configuration and trust arrangements.</p>
+<p>To see which version APT would select:</p>
+<pre><code>apt-cache policy nginx</code></pre><p>If a package is unavailable, investigate before adding random repositories:</p>
+<pre><code>apt search nginx
+apt-cache policy nginx
+sudo apt update</code></pre><h3 id="safe-repository-practices">Safe repository practices</h3><ol>
+<li>Prefer Ubuntu's official repositories when they meet your requirements.</li>
+<li>For third-party software, use the vendor's official installation documentation and verify the domain.</li>
+<li>Verify signing keys and use repository-scoped key configuration, commonly with <code>Signed-By</code>.</li>
+<li>Do not disable package signature verification just to make an installation succeed.</li>
+<li>Avoid obsolete <code>apt-key</code> instructions; it is deprecated.</li>
+<li>Never switch a production machine to a different Ubuntu release's repository just to obtain a newer package.</li>
+<li>Review repository changes and the output of <code>sudo apt update</code> before installing anything.</li>
+</ol>
+<p>If you add or change a repository, run <code>sudo apt update</code> afterwards so APT refreshes its package metadata.</p>
+<h2 id="6-dependencies-why-installing-one-tool-may-install-several-packages">6. Dependencies: why installing one tool may install several packages</h2><p>Suppose a command-line application requires two libraries. Those libraries may require other packages.</p>
+<p>Application: Tool A</p>
+<p>Library B</p>
+<p>Dependency</p>
+<p>Library C</p>
+<p>Dependency</p>
+<p>APT resolves dependencies and proposes the required package operations.</p>
+<p>Inspect dependencies:</p>
+<pre><code>apt-cache depends git</code></pre><p>Simulate an installation without actually installing packages:</p>
+<pre><code>apt-get -s install nginx</code></pre><p>The <code>-s</code> flag asks APT to simulate the transaction. This is useful for checking which packages it would install, upgrade, or remove.</p>
+<h3 id="common-dependency-problems">Common dependency problems</h3><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>What to investigate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Unable to locate package</code></td>
+<td>Package name, enabled repositories, and package indexes</td>
+</tr>
+<tr>
+<td><code>404 Not Found</code> during download</td>
+<td>Stale metadata or a repository mirror issue; refresh indexes and retry</td>
+</tr>
+<tr>
+<td><code>Unmet dependencies</code></td>
+<td>Repository consistency, pinned versions, and package availability</td>
+</tr>
+<tr>
+<td><code>Could not get lock</code></td>
+<td>Another package-management process may be running</td>
+</tr>
+<tr>
+<td><code>dpkg was interrupted</code></td>
+<td>The previous package transaction may not have completed</td>
+</tr>
+</tbody></table>
+<p>If a package-management lock is present, first check whether another APT or <code>dpkg</code> process is actively working:</p>
+<pre><code>ps -ef | grep -E '[a]pt|[d]pkg'</code></pre><p>Do not delete lock files as a first response. Interrupting an active package transaction can leave the system in an inconsistent state.</p>
+<p>If a transaction was interrupted and no package manager is running, a typical recovery command is:</p>
+<pre><code>sudo dpkg --configure -a</code></pre><p>Then, if needed, inspect and repair dependency issues with:</p>
+<pre><code>sudo apt --fix-broken install</code></pre><p>These commands can change system state. Review the output and understand the proposed operations before confirming; use your organization's recovery procedure on production servers.</p>
+<h2 id="7-safely-install-devops-tools">7. Safely install DevOps tools</h2><p>Common Ubuntu tools you may use while supporting applications and deployments include:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Typical purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git</code></td>
+<td>Version control</td>
+</tr>
+<tr>
+<td><code>curl</code></td>
+<td>HTTP/API requests and troubleshooting</td>
+</tr>
+<tr>
+<td><code>jq</code></td>
+<td>Read and filter JSON</td>
+</tr>
+<tr>
+<td><code>unzip</code></td>
+<td>Extract ZIP archives</td>
+</tr>
+<tr>
+<td><code>tree</code></td>
+<td>View directory structures</td>
+</tr>
+<tr>
+<td><code>nginx</code></td>
+<td>Web server and reverse proxy</td>
+</tr>
+<tr>
+<td><code>python3-venv</code></td>
+<td>Create isolated Python environments</td>
+</tr>
+</tbody></table>
+<p>Before installing, check the OS version and package availability:</p>
+<pre><code>cat /etc/os-release
+apt-cache policy jq
+apt-get -s install jq</code></pre><p>If the package and proposed transaction look appropriate:</p>
+<pre><code>sudo apt update
+sudo apt install jq
+jq --version</code></pre><h3 id="what-about-installing-software-with-curl-bash-">What about installing software with <code>curl | bash</code>?</h3><p>You may see installation instructions like:</p>
+<pre><code>curl -fsSL https://example.com/install.sh | sudo bash</code></pre><p>This downloads a script and executes it immediately with administrative privileges. The example domain is illustrative, not a real installer.</p>
+<p>Safer approach: download the script from the verified official source, inspect it, verify its integrity or signature when the vendor provides a mechanism, and understand what it changes before executing it. A script may modify repositories, add signing keys, install services, or alter system configuration.</p>
+<p>APT is often preferable when an official, suitable repository is available because it provides package metadata, dependency handling, and package records. However, APT is not automatically safe merely because it is APT: repository trust still matters.</p>
+<h3 id="is-sudo-always-required-">Is <code>sudo</code> always required?</h3><p>No. Reading package information generally does not require root privileges. Installing or removing system packages usually does.</p>
+<p>Use the minimum permissions required. Do not run every command as <code>root</code>, and do not use <code>sudo</code> to bypass errors you have not investigated.</p>
+<h2 id="8-real-world-devops-case-study-nginx-deployment-fails">8. Real-world DevOps case study: Nginx deployment fails</h2><h3 id="scenario">Scenario</h3><p>A team is deploying a web application on an Ubuntu server. The deployment script fails because Nginx is missing. Someone suggests running a large, unreviewed installation script as root.</p>
+<p>Your job is to install the needed package using a controlled process.</p>
+<p>Step 1 — Confirm the environment</p>
+<pre><code>cat /etc/os-release
+apt-cache policy nginx</code></pre><p>Verify the OS release and see whether APT knows about Nginx.</p>
+<p>Step 2 — Refresh package metadata</p>
+<pre><code>sudo apt update</code></pre><p>If repository errors appear, diagnose those first rather than blindly adding a new source.</p>
+<p>Step 3 — Preview the transaction</p>
+<pre><code>apt-get -s install nginx</code></pre><p>Check the planned installation, dependency changes, and any proposed removals.</p>
+<p>Step 4 — Install and verify</p>
+<pre><code>sudo apt install nginx
+nginx -v
+sudo systemctl status nginx --no-pager</code></pre><p>Confirm the installed version and service status. Installation does not guarantee that the site is configured correctly or reachable remotely.</p>
+<p>Step 5 — If it fails, investigate</p>
+<pre><code>sudo journalctl -u nginx --since "15 minutes ago"
+sudo nginx -t</code></pre><p>Review service logs and test Nginx configuration syntax. Avoid reinstalling repeatedly before identifying the cause.</p>
+<p>Production lesson: package installation, service configuration, service health, and network accessibility are four different checks. Passing one does not guarantee that the others pass.</p>
+<h2 id="9-interactive-command-practice">9. Interactive command practice</h2><p>Try these in a test Ubuntu environment, virtual machine, or disposable development container where <code>apt</code> is available. Do not change production repositories or remove packages just for practice.</p>
+<p>Exercise 1 of 4</p>
+<p>25%</p>
+<h2 id="exercise-1-check-package-information">Exercise 1 — Check package information</h2><p>Find out whether Git is installed and which version APT would offer.</p>
+<p>COMMANDS TO TRY</p>
+<p>dpkg -s git<br>apt-cache policy git</p>
+<p> Copy commands</p>
+<p>Reveal explanation</p>
+<p>PreviousNext </p>
+<h2 id="10-safe-command-checklist">10. Safe command checklist</h2><p>Use this before changing a server's package state.</p>
+<h3 id="pre-change-checklist">Pre-change checklist</h3><p>0/7</p>
+<p>Confirm the Ubuntu version and environment.</p>
+<p>Inspect repository and package availability.</p>
+<p>Refresh package indexes and review any errors.</p>
+<p>Simulate complex or risky package changes.</p>
+<p>Read the list of packages to be installed, upgraded or removed.</p>
+<p>Confirm backups, maintenance window and service impact when appropriate.</p>
+<p>Verify the result after installation or upgrade.</p>
+<p>Reset checklist</p>
+<h2 id="11-lesson-quiz">11. Lesson quiz</h2><p>Test your understanding of Ubuntu package management. Answer the questions before checking the explanations.</p>
+<p>An administrator runs <code>sudo apt update</code> on Ubuntu. What is the primary effect?</p>
+<p>1 of 8</p>
+<p>ARemove unused packages</p>
+<p>BRefresh package indexes</p>
+<p>CUpgrade installed packages</p>
+<p>DRestart running services</p>
+<p>Next</p>
+<h2 id="12-assignment">12. Assignment</h2><p>Complete this lab on a non-production Ubuntu machine or a disposable test environment.</p>
+<h2 id="lab-progress">Lab progress</h2><h2 id="0-">0%</h2><p>Record the Ubuntu release using `cat /etc/os-release`.</p>
+<p>Run `apt-cache policy git` and record the candidate version, if available.</p>
+<p>Run `sudo apt update` and inspect the output for repository errors.</p>
+<p>Run `apt-get -s install tree` and identify the proposed changes.</p>
+<p>If appropriate for the environment, install `tree` using APT and verify it with `tree --version`.</p>
+<p>Inspect APT repository configuration under `/etc/apt/sources.list.d/`.</p>
+<p>Write down the difference between `remove`, `purge`, and `autoremove`.</p>
+<p>Explain how you would investigate `Unable to locate package` without adding an untrusted repository.</p>
+<p> Copy assignment tracker</p>
+<h2 id="13-apt-cheat-sheet">13. APT cheat sheet</h2><p>Save this reference for everyday Linux support and DevOps work.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Refresh package indexes</td>
+<td><code>sudo apt update</code></td>
+</tr>
+<tr>
+<td>List available upgrades</td>
+<td><code>apt list --upgradable</code></td>
+</tr>
+<tr>
+<td>Upgrade installed packages</td>
+<td><code>sudo apt upgrade</code></td>
+</tr>
+<tr>
+<td>Perform a fuller upgrade</td>
+<td><code>sudo apt full-upgrade</code></td>
+</tr>
+<tr>
+<td>Install a package</td>
+<td><code>sudo apt install PACKAGE</code></td>
+</tr>
+<tr>
+<td>Simulate installation</td>
+<td><code>apt-get -s install PACKAGE</code></td>
+</tr>
+<tr>
+<td>Search packages</td>
+<td><code>apt search KEYWORD</code></td>
+</tr>
+<tr>
+<td>View package details</td>
+<td><code>apt show PACKAGE</code></td>
+</tr>
+<tr>
+<td>Check installed status</td>
+<td><code>dpkg -s PACKAGE</code></td>
+</tr>
+<tr>
+<td>Inspect candidate version</td>
+<td><code>apt-cache policy PACKAGE</code></td>
+</tr>
+<tr>
+<td>Inspect dependencies</td>
+<td><code>apt-cache depends PACKAGE</code></td>
+</tr>
+<tr>
+<td>Remove package</td>
+<td><code>sudo apt remove PACKAGE</code></td>
+</tr>
+<tr>
+<td>Purge package configuration</td>
+<td><code>sudo apt purge PACKAGE</code></td>
+</tr>
+<tr>
+<td>Review unused dependencies</td>
+<td><code>sudo apt autoremove</code></td>
+</tr>
+<tr>
+<td>Inspect repository files</td>
+<td><code>ls -l /etc/apt/sources.list.d/</code></td>
+</tr>
+<tr>
+<td>Recover interrupted configuration</td>
+<td><code>sudo dpkg --configure -a</code></td>
+</tr>
+<tr>
+<td>Repair broken dependencies</td>
+<td><code>sudo apt --fix-broken install</code></td>
+</tr>
+</tbody></table>
+<p>Replace <code>PACKAGE</code> or <code>KEYWORD</code> with the actual name. The recovery commands can change system state; use them only after diagnosing the issue.</p>
+<h2 id="14-key-takeaways">14. Key takeaways</h2><ul>
+<li><code>apt update</code> refreshes package metadata; <code>apt upgrade</code> upgrades installed packages.</li>
+<li>Use <code>apt show</code>, <code>apt-cache policy</code>, and simulation to investigate before making changes.</li>
+<li>Repository configuration and signing keys are part of your server's security boundary.</li>
+<li>APT resolves available dependencies, but repository conflicts and interrupted transactions still need careful diagnosis.</li>
+<li>On production systems, review proposed changes, plan recovery, and verify both package status and application health.</li>
+</ul>
+<h2 id="continue-to-lesson-10">Continue to Lesson 10</h2><p>The next lesson is Module 1, Lesson 10: Services and systemd — learning how to start, stop, restart, enable, inspect, and troubleshoot Linux services such as Nginx.</p>
+<h2 id="lesson-10-services-and-systemd">Lesson 10: Services and systemd</h2><p>Service lifecycle, boot startup, logs, failed services, and real deployment troubleshooting.</p>
+<p>Start Lesson 10 </p>
+
+</div>

@@ -1,0 +1,506 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-10">Linux for DevOps — Module 1, Lesson 10</h2><h2 id="linux-services-and-systemd-on-ubuntu">Linux services and systemd on Ubuntu</h2><p>Beginner friendly</p>
+<p>Ubuntu Server</p>
+<p>DevOps operations</p>
+<p>In this lesson, you’ll learn how Linux services work, how to manage them using <code>systemctl</code>, how to investigate failed services, and how to make applications start automatically when a server boots.</p>
+<h2 id="1-what-is-a-linux-service-">1. What is a Linux service?</h2><p>Imagine your Ubuntu server hosts a website. The website needs a web server such as Nginx to run in the background, even when nobody is logged into the server.</p>
+<p>A service is a program or system capability that runs to provide a function. Many services operate in the background and are managed by systemd, the service manager used by most modern Ubuntu installations.</p>
+<p>Examples include:</p>
+<ul>
+<li><code>ssh</code> — remote server access.</li>
+<li><code>nginx</code> — web serving and reverse proxy.</li>
+<li><code>cron</code> — scheduled tasks.</li>
+<li><code>docker</code> — container management, when installed.</li>
+<li><code>postgresql</code> — database service, when installed.</li>
+</ul>
+<p>A service is not necessarily a network server. It might perform scheduled jobs, manage hardware, or support other system processes.</p>
+<h2 id="2-how-systemd-works">2. How systemd works</h2><p>Server starts</p>
+<p>Linux kernel initializes the system</p>
+<p>systemd</p>
+<p>PID 1 on a typical Ubuntu system; manages services and other units</p>
+<p>Nginx</p>
+<p>Web requests</p>
+<p>SSH</p>
+<p>Remote login</p>
+<p>Database</p>
+<p>Data storage</p>
+<p>Scheduled jobs</p>
+<p>Background tasks</p>
+<p>Think of <code>systemd</code> as a coordinator. It starts configured services, tracks their states, manages dependencies, and records information that can help you troubleshoot failures.</p>
+<p>The command-line interface you’ll use most often is:</p>
+<pre><code>systemctl</code></pre><p>A service commonly has a unit name ending in <code>.service</code>, such as <code>nginx.service</code>. For many commands, the <code>.service</code> suffix can be omitted, so <code>systemctl status nginx</code> is equivalent to checking <code>nginx.service</code>.</p>
+<h2 id="3-check-whether-a-service-is-running">3. Check whether a service is running</h2><p>Before changing anything on a server, inspect its current state.</p>
+<pre><code>systemctl status nginx</code></pre><p>If Nginx is installed, the output may include information such as:</p>
+<pre><code>nginx.service - A high performance web server
+     Loaded: loaded (...)
+     Active: active (running)
+   Main PID: 1234 (nginx)</code></pre><p>The PID and paths shown above are illustrative; your output will differ.</p>
+<h3 id="understand-the-important-fields">Understand the important fields</h3><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Loaded</code></td>
+<td>Whether systemd found and loaded the unit definition</td>
+</tr>
+<tr>
+<td><code>Active</code></td>
+<td>Current high-level state of the unit</td>
+</tr>
+<tr>
+<td><code>Main PID</code></td>
+<td>Main process ID, when applicable</td>
+</tr>
+<tr>
+<td><code>enabled</code></td>
+<td>Configured to start automatically through its enablement links</td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td>Not enabled for automatic startup in the usual way</td>
+</tr>
+</tbody></table>
+<p>A service can be running but disabled for automatic startup. It can also be enabled but currently stopped.</p>
+<h3 id="useful-inspection-commands">Useful inspection commands</h3><pre><code>systemctl is-active nginx
+systemctl is-enabled nginx
+systemctl list-units --type=service --state=running
+systemctl --failed</code></pre><ul>
+<li><code>is-active</code> checks the current active state.</li>
+<li><code>is-enabled</code> checks its startup enablement configuration.</li>
+<li><code>list-units</code> lists units currently loaded into systemd's view, filtered here to running services.</li>
+<li><code>--failed</code> lists units systemd currently considers failed.</li>
+</ul>
+<p>DevOps habit: status first, diagnosis second, changes third.</p>
+<h2 id="4-start-stop-restart-and-reload-services">4. Start, stop, restart, and reload services</h2><p>These are the core commands you’ll use during deployment and incident troubleshooting.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Start</td>
+<td><code>sudo systemctl start nginx</code></td>
+<td>Starts the service now</td>
+</tr>
+<tr>
+<td>Stop</td>
+<td><code>sudo systemctl stop nginx</code></td>
+<td>Stops the service now</td>
+</tr>
+<tr>
+<td>Restart</td>
+<td><code>sudo systemctl restart nginx</code></td>
+<td>Stops and starts the service</td>
+</tr>
+<tr>
+<td>Reload</td>
+<td><code>sudo systemctl reload nginx</code></td>
+<td>Asks the service to reload its configuration, if supported</td>
+</tr>
+<tr>
+<td>Check status</td>
+<td><code>systemctl status nginx</code></td>
+<td>Shows current state and recent status information</td>
+</tr>
+</tbody></table>
+<p>A restart can interrupt active connections. Prefer a reload when the application supports it and you only need to apply a configuration change.</p>
+<h3 id="interactive-command-selector">Interactive command selector</h3><p>Choose an operational goal to see the right command.</p>
+<p>What do you want to do?</p>
+<p>Inspect service status</p>
+<p>Start the service</p>
+<p>Stop the service</p>
+<p>Restart the service</p>
+<p>Reload configuration</p>
+<p>Command</p>
+<p>systemctl status nginx</p>
+<p>Inspect the service state, main process and recent status messages.</p>
+<p> Copy command</p>
+<h3 id="important-safety-rule-for-ssh">Important safety rule for SSH</h3><p>If you are connected to a remote Ubuntu server through SSH, stopping or restarting the SSH service can interrupt access or prevent future logins if the service fails to come back.</p>
+<p>Before changing SSH:</p>
+<ol>
+<li>Confirm you have console or another recovery route if possible.</li>
+<li>Validate the SSH configuration with <code>sudo sshd -t</code> when the OpenSSH server is installed.</li>
+<li>Review the planned change and keep an existing session open while testing a second connection.</li>
+<li>Do not stop a remote-access service casually on a production machine.</li>
+</ol>
+<p>Also, the service name on Ubuntu is often <code>ssh</code>, while the server daemon executable is <code>sshd</code>.</p>
+<h2 id="5-enable-services-at-boot">5. Enable services at boot</h2><p>Starting a service and enabling it are different operations.</p>
+<ul>
+<li><code>start</code> affects the service now.</li>
+<li><code>enable</code> configures it to start automatically through the system's boot dependency configuration.</li>
+<li><code>disable</code> removes that automatic enablement.</li>
+<li><code>enable --now</code> enables it and attempts to start it immediately.</li>
+</ul>
+<p>Examples:</p>
+<pre><code>sudo systemctl enable nginx
+sudo systemctl disable nginx
+sudo systemctl enable --now nginx
+sudo systemctl disable --now nginx</code></pre><p>The last command disables automatic startup and also stops the service now. Use it only when both actions are intended.</p>
+<p>To inspect enablement:</p>
+<pre><code>systemctl is-enabled nginx</code></pre><p>To see what is enabled:</p>
+<pre><code>systemctl list-unit-files --type=service --state=enabled</code></pre><h3 id="visual-current-state-vs-boot-configuration">Visual: current state vs. boot configuration</h3><p>Runtime state</p>
+<p>Running or stopped right now</p>
+<p><code>start</code> / <code>stop</code></p>
+<p>Boot configuration</p>
+<p>Enabled or disabled for automatic startup</p>
+<p><code>enable</code> / <code>disable</code></p>
+<p>A service can be running but disabled, or stopped but enabled. Always check both dimensions.</p>
+<h2 id="6-read-service-logs-with-journalctl">6. Read service logs with journalctl</h2><p>When a service fails, <code>systemctl status</code> gives a useful starting point. For more details, use <code>journalctl</code>, which reads the systemd journal.</p>
+<pre><code>sudo journalctl -u nginx</code></pre><p>Useful variations:</p>
+<pre><code>sudo journalctl -u nginx -n 50
+sudo journalctl -u nginx --since "30 minutes ago"
+sudo journalctl -u nginx -f
+sudo journalctl -u nginx -b
+sudo journalctl -p err --since today</code></pre><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-u nginx</code></td>
+<td>Filter logs for the Nginx unit</td>
+</tr>
+<tr>
+<td><code>-n 50</code></td>
+<td>Show the latest 50 entries</td>
+</tr>
+<tr>
+<td><code>--since</code></td>
+<td>Limit the time range</td>
+</tr>
+<tr>
+<td><code>-f</code></td>
+<td>Follow new log entries live</td>
+</tr>
+<tr>
+<td><code>-b</code></td>
+<td>Show entries from the current boot</td>
+</tr>
+<tr>
+<td><code>-p err</code></td>
+<td>Filter to error priority and more severe priorities</td>
+</tr>
+</tbody></table>
+<p>Press Ctrl+C to stop following logs.</p>
+<p>For an incident, a practical sequence is:</p>
+<pre><code>systemctl status nginx --no-pager
+sudo journalctl -u nginx --since "15 minutes ago" --no-pager</code></pre><p>Start with a narrow time window and expand it if necessary. Avoid dumping huge logs into terminals or tickets without filtering sensitive information.</p>
+<h2 id="7-service-failures-understand-the-common-states">7. Service failures: understand the common states</h2><p><code>active (running)</code></p>
+<p>The service is currently running. This alone does not prove that the application is healthy or reachable.</p>
+<p><code>inactive (dead)</code></p>
+<p>The service is not currently running. This may be expected for a stopped or on-demand service.</p>
+<p><code>failed</code></p>
+<p>The service or unit entered a failed state. Examine logs, configuration, dependencies and exit information.</p>
+<p><code>activating</code></p>
+<p>The service is still in its startup process. Check its startup logs if it remains there unexpectedly.</p>
+<p>After resolving a failure, you may want to clear the recorded failed state:</p>
+<pre><code>sudo systemctl reset-failed nginx</code></pre><p>This resets systemd's failed-state tracking; it does not fix the underlying problem or start the service by itself.</p>
+<h2 id="8-diagnose-service-startup-failures">8. Diagnose service startup failures</h2><p>Use a consistent troubleshooting workflow instead of repeatedly restarting the service.</p>
+<p>1. Inspect status</p>
+<p><code>systemctl status nginx</code></p>
+<p>2. Read logs</p>
+<p><code>journalctl -u nginx -n 50</code></p>
+<p>3. Test configuration</p>
+<p><code>sudo nginx -t</code></p>
+<p>4. Fix the specific cause</p>
+<p>Configuration, permissions, port conflict, dependencies or missing files</p>
+<p>5. Validate and verify</p>
+<p>Reload or restart as appropriate, then check status and application behavior</p>
+<p>Other useful diagnostic commands:</p>
+<pre><code>systemctl list-dependencies nginx
+systemctl cat nginx
+sudo ss -lntp
+df -h
+free -h</code></pre><p>These can help investigate dependencies, the unit definition, occupied TCP ports, disk space and memory.</p>
+<p>If <code>nginx</code> is not installed, its unit may not exist. Check installation and package availability rather than assuming every service name is present.</p>
+<h2 id="9-understand-service-unit-files">9. Understand service unit files</h2><p>Systemd uses unit files to describe how services are started and managed.</p>
+<p>Inspect a service's effective unit definition with:</p>
+<pre><code>systemctl cat nginx</code></pre><p>Common unit-file locations include:</p>
+<ul>
+<li><code>/usr/lib/systemd/system/</code> or <code>/lib/systemd/system/</code> — commonly used for package-provided units, depending on the system's layout.</li>
+<li><code>/etc/systemd/system/</code> — commonly used for administrator-created units and overrides.</li>
+</ul>
+<p>Do not edit a package-provided unit file directly unless you have a specific reason. Administrator overrides are generally easier to maintain.</p>
+<h3 id="example-a-custom-python-application">Example: a custom Python application</h3><p>Suppose you have a Python application located at <code>/opt/myapp/app.py</code>, and its virtual environment is <code>/opt/myapp/venv</code>. You want systemd to run it as a service.</p>
+<p>A unit file might look like this:</p>
+<pre><code>[Unit]
+Description=My Python Web Application
+After=network.target
+
+[Service]
+Type=simple
+User=myapp
+WorkingDirectory=/opt/myapp
+ExecStart=/opt/myapp/venv/bin/python /opt/myapp/app.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target</code></pre><p>This is an example template, not a ready-to-run configuration. The <code>myapp</code> user, directories, virtual environment and application must exist, and the Python application must be designed to run correctly in the foreground.</p>
+<p>What the sections mean:</p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[Unit]</code></td>
+<td>Describes the unit and its relationships</td>
+</tr>
+<tr>
+<td><code>[Service]</code></td>
+<td>Defines how the program runs and how failures are handled</td>
+</tr>
+<tr>
+<td><code>[Install]</code></td>
+<td>Defines how the unit can be enabled</td>
+</tr>
+</tbody></table>
+<p><code>Restart=on-failure</code> asks systemd to restart the process when it exits unsuccessfully, subject to systemd's restart limits and other settings. It is not a substitute for application health monitoring.</p>
+<h3 id="install-a-custom-service">Install a custom service</h3><p>After placing a validated unit file at <code>/etc/systemd/system/myapp.service</code>:</p>
+<pre><code>sudo systemd-analyze verify /etc/systemd/system/myapp.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now myapp
+systemctl status myapp
+sudo journalctl -u myapp -n 50 --no-pager</code></pre><p>Why <code>daemon-reload</code>? It tells systemd to reload unit definitions after you create or modify unit files. It does not restart every running service.</p>
+<p>For a configuration file belonging to an existing application, use that application's own validation and reload procedure instead. Editing a service unit and editing an application's configuration are different operations.</p>
+<h2 id="10-real-world-devops-case-study-deployment-service-keeps-failing">10. Real-world DevOps case study: deployment service keeps failing</h2><h3 id="scenario">Scenario</h3><p>Your team deploys a Python web application on Ubuntu. The deployment finishes, but the application service fails to start. The deployment dashboard shows an error, and the site is unavailable.</p>
+<p>The service is called <code>myapp.service</code>.</p>
+<p>Step 1 — Inspect the service</p>
+<pre><code>systemctl status myapp --no-pager</code></pre><p>Check the unit's state, exit status, and recent error messages.</p>
+<p>Step 2 — Read the logs</p>
+<pre><code>sudo journalctl -u myapp --since "15 minutes ago" --no-pager</code></pre><p>Look for a missing executable, missing configuration, permission denial, import error or port conflict.</p>
+<p>Step 3 — Check the executable and working directory</p>
+<pre><code>systemctl cat myapp
+ls -l /opt/myapp/venv/bin/python
+ls -ld /opt/myapp</code></pre><p>Confirm that paths in <code>ExecStart</code> and <code>WorkingDirectory</code> exist and that the configured service user has appropriate access.</p>
+<p>Step 4 — Fix the actual cause</p>
+<p>If the virtual environment is missing, repair the deployment or recreate it using the project's documented setup. If permissions are wrong, fix the specific ownership or access issue rather than granting broad permissions.</p>
+<p>Step 5 — Verify recovery</p>
+<pre><code>sudo systemctl restart myapp
+systemctl is-active myapp
+sudo journalctl -u myapp -n 30 --no-pager</code></pre><p>Then test the application's health endpoint or expected behavior. An active service is not proof that the website works end-to-end.</p>
+<h3 id="what-if-you-changed-the-service-unit-">What if you changed the service unit?</h3><p>If the issue was caused by a change to <code>/etc/systemd/system/myapp.service</code>, run <code>sudo systemctl daemon-reload</code> before starting or restarting the service so systemd uses the updated unit definition.</p>
+<h3 id="lessons-from-the-incident">Lessons from the incident</h3><ul>
+<li>Don't assume a failed deployment means the package is missing.</li>
+<li>Check logs before making changes.</li>
+<li>Validate paths and run the application with the intended service account.</li>
+<li>Avoid running the application as root unless its design specifically requires it.</li>
+<li>Verify both the systemd service and the application itself after recovery.</li>
+</ul>
+<h2 id="11-interactive-troubleshooting-exercise">11. Interactive troubleshooting exercise</h2><p>Choose a failure scenario</p>
+<p>Executable missing</p>
+<p>Port conflict</p>
+<p>Edited unit file</p>
+<h2 id="case-a-executable-missing">Case A: executable missing</h2><p>The journal reports that the executable specified by ExecStart could not be found.<br>What should you inspect first?</p>
+<p>Verify the executable path and deployment artifactsDisable all service restart limitsOpen every firewall port</p>
+<h2 id="12-safe-service-management-checklist">12. Safe service-management checklist</h2><h3 id="before-and-after-a-change">Before and after a change</h3><p>0/7</p>
+<p>Inspect the current service status before making changes.</p>
+<p>Read relevant journal entries and identify the failure cause.</p>
+<p>Validate configuration before reloading or restarting, where supported.</p>
+<p>Consider user impact before stopping or restarting production services.</p>
+<p>Check service-user permissions and executable paths.</p>
+<p>Use daemon-reload after modifying systemd unit definitions.</p>
+<p>Verify service state and application health after the change.</p>
+<p>Reset checklist</p>
+<h2 id="13-lesson-quiz-systemd-and-services">13. Lesson quiz — systemd and services</h2><p>On a typical Ubuntu system using systemd, which command starts Nginx immediately without changing its boot enablement configuration?</p>
+<p>1 of 8</p>
+<p>Asudo systemctl enable nginx</p>
+<p>Bsudo systemctl start nginx</p>
+<p>Csudo systemctl daemon-reload</p>
+<p>Dsystemctl is-enabled nginx</p>
+<p>Next</p>
+<h2 id="14-practical-assignment">14. Practical assignment</h2><p>Complete this lab on a test Ubuntu machine. Nginx is optional; if it is not installed, use another existing service such as <code>ssh</code>.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><h2 id="0-">0%</h2><p>Run `systemctl --failed` and record whether any units have failed.</p>
+<p>Inspect a service with `systemctl status SERVICE_NAME --no-pager`.</p>
+<p>Check runtime state with `systemctl is-active SERVICE_NAME`.</p>
+<p>Check boot enablement with `systemctl is-enabled SERVICE_NAME`.</p>
+<p>Read recent logs with `sudo journalctl -u SERVICE_NAME -n 30 --no-pager`.</p>
+<p>Inspect a unit definition with `systemctl cat SERVICE_NAME`.</p>
+<p>Explain the difference between start, restart, reload, enable and disable.</p>
+<p>Write a short incident report describing the symptom, evidence, root cause, fix and verification.</p>
+<p> Copy assignment checklist</p>
+<h2 id="15-lesson-10-cheat-sheet">15. Lesson 10 cheat sheet</h2><p>Keep this quick reference handy when troubleshooting Ubuntu servers.</p>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Check service status</td>
+<td><code>systemctl status nginx</code></td>
+</tr>
+<tr>
+<td>Check if active</td>
+<td><code>systemctl is-active nginx</code></td>
+</tr>
+<tr>
+<td>Check boot enablement</td>
+<td><code>systemctl is-enabled nginx</code></td>
+</tr>
+<tr>
+<td>Start a service</td>
+<td><code>sudo systemctl start nginx</code></td>
+</tr>
+<tr>
+<td>Stop a service</td>
+<td><code>sudo systemctl stop nginx</code></td>
+</tr>
+<tr>
+<td>Restart a service</td>
+<td><code>sudo systemctl restart nginx</code></td>
+</tr>
+<tr>
+<td>Reload configuration</td>
+<td><code>sudo systemctl reload nginx</code></td>
+</tr>
+<tr>
+<td>Enable at boot</td>
+<td><code>sudo systemctl enable nginx</code></td>
+</tr>
+<tr>
+<td>Disable at boot</td>
+<td><code>sudo systemctl disable nginx</code></td>
+</tr>
+<tr>
+<td>Enable and start now</td>
+<td><code>sudo systemctl enable --now nginx</code></td>
+</tr>
+<tr>
+<td>List failed units</td>
+<td><code>systemctl --failed</code></td>
+</tr>
+<tr>
+<td>View recent logs</td>
+<td><code>sudo journalctl -u nginx -n 50</code></td>
+</tr>
+<tr>
+<td>Follow logs live</td>
+<td><code>sudo journalctl -u nginx -f</code></td>
+</tr>
+<tr>
+<td>View current boot logs</td>
+<td><code>sudo journalctl -u nginx -b</code></td>
+</tr>
+<tr>
+<td>Inspect unit definition</td>
+<td><code>systemctl cat nginx</code></td>
+</tr>
+<tr>
+<td>Reload systemd unit definitions</td>
+<td><code>sudo systemctl daemon-reload</code></td>
+</tr>
+<tr>
+<td>Reset failed-state tracking</td>
+<td><code>sudo systemctl reset-failed nginx</code></td>
+</tr>
+<tr>
+<td>Validate Nginx configuration</td>
+<td><code>sudo nginx -t</code></td>
+</tr>
+<tr>
+<td>Find listening TCP ports</td>
+<td><code>sudo ss -lntp</code></td>
+</tr>
+</tbody></table>
+<p>Replace <code>nginx</code> with your actual service name. Commands that change service state or configuration may require administrative privileges and can affect availability.</p>
+<h3 id="the-five-rules-to-remember">The five rules to remember</h3><p>Inspect before changing. Use <code>systemctl status</code> and <code>journalctl</code> to collect evidence.</p>
+<p>Know the difference between runtime and boot. <code>start</code> is not <code>enable</code>.</p>
+<p>Validate before restarting. Use the application's configuration test when available.</p>
+<p>Reload systemd after unit-file changes. <code>daemon-reload</code> is different from restarting a service.</p>
+<p>Verify application health. A running process does not necessarily mean the application works.</p>
+<h2 id="continue-to-module-1-lesson-11">Continue to Module 1, Lesson 11</h2><p><a href="https://images.openai.com/static-rsc-4/ejDk7c2uv6IVlq8muxCpMlTkZez8O_IQHtzsBJXxczjOWjFkz3m3E1Lb00J0bFDjDYJIcv8m1mvRtnscfejh7MG0n7-8D33iSH7mcPg-Uc9crNWyFgEBm7HYZ3i9SFNrV5Ei2T9k7beQAXhnhAHENEVlgsboaAlFmOGmh6wYYOs?purpose=inline">Watch Logs in Real Time in Linux With Tail, Less &amp; Multitail</a></p>
+<h2 id="lesson-11-linux-logging-and-log-analysis">Lesson 11: Linux logging and log analysis</h2><p>Learn to investigate application failures, authentication events, system logs, log rotation, and disk usage using tools such as <code>journalctl</code>, <code>grep</code>, <code>less</code>, and <code>tail</code>.</p>
+<p>Log troubleshooting</p>
+<p>DevOps practice</p>
+<p>Start Lesson 11 </p>
+
+</div>

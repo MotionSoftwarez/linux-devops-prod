@@ -1,0 +1,30 @@
+# --- dependencies / build output ---
+node_modules/
+.next/
+out/
+.vercel/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# --- environment & secrets ---
+.env
+.env.*
+*.env
+
+# --- databases ---
+*.db
+*.sqlite3
+
+# --- logs / OS junk ---
+*.log
+.DS_Store
+Thumbs.db
+
+# --- test & scratch artifacts ---
+.shots/
+shot_*.png

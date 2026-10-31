@@ -1,0 +1,747 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-15">Linux for DevOps — Module 1, Lesson 15</h2><h2 id="bash-scripting-and-automation-fundamentals-on-ubuntu">Bash Scripting and Automation Fundamentals on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/nylfjX9DYVrHlrRB12iXI14pZJ31r0UffwXI8q5NHPew4zVfRkYru_opFP2Nkd7XUnWQG4i7iJp3AOKPnsTEHM5p3jffJXs88cWSAEeM0FlckI4ScqxxNrI89KamZRCQiGnbLHyVIK09d6yPLUYs0wOtwGDwuhMnwf1CPjQ_ghk?purpose=inline">Advanced Linux Shell Scripting with User management | by Manisha Acharya | Medium</a></p>
+<p><a href="https://medium.com/%40manisha.acharya111/advanced-linux-shell-scripting-with-user-management-95168fffe21e?utm_source=chatgpt.com">medium.com</a></p>
+<p>Welcome to Lesson 15! In previous lessons, you learned how to manage processes, services, logs, storage, SSH, and system resources. Now you'll learn how to combine Linux commands into scripts that perform repeatable tasks automatically.</p>
+<p>We'll use practical Ubuntu examples relevant to DevOps and application support, including checking whether a service is running, validating log files, and creating a basic health-check script.</p>
+<h2 id="lesson-objectives">Lesson objectives</h2><p>Understand what Bash is and how scripts run</p>
+<p>Use variables and quote values safely</p>
+<p>Capture command output and interpret exit codes</p>
+<p>Write if/else conditions and loops</p>
+<p>Create reusable functions and accept command-line arguments</p>
+<p>Build and test a practical DevOps health-check script</p>
+<p>Apply safe scripting practices on Ubuntu</p>
+<p>0 of 7 objectives completed</p>
+<h2 id="1-what-is-bash-scripting-">1. What is Bash scripting?</h2><p>Bash stands for Bourne Again Shell. It is a command-line shell commonly available on Ubuntu. A Bash script is a text file containing commands that Bash executes in sequence, with support for variables, conditions, loops, and functions.</p>
+<p>Imagine you manually perform these steps every morning:</p>
+<ol>
+<li>Check disk space.</li>
+<li>Check available memory.</li>
+<li>Check whether Nginx is running.</li>
+<li>Review recent application errors.</li>
+<li>Write down the results.</li>
+</ol>
+<p>A Bash script can automate much of this routine.</p>
+<p>You run one command</p>
+<p>./health_check.sh</p>
+<p>Bash executes the script</p>
+<p>Reads commands from top to bottom</p>
+<p>Checks</p>
+<p>Disk, memory, services</p>
+<p>Reports</p>
+<p>Status and diagnostics</p>
+<p>Typical DevOps uses include deployments, backups, log analysis, scheduled health checks, cleanup tasks, and pre-deployment validation.</p>
+<h2 id="2-create-and-run-your-first-bash-script">2. Create and run your first Bash script</h2><p>Run these commands in your Ubuntu terminal:</p>
+<pre><code>mkdir -p ~/devops-lab
+cd ~/devops-lab
+nano hello.sh</code></pre><p>Enter the following content:</p>
+<pre><code>#!/usr/bin/env bash
+
+echo "Hello, DevOps learner!"
+echo "Current user: $(whoami)"
+echo "Current date: $(date)"
+echo "Current directory: $(pwd)"</code></pre><p>Save in Nano with <code>Ctrl+O</code>, press Enter, and exit with <code>Ctrl+X</code>.</p>
+<p>Run it using either method:</p>
+<pre><code>bash hello.sh</code></pre><p>Or make it executable and run it directly:</p>
+<pre><code>chmod +x hello.sh
+./hello.sh</code></pre><p>Expected output will resemble:</p>
+<pre><code>Hello, DevOps learner!
+Current user: your_username
+Current date: ...
+Current directory: /home/your_username/devops-lab</code></pre><h3 id="what-does-each-part-mean-">What does each part mean?</h3><ul>
+<li><code>#!/usr/bin/env bash</code> — the shebang; identifies Bash as the interpreter when the script is executed directly.</li>
+<li><code>echo</code> — prints text to standard output.</li>
+<li><code>$(whoami)</code> — runs a command and substitutes its output.</li>
+<li><code>chmod +x</code> — adds execute permission.</li>
+<li><code>./hello.sh</code> — executes the script in the current directory. The <code>./</code> matters because the current directory usually isn't searched through <code>PATH</code>.</li>
+</ul>
+<p>A script doesn't need to be executable when you explicitly run it using <code>bash hello.sh</code>.</p>
+<h2 id="3-shell-variables">3. Shell variables</h2><p>A variable stores a value you can reuse throughout your script.</p>
+<pre><code>#!/usr/bin/env bash
+
+APP_NAME="journal-validator"
+ENVIRONMENT="staging"
+PORT=8080
+
+echo "Application: $APP_NAME"
+echo "Environment: $ENVIRONMENT"
+echo "Port: $PORT"</code></pre><p>Remember these rules:</p>
+<ul>
+<li>No spaces around <code>=</code> when assigning a value.</li>
+<li>Use <code>$VARIABLE</code> or <code>${VARIABLE}</code> to access its value.</li>
+<li><code>${VARIABLE}</code> is often clearer when joining it with other text.</li>
+</ul>
+<p>For example:</p>
+<pre><code>APP_NAME="journal-validator"
+
+echo "$APP_NAME is starting"
+echo "${APP_NAME}_backup"</code></pre><p>Output:</p>
+<pre><code>journal-validator is starting
+journal-validator_backup</code></pre><p>Compare the assignment forms:</p>
+<pre><code>APP_NAME="my app"  # Correct
+# APP_NAME = "my app"  # Incorrect assignment syntax</code></pre><h3 id="environment-variables">Environment variables</h3><p>Environment variables are values made available to programs launched by a process.</p>
+<pre><code>echo "$HOME"
+echo "$PATH"
+echo "$USER"</code></pre><p>To set a variable for a single command:</p>
+<pre><code>APP_ENV=staging bash -c 'echo "$APP_ENV"'</code></pre><p>To export a variable for child processes launched afterward:</p>
+<pre><code>export APP_ENV=staging</code></pre><p>Note that shell variables aren't automatically exported to child processes. Also, variables set inside a script generally do not change the parent terminal's environment.</p>
+<h2 id="4-quoting-one-of-the-most-important-bash-skills">4. Quoting: one of the most important Bash skills</h2><p>Quoting prevents spaces and special characters from unexpectedly changing how commands behave.</p>
+<p>Suppose a directory is named <code>journal delivery</code>.</p>
+<p>Without quotes:</p>
+<pre><code>REPORT_DIR="/tmp/journal delivery"
+ls $REPORT_DIR</code></pre><p>The shell splits the expanded value into separate words, so <code>ls</code> may interpret it as two paths.</p>
+<p>With quotes:</p>
+<pre><code>ls "$REPORT_DIR"</code></pre><p>Now it is passed as one path.</p>
+<h3 id="three-quoting-styles">Three quoting styles</h3><p>Double quotes: <code>"..."</code></p>
+<p>Expand variables and command substitutions while preserving spaces.</p>
+<pre><code>NAME="Ubuntu Server"
+echo "Hello, $NAME"</code></pre><p>Single quotes: <code>'...'</code></p>
+<p>Treat the contents literally; variables are not expanded.</p>
+<pre><code>echo 'Hello, $NAME'</code></pre><p>Output: <code>Hello, $NAME</code></p>
+<p>No quotes</p>
+<p>The shell may split words and expand wildcard characters such as <code>*</code>.</p>
+<pre><code>ls *.log</code></pre><p>DevOps rule: Quote variable expansions by default, especially filenames and directory paths:</p>
+<pre><code>cp "$SOURCE_FILE" "$DESTINATION_DIR/"</code></pre><p>When working with a list of filenames, don't store the list in one ordinary string and expect quoting to preserve each filename as a separate item. Use Bash arrays or safely handle each path individually.</p>
+<h2 id="5-command-substitution-and-exit-codes">5. Command substitution and exit codes</h2><h3 id="command-substitution-">Command substitution: <code>$(...)</code></h3><p>Use command substitution to save the output of a command in a variable.</p>
+<pre><code>CURRENT_USER=$(whoami)
+CURRENT_DATE=$(date +%F)
+DISK_REPORT=$(df -h /)
+
+echo "User: $CURRENT_USER"
+echo "Date: $CURRENT_DATE"
+echo "$DISK_REPORT"</code></pre><p>The command inside <code>$()</code> runs first, and its output becomes the value.</p>
+<h3 id="exit-codes-">Exit codes: <code>$?</code></h3><p>Commands return an exit status. Conventionally:</p>
+<ul>
+<li><code>0</code> means success.</li>
+<li>A nonzero value indicates failure or another unsuccessful outcome.</li>
+</ul>
+<p>Example:</p>
+<pre><code>ls /etc
+echo "$?"
+
+ls /directory-that-does-not-exist
+echo "$?"</code></pre><p>The first command should normally return <code>0</code>. The second should return a nonzero status.</p>
+<p>Important: <code>$?</code> holds the exit status of the most recently executed command. If you run <code>echo</code> first, you'll see the status of <code>echo</code>, not the earlier command.</p>
+<p>A better pattern is:</p>
+<pre><code>if ls /etc &gt;/dev/null 2&gt;&amp;1; then
+    echo "Directory check succeeded"
+else
+    echo "Directory check failed"
+fi</code></pre><p>Here, <code>&gt;/dev/null</code> discards normal output and <code>2&gt;&amp;1</code> redirects error output to the same destination. The condition checks the command's status directly.</p>
+<p>You can also use <code>&amp;&amp;</code> and <code>||</code>:</p>
+<pre><code>mkdir -p "$HOME/devops-lab/reports" &amp;&amp; echo "Directory ready"</code></pre><p><code>&amp;&amp;</code> runs the next command only if the preceding command succeeds. <code>||</code> runs the next command if it fails. For scripts involving several steps, explicit <code>if</code> blocks are often easier to read and debug.</p>
+<h2 id="6-conditions-if-elif-and-else">6. Conditions: <code>if</code>, <code>elif</code>, and <code>else</code></h2><p>Conditions allow a script to make decisions.</p>
+<pre><code>#!/usr/bin/env bash
+
+DISK_USAGE=72
+
+if (( DISK_USAGE &gt;= 90 )); then
+    echo "CRITICAL: Disk usage is high"
+elif (( DISK_USAGE &gt;= 75 )); then
+    echo "WARNING: Disk usage is elevated"
+else
+    echo "OK: Disk usage is within the configured threshold"
+fi</code></pre><p>With <code>DISK_USAGE=72</code>, the script prints:</p>
+<pre><code>OK: Disk usage is within the configured threshold</code></pre><p>The <code>(( ... ))</code> syntax is useful for integer arithmetic and numeric comparisons in Bash.</p>
+<h3 id="test-files-directories-and-strings">Test files, directories, and strings</h3><p>Use <code>[[ ... ]]</code> for many common Bash tests:</p>
+<pre><code>LOG_FILE="/var/log/syslog"
+
+if [[ -f "$LOG_FILE" ]]; then
+    echo "Log file exists"
+else
+    echo "Log file is missing or is not a regular file"
+fi</code></pre><p>Common tests:</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-f "$FILE"</code></td>
+<td>Regular file exists</td>
+</tr>
+<tr>
+<td><code>-d "$DIR"</code></td>
+<td>Directory exists</td>
+</tr>
+<tr>
+<td><code>-r "$FILE"</code></td>
+<td>File is readable</td>
+</tr>
+<tr>
+<td><code>-x "$FILE"</code></td>
+<td>File is executable, or a directory is searchable</td>
+</tr>
+<tr>
+<td><code>-z "$VALUE"</code></td>
+<td>String is empty</td>
+</tr>
+<tr>
+<td><code>"$A" == "$B"</code></td>
+<td>Strings are equal inside <code>[[ ... ]]</code></td>
+</tr>
+</tbody></table>
+<p>For numeric comparisons, you can use arithmetic syntax:</p>
+<pre><code>if (( COUNT &gt; 5 )); then
+    echo "More than five items"
+fi</code></pre><p>For command success, prefer testing the command itself:</p>
+<pre><code>if systemctl is-active --quiet cron; then
+    echo "Cron is active"
+else
+    echo "Cron is not active"
+fi</code></pre><p>This is more reliable than comparing the printed output of a command when you only need to know whether it succeeded.</p>
+<h2 id="7-loops-automate-repeated-tasks">7. Loops: automate repeated tasks</h2><h3 id="a-for-loop">A. <code>for</code> loop</h3><p>Use a <code>for</code> loop when you know which items you want to process.</p>
+<pre><code>#!/usr/bin/env bash
+
+for SERVICE in cron ssh; do
+    if systemctl is-active --quiet "$SERVICE"; then
+        echo "$SERVICE: active"
+    else
+        echo "$SERVICE: not active"
+    fi
+done</code></pre><p>This checks two services without duplicating the same logic.</p>
+<p>Service names can vary by Ubuntu installation. For example, the OpenSSH service is commonly named <code>ssh</code> on Ubuntu, while other distributions may use a different name.</p>
+<h3 id="b-loop-through-files">B. Loop through files</h3><p>Create some practice files:</p>
+<pre><code>mkdir -p ~/devops-lab/logs
+touch ~/devops-lab/logs/app.log
+touch ~/devops-lab/logs/worker.log</code></pre><p>Now list the matching log files:</p>
+<pre><code>for FILE in "$HOME"/devops-lab/logs/*.log; do
+    if [[ -f "$FILE" ]]; then
+        echo "Found log: $FILE"
+    fi
+done</code></pre><p>The <code>[[ -f "$FILE" ]]</code> check helps avoid treating an unmatched wildcard as a real filename.</p>
+<h3 id="c-while-loop">C. <code>while</code> loop</h3><p>A <code>while</code> loop repeats while its condition succeeds.</p>
+<pre><code>#!/usr/bin/env bash
+
+COUNT=1
+
+while (( COUNT &lt;= 5 )); do
+    echo "Attempt $COUNT"
+    ((COUNT += 1))
+done</code></pre><p>Output:</p>
+<pre><code>Attempt 1
+Attempt 2
+Attempt 3
+Attempt 4
+Attempt 5</code></pre><p>In real automation, loops are useful for retrying a health check, checking a list of servers, or processing files. Always design a clear stopping condition for retry loops so a failed operation doesn't run forever.</p>
+<h2 id="8-functions-write-reusable-code">8. Functions: write reusable code</h2><p>A function gives a name to a block of commands.</p>
+<pre><code>#!/usr/bin/env bash
+
+greet() {
+    local NAME="$1"
+    echo "Hello, $NAME"
+}
+
+greet "DevOps learner"
+greet "Ubuntu administrator"</code></pre><p>Output:</p>
+<pre><code>Hello, DevOps learner
+Hello, Ubuntu administrator</code></pre><p>Key concepts:</p>
+<ul>
+<li><code>greet()</code> defines a function.</li>
+<li><code>$1</code> inside the function refers to its first argument.</li>
+<li><code>local</code> makes the variable local to the function.</li>
+<li><code>greet "DevOps learner"</code> calls the function.</li>
+</ul>
+<p>Functions can also return status codes:</p>
+<pre><code>check_directory() {
+    local DIR="$1"
+
+    if [[ -d "$DIR" ]]; then
+        echo "Directory exists: $DIR"
+        return 0
+    else
+        echo "Directory missing: $DIR"
+        return 1
+    fi
+}
+
+if check_directory "$HOME/devops-lab"; then
+    echo "Continuing with the task"
+else
+    echo "Please check the directory"
+fi</code></pre><p>In Bash, <code>return</code> is used to return a status code from a function, not to return arbitrary text. Use standard output when a function needs to produce text.</p>
+<h2 id="9-positional-arguments-pass-values-to-your-script">9. Positional arguments: pass values to your script</h2><p>Arguments make a script reusable without editing its source code every time.</p>
+<p>Create a file called <code>app_info.sh</code>:</p>
+<pre><code>#!/usr/bin/env bash
+
+APP_NAME="${1:-myapp}"
+ENVIRONMENT="${2:-development}"
+
+echo "Application: $APP_NAME"
+echo "Environment: $ENVIRONMENT"
+echo "Script name: $0"
+echo "Number of arguments: $#"</code></pre><p>Run:</p>
+<pre><code>bash app_info.sh journal-validator staging</code></pre><p>Example output:</p>
+<pre><code>Application: journal-validator
+Environment: staging
+Script name: app_info.sh
+Number of arguments: 2</code></pre><table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$0</code></td>
+<td>Script name or invocation path</td>
+</tr>
+<tr>
+<td><code>$1</code>, <code>$2</code></td>
+<td>First and second positional arguments</td>
+</tr>
+<tr>
+<td><code>$#</code></td>
+<td>Number of arguments</td>
+</tr>
+<tr>
+<td><code>"$@"</code></td>
+<td>All arguments, preserved as separate items when quoted</td>
+</tr>
+<tr>
+<td><code>${1:-myapp}</code></td>
+<td>First argument, or a default if unset or empty</td>
+</tr>
+</tbody></table>
+<p>Why does <code>"$@"</code> matter? Consider a script that passes all arguments to another command:</p>
+<pre><code>printf 'Argument: %s\n' "$@"</code></pre><p>Run:</p>
+<pre><code>bash app_info.sh "journal validator" staging</code></pre><p>The quoted application name is one argument, even though it contains a space.</p>
+<p>Best practice: Validate required arguments before using them in operations such as deployment, backup, or cleanup.</p>
+<h2 id="10-safe-scripting-practices">10. Safe scripting practices</h2><p>Automation is powerful because it can perform the same action many times. A mistake can also repeat many times, so safety belongs in the script itself.</p>
+<p>Quote variable expansions</p>
+<p>Prefer <code>"$FILE"</code> over <code>$FILE</code> when using filenames and paths.</p>
+<p>Check inputs and prerequisites</p>
+<p>Verify arguments, directories, commands, permissions, and configuration before changing anything.</p>
+<p>Avoid destructive defaults</p>
+<p>Don't casually automate <code>rm -rf</code>, recursive permission changes, or disk operations. Inspect targets and use explicit safeguards.</p>
+<p>Log and report failures</p>
+<p>Include timestamps, meaningful messages, and appropriate exit codes so failures can be diagnosed.</p>
+<h3 id="should-you-use-set-eeuo-pipefail-">Should you use <code>set -Eeuo pipefail</code>?</h3><p>You will often see this near the top of scripts:</p>
+<pre><code>set -Eeuo pipefail</code></pre><p>Here's what the options generally mean:</p>
+<ul>
+<li><code>-e</code>: exit on many unhandled command failures.</li>
+<li><code>-u</code>: treat expansion of unset variables as an error.</li>
+<li><code>-o pipefail</code>: make a pipeline fail if a command in it fails, rather than only considering the last command's status.</li>
+<li><code>-E</code>: allow <code>ERR</code> traps to be inherited in more contexts.</li>
+</ul>
+<p>These options are helpful, but they do not make a script automatically safe or correct. <code>-e</code> has exceptions, particularly around conditions, pipelines, and compound commands. Explicitly handle expected failures with <code>if</code>, and test your scripts using realistic inputs.</p>
+<p>For example:</p>
+<pre><code>#!/usr/bin/env bash
+set -Eeuo pipefail
+
+if ! command -v df &gt;/dev/null 2&gt;&amp;1; then
+    echo "ERROR: df command not found" &gt;&amp;2
+    exit 1
+fi
+
+echo "Required command is available"</code></pre><p>The <code>&gt;&amp;2</code> sends the error message to standard error. The <code>exit 1</code> indicates failure to the calling shell or scheduler.</p>
+<h3 id="additional-safeguards">Additional safeguards</h3><ul>
+<li>Use absolute paths in production scripts when practical.</li>
+<li>Avoid embedding passwords, tokens, or private keys in scripts.</li>
+<li>Don't run everything with <code>sudo</code>; use the least privilege required.</li>
+<li>Test on sample data before production data.</li>
+<li>Make repeated runs safe where possible (idempotency).</li>
+<li>Set timeouts for operations that might hang.</li>
+<li>Don't assume that a successful command means the overall task succeeded.</li>
+<li>Use Git or another version-control system to track script changes.</li>
+</ul>
+<h2 id="11-realistic-devops-case-study-automate-a-server-health-check">11. Realistic DevOps case study: automate a server health check</h2><h3 id="the-scenario">The scenario</h3><p>Your Ubuntu server hosts a journal validation application. A support engineer manually checks disk usage and whether the application service is running. You want one script that reports the server's basic health without changing the system.</p>
+<p>The workflow:</p>
+<p>1. Start the health-check script</p>
+<p>2. Check prerequisites and disk usage</p>
+<p>3. Check the requested service</p>
+<p>4. Print findings and return a status</p>
+<h3 id="step-a-create-the-script">Step A — Create the script</h3><pre><code>cd ~/devops-lab
+nano health_check.sh</code></pre><p>Paste the following complete script:</p>
+<pre><code>
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Usage: ./health_check.sh [service_name] [disk_warning_percent]
+
+SERVICE="${1:-cron}"
+DISK_WARNING="${2:-80}"
+
+# Validate the threshold before using it.
+if [[ ! "$DISK_WARNING" =~ ^[0-9]+$ ]] ||
+   (( DISK_WARNING &lt; 1 || DISK_WARNING &gt; 100 )); then
+    echo "ERROR: Disk threshold must be an integer from 1 to 100." &gt;&amp;2
+    exit 2
+fi
+
+# Ensure required commands exist.
+for CMD in df awk systemctl date; do
+    if ! command -v "$CMD" &gt;/dev/null 2&gt;&amp;1; then
+        echo "ERROR: Required command not found: $CMD" &gt;&amp;2
+        exit 1
+    fi
+done
+
+log() {
+    printf '[%s] %s\n' "$(date '+%F %T')" "$*"
+}
+
+check_disk() {
+    local usage
+
+    usage=$(df -P / | awk 'NR == 2 {
+        gsub(/%/, "", $5)
+        print $5
+    }')
+
+    if [[ ! "$usage" =~ ^[0-9]+$ ]]; then
+        log "ERROR: Could not read root filesystem usage."
+        return 1
+    fi
+
+    log "Root filesystem usage: ${usage}%"
+
+    if (( usage &gt;= DISK_WARNING )); then
+        log "WARNING: Disk usage reached the configured threshold (${DISK_WARNING}%)."
+        return 1
+    fi
+
+    log "Disk check: OK"
+    return 0
+}
+
+check_service() {
+    local service="$1"
+
+    if systemctl is-active --quiet "$service"; then
+        log "Service '$service': active"
+        return 0
+    else
+        log "WARNING: Service '$service' is not active."
+        return 1
+    fi
+}
+
+main() {
+    local failed=0
+
+    log "Starting server health check"
+    log "Service requested: $SERVICE"
+
+    check_disk || failed=1
+    check_service "$SERVICE" || failed=1
+
+    if (( failed == 0 )); then
+        log "Health check completed: PASS"
+        return 0
+    else
+        log "Health check completed: ATTENTION REQUIRED"
+        return 1
+    fi
+}
+
+main "$@"
+</code></pre><p>Save the file, then make it executable:</p>
+<pre><code>chmod +x health_check.sh</code></pre><h3 id="step-b-run-it">Step B — Run it</h3><p>Check the <code>cron</code> service with an 80% disk warning threshold:</p>
+<pre><code>./health_check.sh cron 80</code></pre><p>You might see output similar to:</p>
+<pre><code>[2026-10-25 10:00:00] Starting server health check
+[2026-10-25 10:00:00] Service requested: cron
+[2026-10-25 10:00:00] Root filesystem usage: 42%
+[2026-10-25 10:00:00] Disk check: OK
+[2026-10-25 10:00:00] Service 'cron': active
+[2026-10-25 10:00:00] Health check completed: PASS</code></pre><p>Your timestamps and disk usage will differ.</p>
+<p>To test a different service:</p>
+<pre><code>./health_check.sh ssh 90</code></pre><p>To test input validation:</p>
+<pre><code>./health_check.sh cron 150</code></pre><p>The last command should exit with status <code>2</code>, because <code>150</code> is outside the permitted range.</p>
+<h3 id="step-c-understand-the-important-design-decisions">Step C — Understand the important design decisions</h3><ul>
+<li>Reusable: Service name and threshold are arguments.</li>
+<li>Safe by default: It only reads status information; it does not restart services or delete files.</li>
+<li>Validated: The threshold is checked before use.</li>
+<li>Observable: Each major check prints a timestamped message.</li>
+<li>Failure-aware: A failed check makes the script report attention required and return a nonzero status.</li>
+<li>Explicit: The script checks both disk usage and service status instead of assuming one check proves the entire server is healthy.</li>
+</ul>
+<p>This is a basic example, not a full production monitoring system. <code>systemctl is-active</code> checks service state, not whether the application can actually serve requests. A production health check may also need HTTP requests, dependency checks, alerting, timeouts, and log retention.</p>
+<h3 id="step-d-inspect-the-exit-status">Step D — Inspect the exit status</h3><p>Immediately after running the script:</p>
+<pre><code>./health_check.sh cron 80
+STATUS=$?
+echo "Script exit status: $STATUS"</code></pre><p>Expected interpretation:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>All implemented checks passed</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>A check or prerequisite failed</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Invalid threshold argument</td>
+</tr>
+</tbody></table>
+<p>The status codes above describe this particular script, not universal Bash rules.</p>
+<h2 id="12-interactive-hands-on-lab">12. Interactive hands-on lab</h2><p>Use your Ubuntu terminal to complete these exercises. They work in your home directory and don't require administrator privileges for the basic scripting tasks.</p>
+<h2 id="practice-checklist">Practice checklist</h2><p>0/6</p>
+<p>Exercise 1 — Create a workspace</p>
+<p>Create a directory for your scripts.</p>
+<p>Copy command</p>
+<p>Exercise 2 — Create a greeting script</p>
+<p>Create a small script and execute it with Bash.</p>
+<p>Copy command</p>
+<p>Exercise 3 — Test a condition</p>
+<p>Use a directory test with if/else.</p>
+<p>Copy command</p>
+<p>Exercise 4 — Loop over values</p>
+<p>Practice looping without changing services.</p>
+<p>Copy command</p>
+<p>Exercise 5 — Use arguments</p>
+<p>Try this command with a value such as bash -c 'printf ...' or put it into a small script and run it with an argument.</p>
+<p>Copy command</p>
+<p>Exercise 6 — Run a real health check</p>
+<p>Run the health-check script from the case study if you created it at that path.</p>
+<p>Copy command</p>
+<p>The checklist tracks your progress in this lesson view; it does not execute commands on your Ubuntu machine.</p>
+<h3 id="challenge-add-a-memory-check">Challenge: add a memory check</h3><p>Extend your health-check script to display memory information using:</p>
+<pre><code>free -h</code></pre><p>Then improve it so that it:</p>
+<ol>
+<li>Prints a timestamp before the memory check.</li>
+<li>Reports disk, service, and memory information.</li>
+<li>Returns a nonzero status if a required check fails.</li>
+<li>Never attempts to repair the server automatically.</li>
+</ol>
+<p>For a more advanced version, parse the <code>available</code> memory field carefully, account for command failures, and define a threshold that matches your environment.</p>
+<h2 id="13-knowledge-quiz">13. Knowledge quiz</h2><p>Test what you've learned about Bash variables, quoting, conditions, loops, functions, and exit codes.</p>
+<p>A Bash script contains <code>APP_NAME="journal validator"</code>. Which expansion passes the entire value as one argument to a command?</p>
+<p>1 of 8</p>
+<p>A'$APP_NAME'</p>
+<p>B"$APP_NAME"</p>
+<p>C${APP_NAME}</p>
+<p>D$APP_NAME</p>
+<p>Next</p>
+<h2 id="14-assignment-tracker">14. Assignment tracker</h2><p>Complete these tasks to reinforce the lesson. You can mark each item as you finish it.</p>
+<h2 id="your-bash-assignment-tracker">Your Bash assignment tracker</h2><h3 id="0-10">0/10</h3><p>Create hello.sh and run it with Bash.</p>
+<p>Create variables and print their values.</p>
+<p>Demonstrate the difference between single and double quotes.</p>
+<p>Capture command output using $(...).</p>
+<p>Write an if/else condition that tests whether a directory exists.</p>
+<p>Use a for loop to inspect two service names.</p>
+<p>Write a function that accepts an argument and returns a status code.</p>
+<p>Create and test health_check.sh with valid and invalid thresholds.</p>
+<p>Add memory reporting and explain how failures affect the exit status.</p>
+<p>Document the script's purpose, inputs, output, and known limitations.</p>
+<p> Copy assignment progress</p>
+<h2 id="15-bash-scripting-cheat-sheet">15. Bash scripting cheat sheet</h2><p>Keep this reference handy when writing your next automation script.</p>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Syntax</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Interpreter</td>
+<td><code>#!/usr/bin/env bash</code></td>
+</tr>
+<tr>
+<td>Print text</td>
+<td><code>echo "Hello"</code></td>
+</tr>
+<tr>
+<td>Assign variable</td>
+<td><code>NAME="value"</code></td>
+</tr>
+<tr>
+<td>Expand variable</td>
+<td><code>"$NAME"</code></td>
+</tr>
+<tr>
+<td>Capture output</td>
+<td><code>RESULT=$(command)</code></td>
+</tr>
+<tr>
+<td>Check exit status</td>
+<td><code>if command; then ... fi</code></td>
+</tr>
+<tr>
+<td>File test</td>
+<td><code>[[ -f "$FILE" ]]</code></td>
+</tr>
+<tr>
+<td>Directory test</td>
+<td><code>[[ -d "$DIR" ]]</code></td>
+</tr>
+<tr>
+<td>Numeric condition</td>
+<td><code>(( COUNT &gt; 5 ))</code></td>
+</tr>
+<tr>
+<td>Branching</td>
+<td><code>if</code>, <code>elif</code>, <code>else</code>, <code>fi</code></td>
+</tr>
+<tr>
+<td>Loop through items</td>
+<td><code>for ITEM in ...; do ...; done</code></td>
+</tr>
+<tr>
+<td>Repeat while true</td>
+<td><code>while CONDITION; do ...; done</code></td>
+</tr>
+<tr>
+<td>Define function</td>
+<td><code>my_function() { ...; }</code></td>
+</tr>
+<tr>
+<td>First argument</td>
+<td><code>"$1"</code></td>
+</tr>
+<tr>
+<td>Argument count</td>
+<td><code>"$#"</code></td>
+</tr>
+<tr>
+<td>All arguments</td>
+<td><code>"$@"</code></td>
+</tr>
+<tr>
+<td>Exit with status</td>
+<td><code>exit 0</code> or <code>exit 1</code></td>
+</tr>
+<tr>
+<td>Send error to stderr</td>
+<td><code>echo "Error" &gt;&amp;2</code></td>
+</tr>
+<tr>
+<td>Add execute permission</td>
+<td><code>chmod +x script.sh</code></td>
+</tr>
+<tr>
+<td>Run script</td>
+<td><code>./script.sh</code></td>
+</tr>
+<tr>
+<td>Debug Bash execution</td>
+<td><code>bash -x script.sh</code></td>
+</tr>
+<tr>
+<td>Check Bash syntax</td>
+<td><code>bash -n script.sh</code></td>
+</tr>
+</tbody></table>
+<h3 id="a-reusable-starting-template">A reusable starting template</h3><p>Copy this template when beginning a new script:</p>
+<pre><code>
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+usage() {
+    echo "Usage: $0 &lt;name&gt;" &gt;&amp;2
+}
+
+main() {
+    if (( $# != 1 )); then
+        usage
+        return 2
+    fi
+
+    local name="$1"
+    printf 'Hello, %s!\n' "$name"
+}
+
+main "$@"
+</code></pre><p>Test it before adding more functionality:</p>
+<pre><code>bash -n script.sh
+bash script.sh Ubuntu
+bash script.sh</code></pre><p>The first command checks syntax without running the script. The second provides the required argument. The third deliberately tests the missing-argument path.</p>
+<h2 id="16-lesson-completion-checklist">16. Lesson completion checklist</h2><p>I can explain what Bash scripting automates.</p>
+<p>I understand variables, quoting, and command substitution.</p>
+<p>I can use exit codes and conditional statements.</p>
+<p>I can write loops and reusable functions.</p>
+<p>I understand positional arguments and input validation.</p>
+<p>I created and tested a health-check script.</p>
+<p>I know why strict mode does not replace error handling.</p>
+<p>0 of 7 learning goals checked.</p>
+<p>Key takeaway: Bash scripting turns individual Linux commands into repeatable workflows. Start with read-only checks, validate inputs, quote paths, handle errors explicitly, and test thoroughly before automating production operations.</p>
+<h2 id="continue-to-lesson-16">Continue to Lesson 16</h2><h2 id="lesson-16-cron-jobs-and-scheduled-automation">Lesson 16: Cron Jobs and Scheduled Automation</h2><p>Module 1 · Linux for DevOps</p>
+<p>Learn to schedule Bash scripts using cron, understand crontab syntax and environment differences, redirect logs, avoid overlapping jobs, troubleshoot failed scheduled tasks, and build a realistic automated server health-check workflow.</p>
+<p>Continue to Lesson 16 </p>
+
+</div>

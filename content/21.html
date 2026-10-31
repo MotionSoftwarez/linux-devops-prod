@@ -1,0 +1,723 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-20">Linux for DevOps — Module 1, Lesson 20</h2><h2 id="advanced-bash-automation-and-production-scripts-on-ubuntu">Advanced Bash Automation and Production Scripts on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/RaqptANc2x8AY6VA7HMl-NCnnqyOyoXKGktLAz4sB_fEwO9aKCDfUuhPI1nFrXDNaGnOD-hf480tnz5Lw2LwDzqG9txQR2jvCc6TJ9puEtGK1suFvEesbPYFV904z7sAQlG9R2LMkq5pwiyjoTX1h27KL-0SLzzw9Broz_jJNcM?purpose=inline">Bash automation for Ubuntu Server - Support and Help - Ubuntu Community Hub</a></p>
+<p><a href="https://discourse.ubuntu.com/t/bash-automation-for-ubuntu-server/60128?utm_source=chatgpt.com">discourse.ubuntu.com</a></p>
+<p>Intermediate</p>
+<p>Ubuntu Server</p>
+<p>Hands-on lab</p>
+<p>Production practices</p>
+<p>In Lesson 15, we learned the fundamentals of Bash scripting. In Lesson 16, we scheduled scripts with cron. In Lesson 19, we learned how to troubleshoot Linux servers systematically.</p>
+<p>Now we will combine those skills to build reliable automation that can safely run unattended on a production server.</p>
+<p>We'll use realistic examples from application support, including a journal validation service that processes delivery packages and must report failures clearly without damaging data.</p>
+<h2 id="1-what-makes-a-script-production-ready-">1. What makes a script production-ready?</h2><p>A basic script may work when run manually but fail when executed by cron, systemd, or a deployment pipeline. A production script must handle those situations deliberately.</p>
+<h3 id="the-production-automation-workflow">The production automation workflow</h3><p>Start</p>
+<p>CLI arguments, scheduler, or service manager</p>
+<p>Validate inputs and prerequisites</p>
+<p>Arguments, files, commands, permissions</p>
+<p>Run the task safely</p>
+<p>Functions, logging, locking, error handling</p>
+<p>Success</p>
+<p>Verify result and exit 0</p>
+<p>Failure</p>
+<p>Log the cause and return nonzero</p>
+<p>A good production script should:</p>
+<ul>
+<li>Fail clearly when an essential prerequisite is missing.</li>
+<li>Return meaningful exit codes so other tools can detect success or failure.</li>
+<li>Log enough information to troubleshoot without exposing secrets.</li>
+<li>Clean up temporary files when appropriate.</li>
+<li>Avoid running the same job concurrently when that could corrupt or duplicate work.</li>
+<li>Be safe to run again when possible.</li>
+<li>Verify that the intended outcome actually happened.</li>
+</ul>
+<h2 id="2-exit-codes-how-linux-scripts-report-success-and-failure">2. Exit codes: how Linux scripts report success and failure</h2><p>Every command returns an exit status. By convention, <code>0</code> means success and a nonzero value means failure or another condition.</p>
+<table>
+<thead>
+<tr>
+<th>Exit code</th>
+<th>Typical meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>General failure or a failed check, depending on the command</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Commonly incorrect usage or invalid arguments, depending on the command</td>
+</tr>
+<tr>
+<td>Other nonzero values</td>
+<td>Command-specific failure</td>
+</tr>
+</tbody></table>
+<p>Inspect the previous command's status with:</p>
+<pre><code>ls /etc
+echo "$?"</code></pre><p>If the command succeeds, the second command will usually print <code>0</code>. Be careful: <code>$?</code> refers to the most recently executed command, so running <code>echo "$?"</code> again reports the status of <code>echo</code>, not the original command.</p>
+<h3 id="prefer-direct-error-checks">Prefer direct error checks</h3><pre><code>if cp source.txt backup.txt; then
+    echo "Copy succeeded"
+else
+    echo "Copy failed"
+fi</code></pre><p>This is generally better than running the command and checking <code>$?</code> later, because it tests the intended command directly.</p>
+<p>You can also combine commands:</p>
+<pre><code>mkdir -p /tmp/devops-lab &amp;&amp; echo "Directory ready"</code></pre><p>The second command runs only if the first succeeds.</p>
+<pre><code>some_command || echo "The command failed"</code></pre><p>The message runs if <code>some_command</code> returns nonzero.</p>
+<p>Important: Exit code <code>1</code> does not have one universal meaning. For example, <code>grep</code> returns <code>1</code> when it finds no matching lines, which may be a normal result rather than an operational failure.</p>
+<h2 id="3-set-eeuo-pipefail-useful-but-not-magic">3. <code>set -Eeuo pipefail</code>: useful, but not magic</h2><p>A common Bash script starts like this:</p>
+<pre><code>#!/usr/bin/env bash
+set -Eeuo pipefail</code></pre><p>Let's understand each option.</p>
+<p><code>-e</code> — exit on many unhandled failures</p>
+<p>Bash exits when certain commands fail in contexts where their status is not being tested. This catches many mistakes, but it does not catch every failure.</p>
+<p><code>-E</code> — inherit <code>ERR</code> traps</p>
+<p>Allows an <code>ERR</code> trap to be inherited in more contexts, including functions and subshell environments, subject to Bash's trap rules.</p>
+<p><code>-u</code> — catch unset variables</p>
+<p>Using an unset variable can terminate the script. Use defaults when a variable is optional: <code>${APP_ENV:-staging}</code>.</p>
+<p><code>pipefail</code> — detect pipeline failures</p>
+<p>A pipeline such as <code>producer | grep something</code> can fail even when its last command succeeds. <code>pipefail</code> makes the pipeline's status reflect the rightmost failing command, or zero if all commands succeed.</p>
+<h3 id="caveats-you-must-understand">Caveats you must understand</h3><p><code>set -e</code> has exceptions. It behaves differently in conditions such as <code>if</code>, <code>while</code>, <code>until</code>, parts of <code>&amp;&amp;</code>/<code>||</code> lists, and some pipeline/function contexts. Do not rely on it as your only error-handling strategy.</p>
+<p>For example:</p>
+<pre><code>#!/usr/bin/env bash
+set -Eeuo pipefail
+
+if grep -q "ERROR" app.log; then
+    echo "Errors found"
+else
+    echo "No matching errors"
+fi</code></pre><p>Here, a <code>grep</code> status of <code>1</code> means no matching line was found; it is handled intentionally.</p>
+<p>Also remember:</p>
+<ul>
+<li><code>((count++))</code> can return status <code>1</code> when the expression's value is zero. Under <code>set -e</code>, this can unexpectedly stop a script. Prefer <code>((count += 1))</code> when incrementing from zero, or use <code>count=$((count + 1))</code>.</li>
+<li>A failed command inside a conditional may be intentional. Handle it explicitly.</li>
+<li><code>set -e</code> is not a substitute for checking important operations and verifying the final result.</li>
+</ul>
+<h2 id="4-functions-make-scripts-easier-to-maintain">4. Functions: make scripts easier to maintain</h2><p>Functions package reusable logic into named blocks.</p>
+<pre><code>log_info() {
+    printf '[INFO] %s\n' "$*"
+}
+
+log_error() {
+    printf '[ERROR] %s\n' "$*" &gt;&amp;2
+}
+
+check_directory() {
+    local directory="$1"
+
+    if [[ -d "$directory" ]]; then
+        log_info "Directory exists: $directory"
+    else
+        log_error "Directory missing: $directory"
+        return 1
+    fi
+}</code></pre><p>Use them like this:</p>
+<pre><code>check_directory "/var/log"
+log_info "Check complete"</code></pre><p>Key ideas:</p>
+<ul>
+<li><code>local</code> keeps a variable scoped to the function.</li>
+<li><code>"$1"</code> is the first argument passed to the function.</li>
+<li><code>return 0</code> indicates success; <code>return 1</code> indicates failure.</li>
+<li><code>"$*"</code> is useful for joining arguments into one message, while <code>"$@"</code> preserves individual arguments. Avoid using a joined message as an argument list.</li>
+</ul>
+<p>A function should usually do one well-defined job: validate input, check a service, write a log message, or clean up a resource.</p>
+<h2 id="5-command-line-arguments-and-input-validation">5. Command-line arguments and input validation</h2><p>Scripts often need to accept different services, thresholds, directories, or environments without editing the code each time.</p>
+<p>Example:</p>
+<pre><code>./health_check.sh cron 80</code></pre><p>In the script:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$0</code></td>
+<td>Script name</td>
+<td><code>./health_check.sh</code></td>
+</tr>
+<tr>
+<td><code>$1</code></td>
+<td>First argument</td>
+<td><code>cron</code></td>
+</tr>
+<tr>
+<td><code>$2</code></td>
+<td>Second argument</td>
+<td><code>80</code></td>
+</tr>
+<tr>
+<td><code>$#</code></td>
+<td>Number of arguments</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>"$@"</code></td>
+<td>All arguments, individually preserved</td>
+<td><code>cron</code> and <code>80</code></td>
+</tr>
+</tbody></table>
+<h3 id="validate-before-acting">Validate before acting</h3><p>Suppose a script accepts a disk usage threshold. We should reject invalid values such as <code>-5</code>, <code>abc</code>, or <code>150</code>.</p>
+<pre><code>if [[ $# -ne 2 ]]; then
+    echo "Usage: $0 SERVICE_NAME DISK_THRESHOLD" &gt;&amp;2
+    exit 2
+fi
+
+service="$1"
+threshold="$2"
+
+if [[ ! "$threshold" =~ ^[0-9]+$ ]]; then
+    echo "Error: threshold must be a whole number" &gt;&amp;2
+    exit 2
+fi
+
+if (( threshold &lt; 1 || threshold &gt; 100 )); then
+    echo "Error: threshold must be between 1 and 100" &gt;&amp;2
+    exit 2
+fi</code></pre><p>This validates the number of arguments, numeric format, and permitted range before the script does any work.</p>
+<p>For more robust production scripts, also validate the service name against an approved list instead of accepting arbitrary input.</p>
+<h2 id="6-logging-make-unattended-scripts-diagnosable">6. Logging: make unattended scripts diagnosable</h2><p>When a command fails in a terminal, you can see the error. When the same command runs at 2 AM under cron, nobody may be watching.</p>
+<p>Logging creates a record of what happened.</p>
+<h3 id="a-simple-logging-function">A simple logging function</h3><pre><code>log() {
+    local level="$1"
+    shift
+    printf '%s [%s] %s\n' \
+        "$(date '+%Y-%m-%d %H:%M:%S%z')" \
+        "$level" "$*"
+}
+
+log INFO "Health check started"
+log WARN "Disk usage is approaching the limit"
+log ERROR "Service is inactive"</code></pre><p>For scripts, it is useful to distinguish:</p>
+<ul>
+<li><code>INFO</code> — normal progress.</li>
+<li><code>WARN</code> — something needs attention.</li>
+<li><code>ERROR</code> — a check or operation failed.</li>
+</ul>
+<p>Write errors to standard error where appropriate:</p>
+<pre><code>printf 'ERROR: configuration missing\n' &gt;&amp;2</code></pre><h3 id="redirect-output-when-scheduling">Redirect output when scheduling</h3><pre><code>./health_check.sh cron 80 &gt;&gt; health-check.log 2&gt;&amp;1</code></pre><ul>
+<li><code>&gt;&gt;</code> appends standard output.</li>
+<li><code>2&gt;&amp;1</code> sends standard error to the same destination as standard output.</li>
+<li>The order matters: <code>&gt; file 2&gt;&amp;1</code> sends both streams to the file; <code>2&gt;&amp;1 &gt; file</code> does not do the same thing.</li>
+</ul>
+<p>In production, choose a log location the script's execution user can write to, and configure log rotation so the file cannot grow indefinitely. Avoid logging passwords, tokens, private keys, or sensitive dataset contents.</p>
+<h2 id="7-traps-and-cleanup">7. Traps and cleanup</h2><p>A trap lets a script respond to certain signals or shell events. It is useful when a script creates temporary files, acquires resources, or needs to report unexpected failures.</p>
+<pre><code>cleanup() {
+    if [[ -n "${TEMP_FILE:-}" &amp;&amp; -f "$TEMP_FILE" ]]; then
+        rm -f -- "$TEMP_FILE"
+    fi
+}
+
+trap cleanup EXIT</code></pre><p>The <code>EXIT</code> trap runs when the shell exits, including after many failures.</p>
+<p>A failure-reporting trap can also be useful:</p>
+<pre><code>on_error() {
+    local status=$?
+    printf 'ERROR: script failed near line %s (exit %s)\n' \
+        "${BASH_LINENO[0]:-unknown}" "$status" &gt;&amp;2
+    exit "$status"
+}
+
+trap on_error ERR</code></pre><p>With <code>set -E</code>, the <code>ERR</code> trap is inherited in more contexts, but its behavior still has exceptions. Do not assume it runs for every unsuccessful command.</p>
+<p>Best practice: use traps for cleanup and diagnostic context, but use explicit <code>if</code> checks for important operations. An error trap should not hide the original exit status or pretend that the operation succeeded.</p>
+<p>Signals also have different meanings:</p>
+<ul>
+<li><code>INT</code> — often triggered by Ctrl+C.</li>
+<li><code>TERM</code> — a termination request.</li>
+<li><code>EXIT</code> — shell exit event, not a Unix signal.</li>
+<li><code>KILL</code> — cannot be caught; the script cannot perform cleanup after <code>SIGKILL</code>.</li>
+</ul>
+<h2 id="8-safe-temporary-files">8. Safe temporary files</h2><p>Avoid hardcoding predictable temporary filenames such as <code>/tmp/report.tmp</code>. Another process might create that name first, creating a race or security risk.</p>
+<p>Use <code>mktemp</code>:</p>
+<pre><code>TEMP_FILE=$(mktemp) || {
+    echo "Could not create temporary file" &gt;&amp;2
+    exit 1
+}
+
+trap 'rm -f -- "$TEMP_FILE"' EXIT
+
+printf 'Sample report\n' &gt; "$TEMP_FILE"</code></pre><p>For a temporary directory:</p>
+<pre><code>TEMP_DIR=$(mktemp -d) || exit 1
+trap 'rm -rf -- "$TEMP_DIR"' EXIT</code></pre><p>The recursive deletion is safe here only because <code>TEMP_DIR</code> is the path returned by <code>mktemp -d</code> and is owned by this script. Keep that variable controlled; never build a deletion path from unchecked user input.</p>
+<p>For sensitive or production data, choose an appropriate directory and permissions, and ensure cleanup does not delete files the script does not own.</p>
+<h2 id="9-idempotency-make-reruns-safe">9. Idempotency: make reruns safe</h2><p>Idempotency means that repeating an operation produces the same intended end state rather than causing repeated unwanted effects.</p>
+<p>For example, creating a directory this way is idempotent:</p>
+<pre><code>mkdir -p /opt/myapp/logs</code></pre><p>Running it repeatedly leaves the directory present.</p>
+<p>This is less safe:</p>
+<pre><code>echo "production" &gt;&gt; /opt/myapp/environment.txt</code></pre><p>Every run adds another line.</p>
+<p>A safer way to enforce a desired configuration is:</p>
+<pre><code>printf '%s\n' 'production' &gt; /opt/myapp/environment.txt</code></pre><p>This overwrites the file, so only use it when replacing the entire file is intended. For important configuration, validate the content and use an atomic update pattern rather than exposing a partially written file.</p>
+<p>Idempotency does not mean every action is harmless to repeat. Sending emails, processing a payment, deleting a dataset, or rerunning a validation job may have side effects. Those operations need application-level deduplication, transaction handling, or a job identifier.</p>
+<h2 id="10-prevent-overlapping-runs-with-flock">10. Prevent overlapping runs with <code>flock</code></h2><p>If cron starts a new validation job every 15 minutes but the previous run takes 25 minutes, two jobs may compete for the same files or database.</p>
+<p>A lock can prevent concurrent execution on the same machine:</p>
+<pre><code>/usr/bin/flock -n /tmp/journal-validator.lock \
+    /opt/myapp/bin/run_validation.sh</code></pre><p>With <code>-n</code>, a second invocation exits rather than waiting if the lock is already held.</p>
+<p>Check the installed path with:</p>
+<pre><code>command -v flock</code></pre><p>The lock is associated with the open file descriptor, not simply the existence of a file. Keep the lock path consistent across all invocations, and ensure the execution user can access it. <code>flock</code> is a single-host coordination mechanism, not a distributed lock across multiple servers.</p>
+<h2 id="11-build-a-realistic-production-style-health-check-script">11. Build a realistic production-style health-check script</h2><p>We'll create a read-only health check that:</p>
+<ol>
+<li>Validates its arguments.</li>
+<li>Confirms required commands are available.</li>
+<li>Checks root filesystem usage against a threshold.</li>
+<li>Checks whether a specified systemd service is active.</li>
+<li>Logs each result.</li>
+<li>Returns a meaningful exit code.</li>
+<li>Cleans up temporary resources.</li>
+</ol>
+<p>It will not restart services, delete logs, or make configuration changes. That is intentional: monitoring should normally observe first, and remediation should be a separately reviewed action.</p>
+<h3 id="step-a-create-a-lab-directory">Step A — Create a lab directory</h3><pre><code>mkdir -p "$HOME/devops-lab"
+cd "$HOME/devops-lab"
+nano health_check.sh</code></pre><p>Paste this complete script:</p>
+<pre><code>
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Usage: ./health_check.sh SERVICE_NAME DISK_THRESHOLD
+
+TEMP_FILE=""
+
+log() {
+    local level="$1"
+    shift
+    printf '%s [%s] %s\n' \
+        "$(date '+%Y-%m-%d %H:%M:%S%z')" \
+        "$level" "$*"
+}
+
+cleanup() {
+    if [[ -n "${TEMP_FILE:-}" &amp;&amp; -f "$TEMP_FILE" ]]; then
+        rm -f -- "$TEMP_FILE"
+    fi
+}
+
+on_error() {
+    local status=$?
+    log ERROR "Unexpected failure near line ${BASH_LINENO[0]:-unknown}; exit=${status}" &gt;&amp;2
+    exit "$status"
+}
+
+trap cleanup EXIT
+trap on_error ERR
+
+usage() {
+    printf 'Usage: %s SERVICE_NAME DISK_THRESHOLD(1-100)\n' "$0" &gt;&amp;2
+    exit 2
+}
+
+# 1. Validate arguments
+[[ $# -eq 2 ]] || usage
+
+SERVICE="$1"
+THRESHOLD="$2"
+
+if [[ ! "$SERVICE" =~ ^[a-zA-Z0-9_.@-]+$ ]]; then
+    log ERROR "Invalid service name format"
+    exit 2
+fi
+
+if [[ ! "$THRESHOLD" =~ ^[0-9]+$ ]]; then
+    log ERROR "Disk threshold must be an integer"
+    exit 2
+fi
+
+if (( THRESHOLD &lt; 1 || THRESHOLD &gt; 100 )); then
+    log ERROR "Disk threshold must be between 1 and 100"
+    exit 2
+fi
+
+# 2. Verify prerequisites
+for command_name in date df awk systemctl; do
+    if ! command -v "$command_name" &gt;/dev/null 2&gt;&amp;1; then
+        log ERROR "Required command not found: $command_name"
+        exit 2
+    fi
+done
+
+log INFO "Health check started: service=$SERVICE threshold=${THRESHOLD}%"
+
+# 3. Check root filesystem usage
+TEMP_FILE=$(mktemp) || {
+    log ERROR "Unable to create temporary file"
+    exit 1
+}
+
+if ! df -P / &gt; "$TEMP_FILE"; then
+    log ERROR "Unable to read root filesystem usage"
+    exit 1
+fi
+
+DISK_USAGE=$(awk 'NR == 2 { gsub(/%/, "", $5); print $5 }' "$TEMP_FILE")
+
+if [[ ! "$DISK_USAGE" =~ ^[0-9]+$ ]]; then
+    log ERROR "Could not parse disk usage"
+    exit 1
+fi
+
+if (( DISK_USAGE &gt;= THRESHOLD )); then
+    log ERROR "Root filesystem usage is ${DISK_USAGE}% (threshold ${THRESHOLD}%)"
+    DISK_FAILED=1
+else
+    log INFO "Root filesystem usage is ${DISK_USAGE}%"
+    DISK_FAILED=0
+fi
+
+# 4. Check the service state
+if systemctl is-active --quiet "$SERVICE"; then
+    log INFO "Service $SERVICE is active"
+    SERVICE_FAILED=0
+else
+    log ERROR "Service $SERVICE is not active"
+    SERVICE_FAILED=1
+fi
+
+# 5. Return a result for cron/systemd/monitoring
+if (( DISK_FAILED != 0 || SERVICE_FAILED != 0 )); then
+    log ERROR "Health check FAILED"
+    exit 1
+fi
+
+log INFO "Health check PASSED"
+exit 0
+</code></pre><p>Save in nano using Ctrl+O, Enter, then Ctrl+X.</p>
+<h3 id="step-b-set-permissions-and-validate-syntax">Step B — Set permissions and validate syntax</h3><pre><code>chmod 750 "$HOME/devops-lab/health_check.sh"
+bash -n "$HOME/devops-lab/health_check.sh"</code></pre><p><code>bash -n</code> checks syntax without running the script. No output usually means the syntax check passed.</p>
+<p>Check the script's interpreter and permissions:</p>
+<pre><code>head -n 1 "$HOME/devops-lab/health_check.sh"
+ls -l "$HOME/devops-lab/health_check.sh"</code></pre><h3 id="step-c-run-the-script">Step C — Run the script</h3><p>On a typical Ubuntu system with cron installed and active:</p>
+<pre><code>"$HOME/devops-lab/health_check.sh" cron 80
+echo "Exit code: $?"</code></pre><p>Other service names can be tested too, for example:</p>
+<pre><code>"$HOME/devops-lab/health_check.sh" ssh 80</code></pre><p>Test invalid inputs:</p>
+<pre><code>"$HOME/devops-lab/health_check.sh" cron abc
+echo "Exit code: $?"
+
+"$HOME/devops-lab/health_check.sh" cron 150
+echo "Exit code: $?"</code></pre><p>Expected behavior:</p>
+<ul>
+<li>Exit <code>0</code>: both checks passed.</li>
+<li>Exit <code>1</code>: a health check failed or an operational check could not complete.</li>
+<li>Exit <code>2</code>: invalid arguments or a required command is missing.</li>
+</ul>
+<p>A script may report exit <code>1</code> when a service is inactive even if the script itself is functioning correctly. The exit code communicates the health-check result to the scheduler or monitoring system.</p>
+<p>Limitations to understand: this example checks the root filesystem, not every mounted filesystem. <code>systemctl is-active</code> verifies service state, not whether an application endpoint, database, or business operation is healthy. A production deployment should add checks relevant to the actual service.</p>
+<h2 id="12-integrate-with-cron">12. Integrate with cron</h2><p>Cron is suitable for periodic checks. First confirm the script works manually before scheduling it.</p>
+<h3 id="step-a-find-the-real-paths">Step A — Find the real paths</h3><pre><code>command -v bash
+command -v flock
+printf '%s\n' "$HOME"</code></pre><h3 id="step-b-create-a-log-directory">Step B — Create a log directory</h3><pre><code>mkdir -p "$HOME/devops-lab/logs"
+chmod 700 "$HOME/devops-lab/logs"</code></pre><h3 id="step-c-edit-your-user-crontab">Step C — Edit your user crontab</h3><pre><code>crontab -e</code></pre><p>Add this line, replacing <code>/home/YOUR_USER</code> with the actual home directory:</p>
+<pre><code>*/15 * * * * /usr/bin/flock -n /tmp/health-check.lock /usr/bin/bash /home/YOUR_USER/devops-lab/health_check.sh cron 80 &gt;&gt; /home/YOUR_USER/devops-lab/logs/health-check.log 2&gt;&amp;1</code></pre><p>This runs the check every 15 minutes, skipping a run if the lock is already held, and appending output to a log.</p>
+<p>Then verify:</p>
+<pre><code>crontab -l
+tail -n 30 "$HOME/devops-lab/logs/health-check.log"</code></pre><p>Remember, cron usually has a minimal environment. Use absolute paths, explicitly set required environment variables, and test using the same account that owns the crontab. The script itself needs no root privileges for this particular example.</p>
+<h2 id="13-integrate-with-systemd">13. Integrate with systemd</h2><p>A systemd service is a good fit for running a script on demand or as part of an operational workflow. For periodic scheduling, a systemd timer can be preferable to cron when you want systemd-managed scheduling and logging.</p>
+<p>For this read-only health check, we'll use a oneshot service.</p>
+<p>Create a unit:</p>
+<pre><code>sudo nano /etc/systemd/system/health-check.service</code></pre><p>Example unit — replace <code>/home/YOUR_USER</code> with the correct absolute path:</p>
+<pre><code>
+[Unit]
+Description=Application and disk health check
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=YOUR_USER
+ExecStart=/usr/bin/bash /home/YOUR_USER/devops-lab/health_check.sh cron 80
+</code></pre><p>Then validate and run:</p>
+<pre><code>sudo systemd-analyze verify /etc/systemd/system/health-check.service
+sudo systemctl daemon-reload
+sudo systemctl start health-check.service
+sudo systemctl status health-check.service
+sudo journalctl -u health-check.service -n 50 --no-pager</code></pre><p>Replace <code>YOUR_USER</code> in both the unit and the path before running. The service account must be able to read and execute the script and access the needed commands. <code>Type=oneshot</code> means systemd runs the check and waits for it to finish; it is not a continuously running daemon.</p>
+<p>A periodic systemd timer could be added separately. Do not enable both cron and a timer for the same job unless duplicate execution is intended and controlled.</p>
+<h3 id="cron-vs-systemd">Cron vs systemd</h3><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Cron</th>
+<th>systemd service/timer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Main use</td>
+<td>Scheduled commands</td>
+<td>Managed services and schedules</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>Redirect output or use system logging</td>
+<td>Available through the journal</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Minimal</td>
+<td>Explicit unit environment and execution settings</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>Mostly handled in script</td>
+<td>Can express unit dependencies</td>
+</tr>
+<tr>
+<td>Missed runs</td>
+<td>Usually not replayed automatically</td>
+<td>Timers can support catch-up behavior with <code>Persistent=true</code></td>
+</tr>
+<tr>
+<td>Best fit</td>
+<td>Simple recurring jobs</td>
+<td>Managed server tasks and service lifecycle</td>
+</tr>
+</tbody></table>
+<h2 id="14-practical-exercises">14. Practical exercises</h2><h2 id="hands-on-lab-checklist">Hands-on lab checklist</h2><p>0/8</p>
+<p>Inspect exit codes</p>
+<p>Run a successful command and a failing command. Capture each exit status immediately.</p>
+<p>Test strict mode</p>
+<p>Create a small script using set -Eeuo pipefail. Test an unset variable and a failing command.</p>
+<p>Write reusable functions</p>
+<p>Create log_info and log_error functions and call them from a script.</p>
+<p>Validate inputs</p>
+<p>Reject missing arguments, non-numeric thresholds, and values outside 1–100.</p>
+<p>Add cleanup</p>
+<p>Create a temporary file with mktemp and remove it through an EXIT trap.</p>
+<p>Run the health check</p>
+<p>Use cron 80 and ssh 80, then inspect the exit status and logs.</p>
+<p>Test cron integration</p>
+<p>Add the job, inspect crontab -l, and verify that a new log entry appears.</p>
+<p>Test systemd integration</p>
+<p>Run the oneshot service and read its journal output.</p>
+<h3 id="challenge-improve-the-health-check">Challenge: improve the health check</h3><p>Extend the script with one extra check that is relevant to a real application:</p>
+<ul>
+<li>Verify a required configuration file exists and is readable.</li>
+<li>Check whether a specific TCP port is listening.</li>
+<li>Check an HTTP health endpoint using <code>curl</code> and a timeout.</li>
+<li>Check a mounted data directory's filesystem usage instead of only <code>/</code>.</li>
+</ul>
+<p>Before implementing the change, define what should count as success, what exit code should be returned, and how the failure should be logged. Avoid automatically restarting or deleting anything.</p>
+<h2 id="15-interactive-quiz">15. Interactive quiz</h2><p>Choose an answer for each question, then submit the quiz to see the score and explanations.</p>
+<h2 id="lesson-20-knowledge-check">Lesson 20 knowledge check</h2><p>8 questions</p>
+<p>1. What does exit code 0 conventionally mean?</p>
+<p>The script was interrupted</p>
+<p>Success</p>
+<p>A configuration file is missing</p>
+<p>2. What does `set -u` help detect?</p>
+<p>Unset variable usage</p>
+<p>Full disk usage</p>
+<p>A port conflict</p>
+<p>3. What does `set -o pipefail` change?</p>
+<p>It makes every pipeline run in parallel</p>
+<p>It reports failure when a command in a pipeline fails, according to pipefail rules</p>
+<p>It suppresses stderr</p>
+<p>4. Which is the safer way to create a temporary file?</p>
+<p>Use a predictable /tmp/report.tmp path</p>
+<p>Use mktemp and an EXIT cleanup trap</p>
+<p>Use chmod 777 on /tmp/report.tmp</p>
+<p>5. What does `flock -n` do when a lock is already held?</p>
+<p>Wait forever</p>
+<p>Skip/fail immediately rather than waiting</p>
+<p>Kill the other process</p>
+<p>6. Which practices are useful for unattended scripts? Select all that apply.</p>
+<p>Select all that apply.</p>
+<p>Validate inputs</p>
+<p>Use absolute paths where practical</p>
+<p>Log failures and return nonzero statuses</p>
+<p>Assume cron inherits the interactive shell environment</p>
+<p>7. Does `set -e` guarantee that every failing command always terminates a script?</p>
+<p>True</p>
+<p>False</p>
+<p>8. A systemd service reports active. Does that alone prove the application endpoint is healthy?</p>
+<p>True</p>
+<p>False</p>
+<p>Submit quiz</p>
+<h2 id="16-assignment-tracker">16. Assignment tracker</h2><p>Mark each assignment as you complete it. These tasks are designed to turn the lesson into practical DevOps experience.</p>
+<h2 id="assignment-progress">Assignment progress</h2><p>0/10 complete</p>
+<p>Explain exit codes 0, 1, and 2, including why meanings can be command-specific.</p>
+<p>Write a script that uses set -Eeuo pipefail and handles an expected failure explicitly.</p>
+<p>Create and use at least two reusable Bash functions.</p>
+<p>Validate CLI arguments and reject invalid input before making changes.</p>
+<p>Add timestamped INFO and ERROR logging.</p>
+<p>Create a temporary file with mktemp and clean it up using a trap.</p>
+<p>Demonstrate an idempotent operation and explain a non-idempotent side effect.</p>
+<p>Run the health-check script and record its output and exit code.</p>
+<p>Schedule the check through cron with a log file and overlap protection.</p>
+<p>Run the systemd oneshot unit and document how to inspect its journal.</p>
+<p>Copy assignment checklist</p>
+<p>This checklist tracks progress in this interactive lesson view; copy it if you want an external record.</p>
+<h2 id="17-production-bash-cheat-sheet">17. Production Bash cheat sheet</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Strict-mode starting point</td>
+<td><code>set -Eeuo pipefail</code></td>
+</tr>
+<tr>
+<td>Read an argument</td>
+<td><code>SERVICE="$1"</code></td>
+</tr>
+<tr>
+<td>Check argument count</td>
+<td><code>[[ $# -eq 2 ]]</code></td>
+</tr>
+<tr>
+<td>Validate digits</td>
+<td><code>[[ "$VALUE" =~ ^[0-9]+$ ]]</code></td>
+</tr>
+<tr>
+<td>Check a directory</td>
+<td><code>[[ -d "$DIR" ]]</code></td>
+</tr>
+<tr>
+<td>Check a file is readable</td>
+<td><code>[[ -r "$FILE" ]]</code></td>
+</tr>
+<tr>
+<td>Log to stderr</td>
+<td><code>printf 'ERROR: %s\n' "$msg" &gt;&amp;2</code></td>
+</tr>
+<tr>
+<td>Check a command</td>
+<td><code>command -v curl</code></td>
+</tr>
+<tr>
+<td>Capture output</td>
+<td><code>RESULT=$(command)</code></td>
+</tr>
+<tr>
+<td>Handle failure</td>
+<td><code>if command; then ...; else ...; fi</code></td>
+</tr>
+<tr>
+<td>Create a temporary file</td>
+<td><code>mktemp</code></td>
+</tr>
+<tr>
+<td>Register cleanup</td>
+<td><code>trap cleanup EXIT</code></td>
+</tr>
+<tr>
+<td>Syntax-check a script</td>
+<td><code>bash -n script.sh</code></td>
+</tr>
+<tr>
+<td>Lock a job</td>
+<td><code>flock -n /tmp/job.lock command</code></td>
+</tr>
+<tr>
+<td>List cron jobs</td>
+<td><code>crontab -l</code></td>
+</tr>
+<tr>
+<td>Inspect service logs</td>
+<td><code>journalctl -u SERVICE -n 50 --no-pager</code></td>
+</tr>
+<tr>
+<td>Inspect systemd unit</td>
+<td><code>systemctl cat SERVICE</code></td>
+</tr>
+</tbody></table>
+<h2 id="18-production-readiness-checklist">18. Production-readiness checklist</h2><p>Before deploying any Bash automation to a production Ubuntu server, verify the following.</p>
+<h2 id="pre-deployment-review">Pre-deployment review</h2><p>0/10</p>
+<p>Arguments and environment variables are validated.</p>
+<p>Important commands have explicit failure handling.</p>
+<p>Exit codes are documented and meaningful.</p>
+<p>Logs include enough context but no secrets.</p>
+<p>Temporary files and other resources are cleaned up.</p>
+<p>Paths, execution user, ownership, and permissions are correct.</p>
+<p>Repeated runs and overlapping executions are considered.</p>
+<p>The script has been tested with realistic success and failure cases.</p>
+<p>Cron or systemd runs under the intended account and environment.</p>
+<p>Monitoring, rollback, and an operational owner are defined.</p>
+<h2 id="19-lesson-20-completion-checklist">19. Lesson 20 completion checklist</h2><h2 id="lesson-completion">Lesson completion</h2><p>0/8</p>
+<p>Understand exit codes and strict-mode caveats.</p>
+<p>Use functions and validate command-line arguments.</p>
+<p>Implement timestamped logging and meaningful errors.</p>
+<p>Use traps and safe temporary files.</p>
+<p>Explain idempotency and overlapping-run protection.</p>
+<p>Run and test the production-style health-check script.</p>
+<p>Understand cron and systemd integration.</p>
+<p>Complete the quiz and practical assignments.</p>
+<h2 id="20-what-comes-next-">20. What comes next?</h2><p>Module 1 · Lesson 21</p>
+<h2 id="git-and-version-control-for-devops-on-ubuntu">Git and Version Control for DevOps on Ubuntu</h2><p>Learn how to track Bash scripts and application configuration, inspect changes, create commits, work with branches, connect a local repository to GitHub, and prepare a safe version-controlled workflow for deployment.</p>
+<p>Continue to Lesson 21 </p>
+<p>Key takeaway: A production Bash script is more than a sequence of commands. It validates its inputs, handles failures deliberately, logs what happened, cleans up after itself, and makes its result clear to the systems that run it.</p>
+
+</div>

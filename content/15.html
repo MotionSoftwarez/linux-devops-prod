@@ -1,0 +1,411 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-14">Linux for DevOps — Module 1, Lesson 14</h2><p><a href="https://images.openai.com/static-rsc-4/KCT8LTYHUu52AhlSk_6hFsvQ8IJKG87zzp2MmVj8c8V5xMM5dXxSs10faiaE-Mz66QmIkHeTZdXxnnUtEz1mM4acVvaUdPEiB4HjZmYXBuZBP1EYjTcUWON7rtkHUt67ko44FbTc7CTJVX8UgusIrA9RpQeVi4KN0zr84s_7wd0?purpose=inline">5 Free Tools to Monitor Your VPS (Terminal) | HackerNoon</a></p>
+<p><a href="https://hackernoon.com/5-free-tools-to-monitor-your-vps-terminal?utm_source=chatgpt.com">hackernoon.com</a></p>
+<h2 id="system-monitoring-and-resource-management-on-ubuntu">System Monitoring and Resource Management on Ubuntu</h2><p>Beginner friendly</p>
+<p>Practical commands</p>
+<p>DevOps troubleshooting</p>
+<p>In this lesson, you'll learn how to identify why a Linux server is slow, whether CPU or memory is exhausted, whether storage is causing delays, and which process deserves investigation.</p>
+<h2 id="1-what-is-system-monitoring-">1. What is system monitoring?</h2><p>System monitoring means observing a computer's health and resource usage so that problems can be detected before they cause an outage.</p>
+<p>Imagine a Python web application or a Perl-based journal validation tool running on an Ubuntu server. A user reports that the application is slow. Restarting it immediately might hide the symptoms without fixing the cause.</p>
+<p>A DevOps engineer checks the evidence first.</p>
+<h2 id="the-four-major-resource-areas">The four major resource areas</h2><p>CPU</p>
+<p>Is the processor busy executing work?</p>
+<p>Tools: <code>top</code>, <code>mpstat</code></p>
+<p>Memory</p>
+<p>Is RAM under pressure or is swapping occurring?</p>
+<p>Tools: <code>free</code>, <code>vmstat</code></p>
+<p>Disk I/O</p>
+<p>Are storage operations slowing down?</p>
+<p>Tools: <code>iostat</code>, <code>vmstat</code></p>
+<p>Processes and load</p>
+<p>What is running, waiting, or consuming resources?</p>
+<p>Tools: <code>ps</code>, <code>uptime</code>, <code>top</code></p>
+<p>A useful principle: measure first, identify the bottleneck, then change one thing at a time.</p>
+<h2 id="2-start-with-a-quick-health-check">2. Start with a quick health check</h2><p>Run these read-only commands on your Ubuntu server:</p>
+<pre><code>uptime
+free -h
+df -h
+ps aux --sort=-%cpu | head -n 10
+ps aux --sort=-%mem | head -n 10</code></pre><p>What each command tells you:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>uptime</code></td>
+<td>Uptime, logged-in users, load average</td>
+</tr>
+<tr>
+<td><code>free -h</code></td>
+<td>Memory and swap usage</td>
+</tr>
+<tr>
+<td><code>df -h</code></td>
+<td>Filesystem capacity</td>
+</tr>
+<tr>
+<td><code>ps aux --sort=-%cpu</code></td>
+<td>Processes using the most CPU</td>
+</tr>
+<tr>
+<td><code>ps aux --sort=-%mem</code></td>
+<td>Processes using the most RAM</td>
+</tr>
+</tbody></table>
+<p>These checks provide a first snapshot, not a complete diagnosis. For example, a filesystem may have free space but be slow because its storage device is overloaded.</p>
+<h2 id="3-cpu-monitoring">3. CPU monitoring</h2><p>The CPU executes instructions for your programs. If too much work competes for CPU time, requests and background jobs may take longer.</p>
+<h3 id="check-cpu-usage-with-top">Check CPU usage with <code>top</code></h3><pre><code>top</code></pre><p>Useful fields include:</p>
+<ul>
+<li><code>PID</code> — process ID.</li>
+<li><code>USER</code> — process owner.</li>
+<li><code>%CPU</code> — CPU usage reported for that process.</li>
+<li><code>%MEM</code> — memory usage.</li>
+<li><code>TIME+</code> — accumulated CPU time.</li>
+<li><code>COMMAND</code> — process command name.</li>
+</ul>
+<p>Press <code>q</code> to quit <code>top</code>.</p>
+<p>You can also run a short snapshot:</p>
+<pre><code>top -b -n 1 | head -n 20</code></pre><p>Here, <code>-b</code> selects batch mode and <code>-n 1</code> takes one iteration.</p>
+<h3 id="find-cpu-heavy-processes">Find CPU-heavy processes</h3><pre><code>ps -eo pid,ppid,user,%cpu,%mem,stat,comm --sort=-%cpu | head -n 15</code></pre><p>Example output might show a Python worker using a large share of CPU. That is a clue to investigate—not automatic proof that the worker is broken.</p>
+<p>CPU percentages can exceed 100% for a process using multiple CPU cores, depending on the tool's reporting convention.</p>
+<h3 id="install-htop-for-an-easier-view">Install <code>htop</code> for an easier view</h3><p>If permitted on your Ubuntu server:</p>
+<pre><code>sudo apt update
+sudo apt install htop
+htop</code></pre><p><code>htop</code> provides a visual process list, CPU meters, memory meters, sorting, and interactive navigation. Press <code>q</code> to exit.</p>
+<h3 id="understand-cpu-states">Understand CPU states</h3><p>In <code>top</code>, the CPU summary commonly includes:</p>
+<ul>
+<li><code>us</code> — user-space work.</li>
+<li><code>sy</code> — kernel/system work.</li>
+<li><code>id</code> — idle CPU time.</li>
+<li><code>wa</code> — time waiting for I/O.</li>
+<li><code>st</code> — CPU time taken by the hypervisor from a virtual machine.</li>
+</ul>
+<p>A high <code>wa</code> value can suggest an I/O bottleneck rather than a CPU computation bottleneck. These percentages are snapshots and should be interpreted alongside other evidence.</p>
+<h2 id="4-load-average-is-the-server-overloaded-">4. Load average: is the server overloaded?</h2><p>The load average appears in <code>uptime</code> and <code>top</code>.</p>
+<p>Example:</p>
+<pre><code>20:45:00 up 12 days,  3:10,  2 users, load average: 2.10, 1.80, 1.25</code></pre><p>The three load values represent approximate system load averages over the past 1, 5, and 15 minutes.</p>
+<p>Unlike CPU utilization, load average reflects tasks that are runnable and tasks in certain uninterruptible waiting states, often associated with I/O.</p>
+<h3 id="how-to-interpret-it">How to interpret it</h3><p>A load average of 4 does not automatically mean the server is overloaded. You need to compare it with the number of logical CPUs and examine what tasks are waiting.</p>
+<p>For example:</p>
+<h2 id="an-illustrative-4-vcpu-server">An illustrative 4-vCPU server</h2><p>Load average: 1</p>
+<p>Relatively light</p>
+<p>Load average: 4</p>
+<p>Around CPU capacity</p>
+<p>Load average: 8</p>
+<p>Potential contention</p>
+<p>These are illustrative comparisons, not a universal health scale. A load above the CPU count can be caused by runnable work, I/O waits, or both.</p>
+<p>Check the logical CPU count:</p>
+<pre><code>nproc</code></pre><p>Then check load:</p>
+<pre><code>uptime</code></pre><p>A load average consistently higher than the CPU count is a reason to investigate, not a reason to kill processes immediately. Look at CPU use, process states, and I/O waits to understand why.</p>
+<h2 id="5-memory-monitoring-with-free">5. Memory monitoring with <code>free</code></h2><p>RAM holds the data and code programs need while they run.</p>
+<p>Check memory:</p>
+<pre><code>free -h</code></pre><p>Example:</p>
+<pre><code>               total   used   free  shared  buff/cache  available
+Mem:             8Gi   5.2Gi  500Mi  200Mi       2.3Gi      2.1Gi
+Swap:            2Gi   100Mi  1.9Gi</code></pre><p>The figures above are illustrative.</p>
+<p>The most important field for an initial check is often <code>available</code>. Linux uses otherwise-unused memory for caches, so low <code>free</code> memory by itself does not mean RAM is exhausted.</p>
+<ul>
+<li><code>total</code>: total recognized RAM.</li>
+<li><code>used</code>: memory currently in use according to <code>free</code>'s accounting.</li>
+<li><code>free</code>: memory not currently used.</li>
+<li><code>buff/cache</code>: buffers and caches.</li>
+<li><code>available</code>: estimated memory that can be made available to applications without swapping.</li>
+</ul>
+<h3 id="what-is-swap-">What is swap?</h3><p>Swap is disk space used to hold memory pages that are not currently kept in RAM. It can help a system cope with memory pressure, but heavy swapping can make applications much slower than working in RAM.</p>
+<p>Check swap configuration and usage:</p>
+<pre><code>swapon --show
+free -h</code></pre><p>Don't assume that some swap usage means a problem. Look for sustained swapping, low available memory, application latency, and related kernel messages.</p>
+<h3 id="identify-memory-heavy-processes">Identify memory-heavy processes</h3><pre><code>ps -eo pid,ppid,user,%mem,rss,comm --sort=-%mem | head -n 15</code></pre><p><code>RSS</code> is resident memory, usually shown in KiB. Summing process RSS values does not give an exact system-wide memory total because shared memory can be counted more than once.</p>
+<p>If an application steadily grows in memory use over time, investigate whether it has a memory leak, a growing cache, too many workers, or unexpectedly large jobs.</p>
+<h2 id="6-use-vmstat-to-observe-system-activity">6. Use <code>vmstat</code> to observe system activity</h2><p><code>vmstat</code> provides a compact view of processes, memory, swap, I/O, and CPU.</p>
+<p>Install it if necessary:</p>
+<pre><code>sudo apt install procps</code></pre><p>Run:</p>
+<pre><code>vmstat 1 5</code></pre><p>This reports five samples at one-second intervals. The first report is often an average since boot, so pay particular attention to the subsequent samples.</p>
+<p>Key columns include:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>r</code></td>
+<td>Runnable processes waiting for CPU time</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>Processes blocked, often waiting for I/O</td>
+</tr>
+<tr>
+<td><code>si</code> / <code>so</code></td>
+<td>Swap-in / swap-out activity</td>
+</tr>
+<tr>
+<td><code>bi</code> / <code>bo</code></td>
+<td>Blocks received from / sent to block devices</td>
+</tr>
+<tr>
+<td><code>us</code> / <code>sy</code></td>
+<td>CPU time in user / system mode</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Idle CPU time</td>
+</tr>
+<tr>
+<td><code>wa</code></td>
+<td>CPU time waiting for I/O</td>
+</tr>
+</tbody></table>
+<p>A sustained rise in <code>r</code> can indicate CPU contention. Sustained <code>si</code>/<code>so</code> alongside low available memory can indicate memory pressure. A high <code>b</code> or <code>wa</code> can point toward I/O waits, but confirm with more detailed disk and process evidence.</p>
+<h2 id="7-monitor-disk-i-o-with-iostat">7. Monitor disk I/O with <code>iostat</code></h2><p>Disk capacity and disk performance are different things. A filesystem can have plenty of free space while a storage device is responding slowly.</p>
+<p>Install <code>iostat</code> on Ubuntu through the <code>sysstat</code> package:</p>
+<pre><code>sudo apt update
+sudo apt install sysstat</code></pre><p>Then run:</p>
+<pre><code>iostat -xz 1 5</code></pre><p>This displays extended device statistics at one-second intervals. The first report can represent averages since boot; later reports are usually more useful for diagnosing a current slowdown.</p>
+<p>Important fields commonly include:</p>
+<ul>
+<li><code>r/s</code>, <code>w/s</code>: read and write operations per second.</li>
+<li><code>rMB/s</code>, <code>wMB/s</code> or equivalent throughput columns: data transferred per second, depending on version.</li>
+<li><code>await</code>: average I/O request time, typically in milliseconds.</li>
+<li><code>aqu-sz</code>: average queue length.</li>
+<li><code>%util</code>: proportion of time the device was busy handling I/O.</li>
+</ul>
+<p>Interpretation caution: High <code>%util</code> can indicate a busy device, but it is not a universal saturation threshold for every SSD, RAID array, or cloud volume. Compare it with latency, throughput, queueing, and the storage platform's expected limits.</p>
+<h3 id="storage-diagnosis-workflow">Storage diagnosis workflow</h3><p>Symptom: application requests are slow</p>
+<p>Check <code>vmstat 1 5</code> for sustained I/O waits or blocked processes.</p>
+<p>Check <code>iostat -xz 1 5</code> for latency, queueing, throughput, and device activity.</p>
+<p>Compare results with application logs, disk capacity, and storage-service metrics before deciding on a fix.</p>
+<p>If <code>iostat</code> isn't available, <code>vmstat</code>, <code>df -h</code>, <code>du</code>, and process inspection can still provide useful clues. Don't assume that disk I/O is the cause just because an application reads files.</p>
+<h2 id="8-find-and-inspect-resource-heavy-processes">8. Find and inspect resource-heavy processes</h2><p>Use <code>ps</code> for a process snapshot:</p>
+<pre><code>ps -ef</code></pre><p>Sort by CPU:</p>
+<pre><code>ps aux --sort=-%cpu | head -n 10</code></pre><p>Sort by memory:</p>
+<pre><code>ps aux --sort=-%mem | head -n 10</code></pre><p>Inspect a particular process:</p>
+<pre><code>ps -p 1234 -o pid,ppid,user,%cpu,%mem,stat,etime,cmd</code></pre><p>Replace <code>1234</code> with the actual PID.</p>
+<p>You can inspect the process tree too:</p>
+<pre><code>pstree -p</code></pre><p>If <code>pstree</code> is missing, install the <code>psmisc</code> package or use <code>ps -ef</code> instead.</p>
+<h3 id="what-should-you-do-with-a-high-cpu-process-">What should you do with a high-CPU process?</h3><p>Don't immediately run <code>kill -9</code>.</p>
+<p>First:</p>
+<ol>
+<li>Identify the command, owner, parent process, and purpose.</li>
+<li>Check whether it is an expected batch job or service.</li>
+<li>Review relevant application and service logs.</li>
+<li>Check whether usage is sustained or a brief spike.</li>
+<li>Follow the application's normal stop, restart, or incident procedure.</li>
+</ol>
+<p>For a systemd-managed service, prefer the service manager over manually killing one of its processes.</p>
+<pre><code>sudo systemctl status myapp
+sudo journalctl -u myapp --since "15 minutes ago"</code></pre><h2 id="9-a-practical-resource-monitoring-toolkit">9. A practical resource-monitoring toolkit</h2><p>uptime</p>
+<p>Quick load-average and uptime snapshot.</p>
+<p> Copy</p>
+<p>uptime</p>
+<p>free</p>
+<p>RAM, available memory, and swap.</p>
+<p> Copy</p>
+<p>free -h</p>
+<p>top</p>
+<p>Live CPU, memory, and process view.</p>
+<p> Copy</p>
+<p>top</p>
+<p>htop</p>
+<p>Interactive process monitor, if installed.</p>
+<p> Copy</p>
+<p>htop</p>
+<p>vmstat</p>
+<p>Processes, memory, swap, I/O, and CPU samples.</p>
+<p> Copy</p>
+<p>vmstat 1 5</p>
+<p>iostat</p>
+<p>Per-device I/O activity, if sysstat is installed.</p>
+<p> Copy</p>
+<p>iostat -xz 1 5</p>
+<p>df</p>
+<p>Filesystem capacity and free space.</p>
+<p> Copy</p>
+<p>df -h</p>
+<p>ps</p>
+<p>Process snapshot sorted by CPU.</p>
+<p> Copy</p>
+<p>ps aux --sort=-%cpu | head -n 10</p>
+<h2 id="10-real-world-devops-case-study-a-slow-validation-server">10. Real-world DevOps case study: a slow validation server</h2><p>Imagine your Ubuntu server runs a large Perl dataset validation tool. Users report that packages that previously finished in a few minutes now take 25 minutes. The application hasn't crashed, but the queue is growing.</p>
+<h3 id="step-1-establish-the-baseline">Step 1 — Establish the baseline</h3><pre><code>uptime
+nproc
+free -h
+df -h</code></pre><p>Suppose the server has four logical CPUs and a load average of <code>9.5, 8.8, 7.9</code>. This suggests sustained load above CPU count, but does not establish the cause.</p>
+<h3 id="step-2-inspect-cpu-consumers">Step 2 — Inspect CPU consumers</h3><pre><code>ps -eo pid,ppid,user,%cpu,%mem,stat,etime,comm --sort=-%cpu | head -n 15</code></pre><p>Suppose a Perl validation process uses most of one CPU. That might be normal for a CPU-heavy job. Compare it with historical runtimes and check whether several jobs are competing for resources.</p>
+<h3 id="step-3-check-memory-and-swapping">Step 3 — Check memory and swapping</h3><pre><code>free -h
+vmstat 1 5</code></pre><p>Suppose available memory is healthy and <code>si</code>/<code>so</code> remain near zero across subsequent samples. That makes sustained swapping a less likely explanation, though it does not rule out every memory-related problem.</p>
+<h3 id="step-4-check-storage">Step 4 — Check storage</h3><pre><code>iostat -xz 1 5
+df -h</code></pre><p>Suppose the storage device has moderate latency and no clear queue buildup, while CPU remains busy. The evidence points more toward CPU work or excessive concurrent validation jobs than storage saturation.</p>
+<h3 id="step-5-check-the-application">Step 5 — Check the application</h3><p>Review recent logs and job metrics:</p>
+<pre><code>sudo journalctl -u validator --since "30 minutes ago"</code></pre><p>If the tool logs to its own file instead, inspect that configured application log.</p>
+<p>Suppose the slowdown began after a configuration change increased the number of concurrent validation workers. Each worker performs CPU-intensive XML and rule checks.</p>
+<h3 id="step-6-apply-a-measured-fix">Step 6 — Apply a measured fix</h3><ul>
+<li>Compare worker count and processing throughput with the previous configuration.</li>
+<li>Reduce concurrency to an approved value if evidence supports it.</li>
+<li>Avoid killing active validation jobs without checking their impact on output files and queue state.</li>
+<li>Measure processing time, queue depth, CPU utilization, and error rates after the change.</li>
+</ul>
+<h3 id="step-7-verify-recovery">Step 7 — Verify recovery</h3><p>Repeat the same monitoring commands and compare against the baseline. Confirm that package processing times improve and no jobs are lost or left partially written.</p>
+<p>Lesson: Resource monitoring helps connect a user-facing symptom to evidence. It is much more reliable than assuming every slow server needs more RAM or a reboot.</p>
+<h2 id="11-safe-hands-on-exercises">11. Safe hands-on exercises</h2><p>Run these commands on a test Ubuntu system or an authorized server. They are observational and should not alter running applications.</p>
+<h2 id="practical-lab-tracker">Practical lab tracker</h2><p>0/8 complete</p>
+<p>Capture load average and uptime</p>
+<p>uptime</p>
+<p>Count logical CPUs</p>
+<p>nproc</p>
+<p>Check available RAM and swap</p>
+<p>free -h</p>
+<p>Observe system statistics for five seconds</p>
+<p>vmstat 1 5</p>
+<p>Find the top ten CPU-consuming processes</p>
+<p>ps aux --sort=-%cpu | head -n 10</p>
+<p>Find the top ten memory-consuming processes</p>
+<p>ps aux --sort=-%mem | head -n 10</p>
+<p>Inspect filesystem capacity</p>
+<p>df -h</p>
+<p>Inspect storage I/O if sysstat is installed</p>
+<p>iostat -xz 1 5</p>
+<p>Reset lab checklist</p>
+<h3 id="challenge-identify-the-bottleneck">Challenge: identify the bottleneck</h3><p>Record the output of <code>uptime</code>, <code>nproc</code>, <code>free -h</code>, <code>vmstat 1 5</code>, and <code>ps aux --sort=-%cpu | head -n 10</code>.</p>
+<p>Then answer these questions in your notes:</p>
+<ol>
+<li>Is load average high relative to the CPU count?</li>
+<li>Is memory available, or is there evidence of memory pressure?</li>
+<li>Are processes competing for CPU time?</li>
+<li>Is there evidence of storage I/O waiting?</li>
+<li>What additional evidence would you need before changing anything?</li>
+</ol>
+<p>A single snapshot is not enough to establish a trend. Repeat measurements when appropriate and compare with a known healthy baseline.</p>
+<h2 id="12-knowledge-check">12. Knowledge check</h2><p>Test your understanding of CPU, memory, load average, process usage, and disk I/O.</p>
+<p>On Ubuntu, which command provides an interactive, continuously updating view of CPU usage and running processes without installing an additional tool?</p>
+<p>1 of 8</p>
+<p>Agetent hosts</p>
+<p>Btop</p>
+<p>Cdf -h</p>
+<p>Dchmod</p>
+<p>Next</p>
+<h2 id="13-assignment-tracker">13. Assignment tracker</h2><p>Complete these tasks to reinforce the lesson.</p>
+<h2 id="your-progress">Your progress</h2><p>0/7</p>
+<p>Capture uptime and compare load average with nproc.</p>
+<p>Run free -h and explain available memory and swap.</p>
+<p>Use top or htop to identify resource-heavy processes.</p>
+<p>Run vmstat 1 5 and interpret the later samples.</p>
+<p>Install or check iostat and inspect disk I/O statistics.</p>
+<p>Compare CPU-sorted and memory-sorted process lists.</p>
+<p>Write a short incident report identifying evidence, suspected bottleneck, and next checks.</p>
+<p> Copy assignment report</p>
+<h2 id="14-quick-reference-cheat-sheet">14. Quick-reference cheat sheet</h2><p>System overview</p>
+<p> Copy</p>
+<p>uptime<br>nproc<br>uname -a</p>
+<p>CPU and processes</p>
+<p> Copy</p>
+<p>top<br>ps aux --sort=-%cpu | head -n 10<br>htop</p>
+<p>Memory and swap</p>
+<p> Copy</p>
+<p>free -h<br>swapon --show<br>ps aux --sort=-%mem | head -n 10</p>
+<p>System activity</p>
+<p> Copy</p>
+<p>vmstat 1 5<br>iostat -xz 1 5</p>
+<p>Storage capacity</p>
+<p> Copy</p>
+<p>df -h<br>df -i<br>du -xhd1 /var/log 2&gt;/dev/null | sort -h</p>
+<p>Service investigation</p>
+<p> Copy</p>
+<p>sudo systemctl status myapp<br>sudo journalctl -u myapp --since "15 minutes ago"</p>
+<p>Note: <code>htop</code> and <code>iostat</code> may require installation. <code>myapp</code> is an example service name. Inspect the actual service name and permissions before running administrative commands.</p>
+<h2 id="15-lesson-completion-checklist">15. Lesson completion checklist</h2><ul>
+<li>Understand the difference between CPU usage and load average.</li>
+<li>Know how to check available memory and swap.</li>
+<li>Know how to inspect processes with <code>top</code> and <code>ps</code>.</li>
+<li>Understand the purpose of <code>vmstat</code> and <code>iostat</code>.</li>
+<li>Can investigate a slow server using evidence rather than guessing.</li>
+<li>Have completed the quiz and recorded the assignments.</li>
+</ul>
+<h2 id="up-next-module-1-lesson-15">Up next: Module 1, Lesson 15</h2><p><a href="https://images.openai.com/static-rsc-4/BKUz45yMq5NANqc8PsBE7RgO1N8niBBwyZogdQ0hy5Mumaa8ghQtqgWN3KNbnT15Sfi_KKQNrU1DXPKodxKs3oJSqOvOgVZDXy_AuPZf0Vtpq19Oxu-E8leLbF-iqHfdHgDC1TD2wFpinWJIzbW2H87C_-aqOI3T1hTAPEmaoCI?purpose=inline">Build a Linux System Monitor Using Bash | LabEx</a></p>
+<p>MODULE 1 · LESSON 15</p>
+<h2 id="bash-scripting-and-automation-fundamentals">Bash Scripting and Automation Fundamentals</h2><p>Learn variables, command substitution, conditions, loops, exit codes, functions, logging, and safe scripts for routine Linux administration.</p>
+<p>Continue to Lesson 15 </p>
+
+</div>

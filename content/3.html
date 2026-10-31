@@ -1,0 +1,315 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-3">Linux for DevOps — Module 1, Lesson 3</h2><h2 id="create-copy-move-and-delete-files">Create, Copy, Move, and Delete Files</h2><p>Beginner</p>
+<p>Hands-on lab</p>
+<p>DevOps essentials</p>
+<p>In this lesson, you’ll learn how to create directories and files, copy configuration files, rename or move files, and delete unwanted files safely. These are everyday tasks when managing Linux servers, application deployments, logs, and backups.</p>
+<h2 id="1-the-five-essential-commands">1. The five essential commands</h2><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mkdir</code></td>
+<td>Creates a directory</td>
+<td><code>mkdir reports</code></td>
+</tr>
+<tr>
+<td><code>touch</code></td>
+<td>Creates an empty file if it doesn't exist</td>
+<td><code>touch notes.txt</code></td>
+</tr>
+<tr>
+<td><code>cp</code></td>
+<td>Copies files or directories</td>
+<td><code>cp app.conf app.conf.bak</code></td>
+</tr>
+<tr>
+<td><code>mv</code></td>
+<td>Moves or renames files</td>
+<td><code>mv old.txt new.txt</code></td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td>Deletes files or directories</td>
+<td><code>rm old.txt</code></td>
+</tr>
+</tbody></table>
+<p>Think of a Linux directory like a folder in a filing cabinet:</p>
+<ul>
+<li><code>mkdir</code> — create a new folder.</li>
+<li><code>touch</code> — create a blank document.</li>
+<li><code>cp</code> — make a duplicate.</li>
+<li><code>mv</code> — relocate or rename an item.</li>
+<li><code>rm</code> — remove an item.</li>
+</ul>
+<h2 id="2-visualize-how-files-change">2. Visualize how files change</h2><h3 id="starting-point">Starting point</h3><p>app/</p>
+<p><code>app.conf</code></p>
+<p><code>deploy.sh</code></p>
+<h3 id="after-copying-a-configuration-file">After copying a configuration file</h3><p>app/</p>
+<p><code>app.conf</code></p>
+<p><code>app.conf.bak</code> New copy</p>
+<p><code>deploy.sh</code></p>
+<p>Command: <code>cp app.conf app.conf.bak</code> — the original remains in place.</p>
+<h2 id="3-create-directories-with-mkdir">3. Create directories with <code>mkdir</code></h2><p>A directory is simply a container for files and other directories.</p>
+<pre><code>mkdir project
+ls</code></pre><p>The <code>mkdir project</code> command creates a directory named <code>project</code> in the current working directory. <code>ls</code> lets you verify that it exists.</p>
+<h3 id="create-nested-directories">Create nested directories</h3><pre><code>mkdir -p project/config/nginx</code></pre><p>The <code>-p</code> option creates missing parent directories as needed. It also avoids an error when those directories already exist.</p>
+<p>Visual result</p>
+<p>project/<br>└── config/<br>    └── nginx/</p>
+<p>Useful checks:</p>
+<pre><code>pwd
+ls -l
+ls -ld project</code></pre><ul>
+<li><code>pwd</code> shows where you are.</li>
+<li><code>ls -l</code> lists directory contents in long format.</li>
+<li><code>ls -ld project</code> shows information about the directory itself.</li>
+</ul>
+<h2 id="4-create-files-with-touch">4. Create files with <code>touch</code></h2><pre><code>touch notes.txt
+touch app.conf
+touch deploy.log</code></pre><p>These commands create empty files if they don't exist. If a file already exists, <code>touch</code> generally updates its modification timestamp; it does not erase its contents.</p>
+<p>You can create multiple files in one command:</p>
+<pre><code>touch app.conf app.conf.bak deploy.sh</code></pre><p>To verify:</p>
+<pre><code>ls -l</code></pre><p>Important: <code>touch</code> does not write text into a file. To add content, you can use an editor such as <code>nano</code>, or a command such as:</p>
+<pre><code>echo "APP_ENV=development" &gt; app.conf</code></pre><p>Be careful with <code>&gt;</code>: it creates the file if needed but overwrites existing contents. To append instead, use <code>&gt;&gt;</code>.</p>
+<h2 id="5-copy-files-with-cp">5. Copy files with <code>cp</code></h2><p>The <code>cp</code> command creates a copy of a file. It's especially useful before editing a configuration file or preparing a deployment.</p>
+<h3 id="copy-one-file">Copy one file</h3><pre><code>cp app.conf app.conf.bak</code></pre><p>This creates <code>app.conf.bak</code> in the current directory while keeping <code>app.conf</code> unchanged.</p>
+<h3 id="copy-a-file-into-another-directory">Copy a file into another directory</h3><pre><code>mkdir backups
+cp app.conf backups/</code></pre><p>Result:</p>
+<p>Current directory</p>
+<p><code>app.conf</code></p>
+<p>Original file remains here.</p>
+<p>Copy into <code>backups/</code></p>
+<p>backups/</p>
+<p><code>app.conf</code></p>
+<p>Independent copy of the file.</p>
+<h3 id="copy-a-directory">Copy a directory</h3><p>Use <code>-r</code> (recursive) to copy a directory and its contents:</p>
+<pre><code>cp -r config config.backup</code></pre><p>This copies the <code>config</code> directory and its contents into a new directory named <code>config.backup</code>.</p>
+<h3 id="safe-copying-practices">Safe copying practices</h3><pre><code>cp -i app.conf app.conf.bak
+cp -n app.conf app.conf.bak</code></pre><ul>
+<li><code>cp -i</code> asks before overwriting an existing destination.</li>
+<li><code>cp -n</code> prevents overwriting an existing destination on implementations that support it.</li>
+</ul>
+<p>If your shell supports it, <code>cp -v</code> displays what is being copied:</p>
+<pre><code>cp -v app.conf backups/</code></pre><p>DevOps habit: Before copying files into a production configuration directory, check the source and destination paths carefully.</p>
+<h2 id="6-move-and-rename-files-with-mv">6. Move and rename files with <code>mv</code></h2><p>Linux uses the same command for moving a file to a different location and renaming it.</p>
+<h3 id="rename-a-file">Rename a file</h3><pre><code>mv notes.txt notes-old.txt</code></pre><p>The file now has the new name <code>notes-old.txt</code>.</p>
+<h3 id="move-a-file-to-another-directory">Move a file to another directory</h3><pre><code>mkdir archive
+mv notes-old.txt archive/</code></pre><p>The file is now inside <code>archive/</code>.</p>
+<h3 id="rename-a-directory">Rename a directory</h3><pre><code>mv config config-old</code></pre><p>The directory is renamed, provided the destination and permissions allow it.</p>
+<h3 id="important-difference-copy-versus-move">Important difference: copy versus move</h3><p><code>cp source dest</code></p>
+<p>Source stays. Destination becomes a copy.</p>
+<p><code>mv source dest</code></p>
+<p>Source is relocated or renamed.</p>
+<p>Protect against accidental replacement:</p>
+<pre><code>mv -i notes.txt archive/</code></pre><p>The <code>-i</code> option asks before overwriting a destination. Always inspect the target path before moving files, especially when running commands as <code>root</code>.</p>
+<h2 id="7-delete-files-and-directories-with-rm">7. Delete files and directories with <code>rm</code></h2><p>Deletion deserves extra care because command-line deletions usually bypass the desktop Trash.</p>
+<h3 id="delete-a-file">Delete a file</h3><pre><code>rm notes-old.txt</code></pre><h3 id="ask-before-deleting">Ask before deleting</h3><pre><code>rm -i notes-old.txt</code></pre><h3 id="delete-an-empty-directory">Delete an empty directory</h3><pre><code>rmdir empty-folder</code></pre><p><code>rmdir</code> works only when the directory is empty.</p>
+<h3 id="delete-a-directory-and-its-contents">Delete a directory and its contents</h3><pre><code>rm -r old-project</code></pre><p>The <code>-r</code> option recursively removes the directory and its contents.</p>
+<p>Production safety warning</p>
+<p>Never run a destructive command until you have verified the target. In particular, avoid experimenting with <code>rm -rf</code> on system paths, wildcards, or variables whose values you haven't checked.</p>
+<p>Before deletion, inspect:</p>
+<pre><code>pwd
+ls -lah -- old-project</code></pre><p>If you are unsure, list the intended files first, confirm the path, and use a test directory instead of a production directory.</p>
+<h3 id="what-does-f-mean-">What does <code>-f</code> mean?</h3><p><code>rm -f</code> forces removal without prompting for confirmation in typical circumstances and ignores missing files. It does not make deletion safer. Avoid combining powerful options casually, especially with elevated privileges such as <code>sudo</code>.</p>
+<h2 id="8-interactive-practice-lab">8. Interactive practice lab</h2><p>Try a simulated command sequence below. It does not run commands on a real Linux server.</p>
+<h2 id="file-operations-simulator">File operations simulator</h2><p>5/5 steps</p>
+<p>Goal: create a backup of a deployment file, move the original into an archive, and then clean up the backup.</p>
+<p>Simulated filesystem</p>
+<p>deploy/</p>
+<p>archive/</p>
+<p>archive/deploy.sh</p>
+<p>1. Run mkdir deploy2. Run touch deploy/deploy.sh3. Run cp deploy/deploy.sh deploy/deploy.sh.bak4. Run mkdir archive and mv deploy/deploy.sh archive/5. Run rm deploy/deploy.sh.bak</p>
+<p>Lab feedback</p>
+<p>Removed only the backup copy. The archived original remains.</p>
+<p>Reset lab</p>
+<h2 id="9-realistic-devops-case-study-safely-preparing-a-deployment">9. Realistic DevOps case study: safely preparing a deployment</h2><p>Scenario: An application is deployed from <code>/srv/myapp</code>. Before changing the deployment script, the engineer wants to make a backup, prepare an archive folder, and keep the process auditable.</p>
+<p>Use a practice directory in your home folder first:</p>
+<pre><code>mkdir -p ~/devops-lab/myapp
+cd ~/devops-lab/myapp
+touch deploy.sh</code></pre><p>Check what exists:</p>
+<pre><code>pwd
+ls -lah</code></pre><p>Create a backup and verify it:</p>
+<pre><code>cp -i deploy.sh deploy.sh.bak
+ls -l deploy.sh deploy.sh.bak</code></pre><p>Create an archive directory and move the original script:</p>
+<pre><code>mkdir -p archive
+mv -i deploy.sh archive/</code></pre><p>Check both locations:</p>
+<pre><code>ls -lah
+ls -lah archive/</code></pre><p>If the backup is no longer needed, inspect it and then remove it:</p>
+<pre><code>ls -l -- deploy.sh.bak
+rm -i -- deploy.sh.bak</code></pre><p>The <code>--</code> marks the end of command options for these commands, which helps when a filename begins with a hyphen. It does not protect against an incorrect path.</p>
+<p>Production lesson: A file named <code>.bak</code> is only a backup copy, not a complete backup strategy. For production deployments, verify the backup's contents, permissions, ownership, and recovery procedure before making changes. Use approved deployment paths and follow your team's change process.</p>
+<h2 id="10-knowledge-quiz">10. Knowledge quiz</h2><p>Answer the questions to check understanding of <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, and <code>rm</code>.</p>
+<p>Which statements about these Linux file operations are accurate? Select every correct answer.</p>
+<p>3 of 5</p>
+<p>rmdir removes a non-empty directory and all its filesrmdir removes empty directories only; it does not recursively remove their contents.</p>
+<p>mv can rename a filemv can change a file's name when the destination is a new name in the same directory.</p>
+<p>touch can update an existing file's modification timestampWhen the file already exists, touch normally updates its timestamps without erasing its contents.</p>
+<p>cp normally removes the source after copying</p>
+<p>Next</p>
+<h2 id="11-practical-assignment">11. Practical assignment</h2><p>Complete this assignment in a Linux terminal, preferably in a test environment or your home directory. Do not practise destructive commands on production files.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0 of 7</p>
+<p>1. Create the practice structure</p>
+<p>mkdir -p ~/devops-lab/lesson3/config</p>
+<p>2. Create three files</p>
+<p>touch ~/devops-lab/lesson3/config/app.conf ~/devops-lab/lesson3/config/deploy.sh ~/devops-lab/lesson3/config/README.txt</p>
+<p>3. Create a backup copy</p>
+<p>cp -i ~/devops-lab/lesson3/config/app.conf ~/devops-lab/lesson3/config/app.conf.bak</p>
+<p>4. Rename the README file</p>
+<p>mv -i ~/devops-lab/lesson3/config/README.txt ~/devops-lab/lesson3/config/README-old.txt</p>
+<p>5. Create an archive and copy the script</p>
+<p>mkdir -p ~/devops-lab/lesson3/archive &amp;&amp; cp -i ~/devops-lab/lesson3/config/deploy.sh ~/devops-lab/lesson3/archive/</p>
+<p>6. Verify the results</p>
+<p>find ~/devops-lab/lesson3 -maxdepth 3 -type f -print</p>
+<p>7. Clean up only the test directory, after verifying its path</p>
+<p>ls -lah ~/devops-lab/lesson3</p>
+<p>The final step is a verification step, not a deletion command. Once the path and contents are confirmed, you may optionally remove the test directory using a carefully checked command.</p>
+<h2 id="12-cheat-sheet">12. Cheat sheet</h2><h2 id="linux-file-operations">Linux file operations</h2><p> Copy all</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Create a directory</td>
+<td><code>mkdir reports</code></td>
+</tr>
+<tr>
+<td>Create nested directories</td>
+<td><code>mkdir -p a/b/c</code></td>
+</tr>
+<tr>
+<td>Create an empty file</td>
+<td><code>touch notes.txt</code></td>
+</tr>
+<tr>
+<td>Copy a file</td>
+<td><code>cp source dest</code></td>
+</tr>
+<tr>
+<td>Copy a directory</td>
+<td><code>cp -r source dest</code></td>
+</tr>
+<tr>
+<td>Move a file</td>
+<td><code>mv file directory/</code></td>
+</tr>
+<tr>
+<td>Rename a file</td>
+<td><code>mv old.txt new.txt</code></td>
+</tr>
+<tr>
+<td>Delete with confirmation</td>
+<td><code>rm -i file.txt</code></td>
+</tr>
+<tr>
+<td>Remove an empty directory</td>
+<td><code>rmdir folder</code></td>
+</tr>
+<tr>
+<td>Remove a directory tree</td>
+<td><code>rm -r folder</code></td>
+</tr>
+<tr>
+<td>Inspect contents</td>
+<td><code>ls -lah</code></td>
+</tr>
+<tr>
+<td>Check current location</td>
+<td><code>pwd</code></td>
+</tr>
+</tbody></table>
+<h3 id="remember-these-rules">Remember these rules</h3><ul>
+<li>Create: <code>mkdir</code>, <code>touch</code></li>
+<li>Duplicate: <code>cp</code></li>
+<li>Relocate or rename: <code>mv</code></li>
+<li>Delete: <code>rm</code>, <code>rmdir</code></li>
+<li>Verify: <code>pwd</code>, <code>ls -lah</code></li>
+<li>Stay safe: check the path, inspect the destination, and make a verified backup before production changes.</li>
+</ul>
+<h2 id="what-comes-next-">What comes next?</h2><h2 id="module-1-lesson-4">Module 1, Lesson 4</h2><p>Read and edit files using <code>cat</code>, <code>less</code>, <code>head</code>, <code>tail</code>, <code>nano</code>, and <code>grep</code></p>
+<p>Learn to inspect application logs, read configuration files, and find errors efficiently.</p>
+<p>Continue to Lesson 4 </p>
+
+</div>

@@ -1,0 +1,522 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-19">Linux for DevOps — Module 1, Lesson 19</h2><h2 id="troubleshooting-linux-servers-systematically-on-ubuntu">Troubleshooting Linux Servers Systematically on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/dS972WoCptCPnBTXx0aFxtJoWlJeWiQKqazw1MDEBPSXXtJd7dAUdCDEDTfIVRa-FgUFXrLAkEfhPJSKa_V-ZQU014TFrV0zDxns-k7E-gu4xlc-iA6oTmMnZMw2Hq0AceckxCBFRDJWQFu1_eqxUs7PCxhFMwrjWwKBCo41by0?purpose=inline">End-to-End Linux Systems Engineering: Performance, Monitoring, Storage &amp; Network Diagnosis | by Zadok Ekanjume | Apr, 2026 | Medium</a></p>
+<p><a href="https://medium.com/%40mekanjume/end-to-end-linux-systems-engineering-performance-monitoring-storage-network-diagnosis-6ef5facf7531?utm_source=chatgpt.com">medium.com</a></p>
+<p>Welcome to Lesson 19! So far, you've learned Linux commands, permissions, users, networking, package management, systemd, logs, storage, SSH, monitoring, Bash scripting, cron, environment variables, and security hardening.</p>
+<p>Now it's time to combine those skills into one of the most important abilities in DevOps and application support: finding the real cause of a problem without making the situation worse.</p>
+<p>Imagine receiving this support ticket:</p>
+<blockquote>
+<p>“The journal validation application is not responding. New delivery packages are stuck, and the server looks slow.”</p>
+</blockquote>
+<p>Should you restart the application? Kill the process? Clear logs? Reboot the server?</p>
+<p>Not yet. First, gather evidence.</p>
+<p>By the end of this lesson, you'll be able to:</p>
+<ul>
+<li>Follow a structured incident-triage process.</li>
+<li>Diagnose failed services with <code>systemctl</code> and <code>journalctl</code>.</li>
+<li>Investigate network, CPU, memory, disk, permissions, and configuration issues.</li>
+<li>Distinguish symptoms from root causes.</li>
+<li>Apply fixes safely and verify recovery.</li>
+<li>Write a useful incident report for your team.</li>
+</ul>
+<h2 id="1-the-troubleshooting-mindset">1. The troubleshooting mindset</h2><p>A symptom tells you what is wrong from the user's perspective. A root cause explains why it happened.</p>
+<p>For example:</p>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Possible root causes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Website returns HTTP 500</td>
+<td>Application exception, missing configuration, database failure</td>
+</tr>
+<tr>
+<td>Website times out</td>
+<td>Network issue, firewall, overloaded server, stuck dependency</td>
+</tr>
+<tr>
+<td>Script says “Permission denied”</td>
+<td>File permissions, directory permissions, ownership, security policy</td>
+</tr>
+<tr>
+<td>“No space left on device”</td>
+<td>Filesystem full, inode exhaustion, quota limit</td>
+</tr>
+<tr>
+<td>Application is slow</td>
+<td>CPU pressure, memory pressure, disk I/O, slow database, excessive concurrency</td>
+</tr>
+<tr>
+<td>Service won't start</td>
+<td>Invalid configuration, missing executable, port conflict, permissions</td>
+</tr>
+</tbody></table>
+<p>One symptom can have several causes. A good troubleshooter tests the possibilities instead of guessing.</p>
+<h2 id="2-the-incident-triage-workflow">2. The incident-triage workflow</h2><p>Use this workflow whenever a Linux incident occurs.</p>
+<p>1. Define the symptom</p>
+<p>What fails? Who is affected? When did it start?</p>
+<p>2. Check impact and scope</p>
+<p>One user, one app, one server, or multiple systems?</p>
+<p>3. Collect evidence</p>
+<p>Status, logs, processes, network, resources, recent changes</p>
+<p>4. Test a hypothesis</p>
+<p>Run the smallest useful diagnostic check</p>
+<p>5. Apply a controlled fix</p>
+<p>Change only what the evidence supports</p>
+<p>6. Verify and document</p>
+<p>Confirm service recovery and user impact</p>
+<h3 id="the-six-questions-to-ask-first">The six questions to ask first</h3><ol>
+<li>What exactly is failing?</li>
+<li>When did it begin?</li>
+<li>What changed recently?</li>
+<li>Is the issue affecting one component or several?</li>
+<li>What evidence supports the suspected cause?</li>
+<li>How will I confirm that the fix worked?</li>
+</ol>
+<p>Golden rule: don't reboot, delete files, kill processes, or change permissions just because a system appears unhealthy. First determine what the evidence says.</p>
+<h2 id="3-start-with-a-safe-health-snapshot">3. Start with a safe health snapshot</h2><p>For an incident on an Ubuntu server, begin with read-only commands.</p>
+<pre><code>date
+hostname
+uptime
+whoami
+free -h
+df -h
+df -i</code></pre><p>Then inspect processes and services:</p>
+<pre><code>ps aux --sort=-%cpu | head -n 10
+ps aux --sort=-%mem | head -n 10
+systemctl --failed</code></pre><p>If the application has a known service name:</p>
+<pre><code>sudo systemctl status myapp
+sudo journalctl -u myapp -n 100 --no-pager</code></pre><p>Replace <code>myapp</code> with the actual service name.</p>
+<p>These checks give you an initial picture of time, host identity, uptime/load, memory, disk capacity, inodes, processes, failed units, and application logs.</p>
+<h3 id="build-an-evidence-timeline">Build an evidence timeline</h3><p>Before the incident</p>
+<p>Was the service healthy? Were jobs completing normally?</p>
+<p>Incident begins</p>
+<p>Record the first failure time, error messages, and user impact.</p>
+<p>Recent change</p>
+<p>Check deployments, configuration edits, package upgrades, or workload changes.</p>
+<p>After remediation</p>
+<p>Record the fix time, verification results, and remaining risk.</p>
+<p>Use consistent time zones when comparing application logs, system logs, and monitoring timestamps. Don't assume all components log in the same time zone.</p>
+<h2 id="4-troubleshooting-systemd-services">4. Troubleshooting systemd services</h2><p>A Linux service may be inactive, failed, unable to start, or running but not actually serving requests.</p>
+<h3 id="step-1-inspect-the-service">Step 1 — Inspect the service</h3><pre><code>sudo systemctl status nginx
+systemctl is-active nginx
+systemctl is-enabled nginx
+systemctl --failed</code></pre><p>These commands answer different questions:</p>
+<ul>
+<li><code>status</code> shows state and recent information.</li>
+<li><code>is-active</code> checks whether the service is currently active.</li>
+<li><code>is-enabled</code> checks whether it is configured to start automatically under the applicable systemd setup.</li>
+<li><code>--failed</code> lists units recorded in a failed state.</li>
+</ul>
+<p>A service can be active but unhealthy from the user's perspective. For example, a web server may be running while its upstream Python application is down.</p>
+<h3 id="step-2-read-the-logs">Step 2 — Read the logs</h3><pre><code>sudo journalctl -u nginx -n 100 --no-pager
+sudo journalctl -u nginx --since "30 minutes ago"
+sudo journalctl -u nginx -p err --since today</code></pre><p>For live troubleshooting:</p>
+<pre><code>sudo journalctl -u nginx -f</code></pre><p>Press <code>Ctrl+C</code> to stop following logs.</p>
+<p>Look for the earliest relevant error, not just the last message. A later error may be a consequence of the original failure.</p>
+<h3 id="step-3-check-configuration-before-restarting">Step 3 — Check configuration before restarting</h3><p>For Nginx:</p>
+<pre><code>sudo nginx -t</code></pre><p>For SSH:</p>
+<pre><code>sudo sshd -t</code></pre><p>For a custom application, inspect its unit:</p>
+<pre><code>systemctl cat myapp</code></pre><p>Check the executable path, service user, working directory, environment configuration, file permissions, and dependencies.</p>
+<h3 id="step-4-restart-only-when-justified">Step 4 — Restart only when justified</h3><p>If you have corrected the underlying cause and a restart is appropriate:</p>
+<pre><code>sudo systemctl restart myapp
+sudo systemctl status myapp
+sudo journalctl -u myapp -n 50 --no-pager</code></pre><p>If you changed a systemd unit file, reload the unit definitions first:</p>
+<pre><code>sudo systemctl daemon-reload</code></pre><p><code>daemon-reload</code> does not restart every service.</p>
+<p>For SSH, retain the safe-change procedure from Lesson 18: validate the configuration, keep an existing connection open, and test a new session before closing the original.</p>
+<h2 id="5-troubleshooting-network-and-port-problems">5. Troubleshooting network and port problems</h2><p>Suppose the application owner says:</p>
+<blockquote>
+<p>“The application is running, but users cannot open it on port 8080.”</p>
+</blockquote>
+<p>Don't assume the firewall is the cause. Test the connection in layers.</p>
+<h3 id="network-troubleshooting-flowchart">Network troubleshooting flowchart</h3><p>Can the server be reached?</p>
+<p>Is the application port listening?</p>
+<p>Check with <code>ss -lntp</code></p>
+<p>Does a local request work?</p>
+<p>Test with <code>curl</code> on the server</p>
+<p>Does a remote request work?</p>
+<p>Check routing, host firewall, and upstream rules</p>
+<h3 id="step-1-inspect-addresses-and-routes">Step 1 — Inspect addresses and routes</h3><pre><code>ip -br addr
+ip route
+ip route get 1.1.1.1</code></pre><p>These help you inspect interface addresses and routing. A route lookup toward <code>1.1.1.1</code> is a diagnostic example, not a guarantee that internet access is allowed or available.</p>
+<h3 id="step-2-check-listening-ports">Step 2 — Check listening ports</h3><pre><code>sudo ss -lntp</code></pre><p>To look for port 8080 specifically:</p>
+<pre><code>sudo ss -lntp | grep ':8080'</code></pre><p>Interpret the result carefully:</p>
+<ul>
+<li><code>127.0.0.1:8080</code> — listening on loopback only.</li>
+<li><code>0.0.0.0:8080</code> — listening on all local IPv4 interfaces.</li>
+<li>A specific interface address — listening on that address.</li>
+<li>No matching listener — the service may be stopped, using another port, or bound differently.</li>
+</ul>
+<p>IPv6 listeners may also matter.</p>
+<h3 id="step-3-test-the-service-locally">Step 3 — Test the service locally</h3><pre><code>curl -v --connect-timeout 3 http://127.0.0.1:8080/</code></pre><p>Interpret common outcomes:</p>
+<table>
+<thead>
+<tr>
+<th>Result</th>
+<th>What it suggests</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Connection refused</td>
+<td>Nothing is accepting the connection at that address/port, or a local rule is actively rejecting it</td>
+</tr>
+<tr>
+<td>Connection timed out</td>
+<td>Packets may be dropped, routing may be wrong, or the service may be unresponsive</td>
+</tr>
+<tr>
+<td>HTTP 500</td>
+<td>An HTTP server responded, but application processing failed</td>
+</tr>
+<tr>
+<td>HTTP 404</td>
+<td>A server responded, but the requested route/resource was not found</td>
+</tr>
+<tr>
+<td>HTTP 200</td>
+<td>The endpoint returned success; application health may still require deeper checks</td>
+</tr>
+</tbody></table>
+<h3 id="step-4-check-firewall-and-service-configuration">Step 4 — Check firewall and service configuration</h3><pre><code>sudo ufw status verbose
+sudo systemctl status myapp
+sudo journalctl -u myapp -n 100 --no-pager</code></pre><p>If local requests succeed but remote requests fail, investigate the bind address, host firewall, cloud firewall, security groups, network ACLs, routing, and client path.</p>
+<p>Do not open a port to the public internet simply to make a test succeed. First establish which sources actually need access.</p>
+<h2 id="6-troubleshooting-cpu-memory-and-load">6. Troubleshooting CPU, memory, and load</h2><p>A slow server is not necessarily a CPU problem. You need to distinguish CPU saturation, memory pressure, storage waits, and application-level bottlenecks.</p>
+<h3 id="a-cpu-and-load-average">A. CPU and load average</h3><pre><code>uptime
+nproc
+top
+ps -eo pid,ppid,user,%cpu,%mem,stat,comm --sort=-%cpu | head -n 15</code></pre><ul>
+<li><code>nproc</code> shows the number of processing units available to the command.</li>
+<li><code>uptime</code> displays the 1-, 5-, and 15-minute load averages.</li>
+<li><code>top</code> provides a live view of processes and system activity.</li>
+</ul>
+<p>A high load average relative to available CPU capacity is a signal to investigate. Linux load includes runnable tasks and tasks in certain uninterruptible states, which can involve I/O waits. High load alone does not identify the cause.</p>
+<h3 id="b-memory-and-swap">B. Memory and swap</h3><pre><code>free -h
+swapon --show
+ps -eo pid,ppid,user,%mem,rss,comm --sort=-%mem | head -n 15</code></pre><p>Pay particular attention to <code>available</code> in <code>free -h</code>. Linux uses spare memory for caches, so low <code>free</code> memory alone does not prove that the server is out of memory.</p>
+<p>Check for sustained swap activity or evidence of an out-of-memory event. Don't kill the largest process without understanding what it does and whether it is responsible for the incident.</p>
+<h3 id="c-disk-i-o-and-pressure">C. Disk I/O and pressure</h3><p>If available, use:</p>
+<pre><code>vmstat 1 5
+iostat -xz 1 5</code></pre><p><code>iostat</code> is supplied by the <code>sysstat</code> package on Ubuntu and may need to be installed. In <code>vmstat</code>, examine subsequent samples rather than relying only on the first report, which can reflect averages since boot.</p>
+<p>Storage latency and queueing can make an application slow even when CPU usage is modest. Interpret I/O metrics in context; a single utilization percentage is not a universal saturation threshold.</p>
+<h3 id="a-useful-decision-guide">A useful decision guide</h3><p>CPU-bound</p>
+<p>High sustained CPU usage. Inspect top processes, concurrency, recent code or rule changes, and throughput.</p>
+<p>Memory pressure</p>
+<p>Low available memory, swap activity, or OOM events. Inspect process memory, workload size, and leaks.</p>
+<p>I/O bottleneck</p>
+<p>High wait or storage latency. Check the affected filesystem, disk activity, logs, and workload pattern.</p>
+<h2 id="7-troubleshooting-disk-space-and-inode-problems">7. Troubleshooting disk-space and inode problems</h2><p>Disk incidents often cause application failures, logging problems, and deployment issues.</p>
+<h3 id="step-1-check-capacity-and-inodes">Step 1 — Check capacity and inodes</h3><pre><code>df -h
+df -i</code></pre><ul>
+<li><code>df -h</code> shows filesystem space usage.</li>
+<li><code>df -i</code> shows inode usage.</li>
+</ul>
+<p>A filesystem can have free gigabytes but no available inodes for new files.</p>
+<h3 id="step-2-identify-where-space-is-used">Step 2 — Identify where space is used</h3><pre><code>sudo du -xhd1 /var 2&gt;/dev/null | sort -h
+sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</code></pre><p>These commands summarize directory usage while staying on the same filesystem (<code>-x</code>). They can take time on large filesystems.</p>
+<p>To inspect a particular application:</p>
+<pre><code>sudo du -sh /opt/myapp</code></pre><h3 id="step-3-investigate-before-deleting">Step 3 — Investigate before deleting</h3><p>Look for:</p>
+<ul>
+<li>Unexpectedly large application logs.</li>
+<li>Temporary files or caches that are safe to regenerate.</li>
+<li>Old artifacts retained beyond their intended lifecycle.</li>
+<li>Deleted files still held open by a running process.</li>
+<li>Inode exhaustion caused by large numbers of small files.</li>
+</ul>
+<p>For deleted-open files, if <code>lsof</code> is installed:</p>
+<pre><code>sudo lsof +L1</code></pre><p>A process may still occupy disk space after a file has been deleted. Identify the process and its purpose before taking action.</p>
+<p>Never use <code>rm -rf</code> as your first disk-space fix. Preserve incident evidence, follow retention policy, and use approved cleanup or log-rotation procedures. Deleting a log file does not necessarily free its space immediately if a process still has it open.</p>
+<h2 id="8-troubleshooting-permissions-and-configuration">8. Troubleshooting permissions and configuration</h2><p>Consider this error from a scheduled validation script:</p>
+<pre><code>/opt/myapp/run_validation.sh: Permission denied</code></pre><p>Several different issues can produce permission errors. Work through them systematically.</p>
+<h3 id="step-1-check-the-file-and-parent-directories">Step 1 — Check the file and parent directories</h3><pre><code>ls -l /opt/myapp/run_validation.sh
+namei -l /opt/myapp/run_validation.sh</code></pre><p>The user running the command needs appropriate access to the file and search (<code>x</code>) permission on every parent directory.</p>
+<h3 id="step-2-confirm-the-execution-context">Step 2 — Confirm the execution context</h3><pre><code>whoami
+id</code></pre><p>For a systemd service, also inspect:</p>
+<pre><code>systemctl cat myapp
+sudo systemctl status myapp</code></pre><p>Check the configured <code>User=</code>, <code>Group=</code>, <code>WorkingDirectory=</code>, and <code>ExecStart=</code> values, if present.</p>
+<p>For cron, inspect the relevant user's crontab:</p>
+<pre><code>crontab -l</code></pre><p>A command that succeeds as your login user may fail under another account because ownership, environment, and working directory differ.</p>
+<h3 id="step-3-check-the-interpreter-and-configuration">Step 3 — Check the interpreter and configuration</h3><p>For a Bash script:</p>
+<pre><code>head -n 5 /opt/myapp/run_validation.sh
+bash -n /opt/myapp/run_validation.sh</code></pre><p>Check whether the interpreter exists, whether the file uses the expected line endings, and whether the application configuration is present and readable.</p>
+<p>A script can be run with <code>bash script.sh</code> even if it does not have the executable bit, provided the invoking user can read the file. Running <code>./script.sh</code> generally requires executable permission and a valid interpreter line.</p>
+<h3 id="step-4-check-mount-and-security-restrictions">Step 4 — Check mount and security restrictions</h3><p>If the file permissions look correct but execution still fails, investigate:</p>
+<pre><code>findmnt /opt/myapp</code></pre><p>A filesystem mounted with <code>noexec</code> can prevent direct execution from that mount. Security policies such as AppArmor may also restrict access. Don't disable a security control merely to bypass an error; determine the policy and intended behavior first.</p>
+<h3 id="step-5-fix-the-actual-problem">Step 5 — Fix the actual problem</h3><p>Choose the smallest change that resolves the diagnosed cause. For example, if an approved application script is meant to be executable by its owner:</p>
+<pre><code>chmod u+x /opt/myapp/run_validation.sh</code></pre><p>Only run that change if the file's owner and intended access are correct. Do not use <code>chmod 777</code>.</p>
+<p>After the change, test as the appropriate service account where practical and inspect application logs.</p>
+<h2 id="9-four-realistic-devops-troubleshooting-case-studies">9. Four realistic DevOps troubleshooting case studies</h2><h3 id="case-study-a-python-web-application-returns-http-500">Case study A — Python web application returns HTTP 500</h3><p>Ticket: The service is running, but every API request returns HTTP 500.</p>
+<p>Start with:</p>
+<pre><code>sudo systemctl status myapp
+sudo journalctl -u myapp --since "30 minutes ago" --no-pager
+curl -sS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8080/</code></pre><p>Suppose the log shows:</p>
+<pre><code>KeyError: 'DATABASE_URL'</code></pre><p>Evidence-based conclusion: the application expects a configuration variable that is missing or not loaded.</p>
+<p>Safe next steps:</p>
+<ol>
+<li>Inspect the service unit and configuration-loading logic.</li>
+<li>Confirm the intended configuration source.</li>
+<li>Check that the service account can access the required file or secret.</li>
+<li>Supply the correct configuration through the approved mechanism.</li>
+<li>Restart the service only if the change requires it.</li>
+<li>Test the endpoint and review fresh logs.</li>
+</ol>
+<p>Do not invent a database URL or put credentials directly into the incident report.</p>
+<h3 id="case-study-b-the-validation-queue-is-growing">Case study B — The validation queue is growing</h3><p>Ticket: Perl validation jobs that usually finish in minutes now take 25 minutes.</p>
+<p>Collect:</p>
+<pre><code>uptime
+nproc
+free -h
+ps aux --sort=-%cpu | head -n 10
+vmstat 1 5</code></pre><p>Suppose the evidence shows sustained CPU usage by the Perl validator, sufficient available memory, no sustained swap activity, and no obvious I/O queue buildup.</p>
+<p>Investigate recent changes to worker concurrency, XML processing, rule execution, and input volume.</p>
+<p>Possible root cause: a deployment increased concurrency, causing too many CPU-intensive validation jobs to run simultaneously.</p>
+<p>Potential remediation: test a reduced worker count in a controlled way, compare throughput and queue growth, and follow the team's change process.</p>
+<p>Do not kill active validation jobs without understanding the impact on delivery data and job recovery.</p>
+<h3 id="case-study-c-disk-fills-and-the-service-stops-writing-logs">Case study C — Disk fills and the service stops writing logs</h3><p>Ticket: The application reports:</p>
+<pre><code>OSError: [Errno 28] No space left on device</code></pre><p>Run:</p>
+<pre><code>df -h
+df -i
+sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</code></pre><p>Suppose <code>/var/log/myapp</code> is unexpectedly large following a debugging deployment.</p>
+<p>Evidence-based response:</p>
+<ol>
+<li>Confirm whether filesystem blocks or inodes are exhausted.</li>
+<li>Identify which log files are growing and why.</li>
+<li>Preserve relevant evidence and follow retention policy.</li>
+<li>Correct excessive logging and configure appropriate rotation.</li>
+<li>Use approved cleanup procedures.</li>
+<li>Verify free capacity and service behavior.</li>
+</ol>
+<p>Deleting arbitrary system files or rebooting the server is not a reliable fix.</p>
+<h3 id="case-study-d-cron-reports-permission-denied">Case study D — Cron reports permission denied</h3><p>Ticket: A scheduled report runs successfully when launched manually but fails every morning.</p>
+<p>Compare the two execution contexts:</p>
+<pre><code>whoami
+id
+crontab -l</code></pre><p>Inspect the script and its parent directories:</p>
+<pre><code>ls -l "$HOME/devops-lab/health_check.sh"
+namei -l "$HOME/devops-lab/health_check.sh"</code></pre><p>Also check the cron log and output file. The scheduled job may run as a different user or lack access to a directory or log destination.</p>
+<p>Possible resolution: correct the intended owner or permissions, or adjust the job to use the proper service account and output path.</p>
+<p>Verify the next scheduled run. A successful manual test alone is not proof that cron is fixed.</p>
+<h2 id="10-practical-troubleshooting-lab">10. Practical troubleshooting lab</h2><p>Use your Ubuntu lab or another authorized test system. These exercises mostly gather evidence and avoid destructive changes.</p>
+<h2 id="hands-on-checklist">Hands-on checklist</h2><p>0/8</p>
+<p>Capture the initial health snapshot</p>
+<p>Run date, hostname, uptime, free -h, df -h, and df -i.</p>
+<p>Inspect service state and logs</p>
+<p>Check one known service using systemctl status and journalctl.</p>
+<p>Test a local endpoint</p>
+<p>Use curl -v with a short timeout against a known local service.</p>
+<p>Identify listening ports</p>
+<p>Run sudo ss -lntup and compare the output with expected services.</p>
+<p>Investigate resource usage</p>
+<p>Compare top CPU and memory processes with free -h and vmstat.</p>
+<p>Find a large directory</p>
+<p>Use du -xhd1 on an appropriate lab directory and inspect before cleanup.</p>
+<p>Inspect a permission issue</p>
+<p>Use ls -l and namei -l on a file you are allowed to inspect.</p>
+<p>Write a root-cause report</p>
+<p>Record symptom, evidence, hypothesis, fix, verification, and prevention.</p>
+<p>Copy lab checklist</p>
+<h3 id="incident-report-template">Incident report template</h3><p>Use this structure for support tickets and production incidents:</p>
+<p>Incident summary</p>
+<p>What failed, when it started, and who or what was affected.</p>
+<p>Evidence collected</p>
+<p>Commands run, relevant logs, metrics, timestamps, and observed errors.</p>
+<p>Root cause</p>
+<p>The cause supported by evidence, with uncertainties clearly stated.</p>
+<p>Remediation and verification</p>
+<p>The change made, test results, recovery status, and rollback plan.</p>
+<p>Prevention</p>
+<p>Monitoring, configuration checks, automation, or process improvements.</p>
+<p>Copy incident report template</p>
+<h2 id="11-interactive-quiz">11. Interactive quiz</h2><p>Answer all eight questions. Select Check answers to see your score and explanations.</p>
+<h2 id="knowledge-check">Knowledge check</h2><p>0/8 answered</p>
+<p>1. What should you generally do first when an application incident is reported?</p>
+<p>Reboot the server</p>
+<p>Collect symptoms, impact, and initial evidence</p>
+<p>Delete old logs</p>
+<p>2. Which command shows recent logs for a systemd service named myapp?</p>
+<p>sudo journalctl -u myapp -n 100 --no-pager</p>
+<p>sudo chmod 777 myapp</p>
+<p>sudo apt purge myapp</p>
+<p>3. A local curl request to a web application returns HTTP 500. What does this indicate?</p>
+<p>The server is definitely unreachable</p>
+<p>An HTTP server responded, but request processing failed</p>
+<p>The disk is definitely full</p>
+<p>4. Which command checks filesystem inode usage?</p>
+<p>df -i</p>
+<p>free -h</p>
+<p>ip route</p>
+<p>5. A service is active but the website fails. What is the best next step?</p>
+<p>Assume the service is healthy</p>
+<p>Immediately kill the process</p>
+<p>Test the endpoint and inspect logs, ports, and dependencies</p>
+<p>6. Select all useful initial incident checks.</p>
+<p>Select all that apply.</p>
+<p>uptime</p>
+<p>free -h</p>
+<p>df -h and df -i</p>
+<p>rm -rf /var/log/*</p>
+<p>7. True or false: A high load average always means the CPU is fully saturated.</p>
+<p>True</p>
+<p>False</p>
+<p>8. True or false: A fix is complete once the error message disappears from one log line.</p>
+<p>True</p>
+<p>False</p>
+<p>Check answers</p>
+<h2 id="12-assignment-tracker">12. Assignment tracker</h2><p>Use this list to track your progress beyond the quiz.</p>
+<h2 id="progress-tracker">Progress tracker</h2><h3 id="0-10">0/10</h3><p>Capture a Linux server health snapshot and record the time.</p>
+<p>Diagnose a service using systemctl status and journalctl.</p>
+<p>Explain the difference between connection refused and connection timeout.</p>
+<p>Identify a listening port and test the relevant local endpoint.</p>
+<p>Compare CPU, memory, load, and I/O evidence for a slow application.</p>
+<p>Investigate disk blocks and inode usage without deleting files blindly.</p>
+<p>Diagnose a permissions problem using ls -l and namei -l.</p>
+<p>Complete one realistic case study with an evidence-based root cause.</p>
+<p>Write an incident report with verification and rollback details.</p>
+<p>Propose one prevention or monitoring improvement.</p>
+<p>Copy assignment tracker</p>
+<h2 id="13-troubleshooting-cheat-sheet">13. Troubleshooting cheat sheet</h2><table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Start here</th>
+<th>Next investigation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Service won't start</td>
+<td><code>systemctl status myapp</code></td>
+<td><code>journalctl -u myapp</code> and configuration validation</td>
+</tr>
+<tr>
+<td>HTTP 500</td>
+<td><code>curl -v URL</code></td>
+<td>Application logs, configuration, and dependencies</td>
+</tr>
+<tr>
+<td>Connection refused</td>
+<td><code>ss -lntp</code></td>
+<td>Service state, bind address, and port</td>
+</tr>
+<tr>
+<td>Connection timeout</td>
+<td><code>ip route</code>, firewall status</td>
+<td>Routing, network policy, packet filtering</td>
+</tr>
+<tr>
+<td>Slow server</td>
+<td><code>uptime</code>, <code>top</code>, <code>free -h</code></td>
+<td>CPU, memory, load, I/O, and application metrics</td>
+</tr>
+<tr>
+<td>Disk full</td>
+<td><code>df -h</code>, <code>df -i</code></td>
+<td><code>du</code>, large files, inodes, deleted-open files</td>
+</tr>
+<tr>
+<td>Permission denied</td>
+<td><code>ls -l</code>, <code>namei -l</code></td>
+<td>Ownership, parent directories, service account, mount/security policy</td>
+</tr>
+<tr>
+<td>Cron job fails</td>
+<td><code>crontab -l</code></td>
+<td>Environment, absolute paths, permissions, job logs</td>
+</tr>
+<tr>
+<td>Configuration error</td>
+<td>Service logs, <code>systemctl cat myapp</code></td>
+<td>Required variables, config paths, syntax, ownership</td>
+</tr>
+</tbody></table>
+<h2 id="14-lesson-completion-checklist">14. Lesson completion checklist</h2><h2 id="ready-for-lesson-20-">Ready for Lesson 20?</h2><p>I understand the difference between a symptom and a root cause.</p>
+<p>I can follow a structured incident-triage workflow.</p>
+<p>I can inspect systemd services and journal logs.</p>
+<p>I can investigate ports, local endpoints, and network access.</p>
+<p>I can distinguish CPU, memory, disk-space, and inode problems.</p>
+<p>I can investigate configuration and permissions safely.</p>
+<p>I completed the quiz and reviewed my assignments.</p>
+<p>0 of 7 goals completed.</p>
+<h2 id="continue-to-module-1-lesson-20">Continue to Module 1, Lesson 20</h2><h2 id="lesson-20-advanced-bash-automation-and-production-scripts">Lesson 20: Advanced Bash Automation and Production Scripts</h2><p>Exit codes · Error handling · Logging · Arguments · Functions · Reliable automation · Production-safe scripting</p>
+<p>You'll build on Lessons 15–17 to create more robust automation scripts that validate inputs, handle failures, log useful information, and run reliably under cron or systemd.</p>
+<p>Continue to Lesson 20 </p>
+<p>Lesson 19 takeaway: Troubleshoot methodically: establish the impact, gather evidence, test a hypothesis, make the smallest justified change, and verify recovery. The best fix is the one supported by evidence—not necessarily the fastest command to run.</p>
+
+</div>

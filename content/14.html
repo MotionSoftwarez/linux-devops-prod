@@ -1,0 +1,405 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-13">Linux for DevOps — Module 1, Lesson 13</h2><p><a href="https://images.openai.com/static-rsc-4/Sjh5SR-y96E1k2e9uSx880k-sK587iMFEpr-2ma25_Cc2vj7VlNGeLsYvRnXvip9w2UxSZTuqzhmD3GoTGV3WCGv0zqApx0U5oge-QU5hDz1t-WDpbM3W7yr4f6KeZnrym6vAw2LQiXyg8a5rpEB2Af-_bmwUbuTO9y4CTQUKwE?purpose=inline">How to Connect to a Remote Server Using SSH: Step-by-Step Guide | Cherry Servers</a></p>
+<p><a href="https://www.cherryservers.com/blog/connect-remote-server-using-ssh?utm_source=chatgpt.com">cherryservers.com</a></p>
+<h2 id="ssh-and-secure-remote-access-on-ubuntu">SSH and Secure Remote Access on Ubuntu</h2><p>Beginner friendly</p>
+<p>Hands-on commands</p>
+<p>DevOps practical</p>
+<p>Learn how to securely connect to a remote Linux server, authenticate with SSH keys, transfer files, troubleshoot connection failures, and avoid locking yourself out of a production server.</p>
+<h2 id="1-what-is-ssh-">1. What is SSH?</h2><p>SSH (Secure Shell) is a protocol that lets you securely access and manage another computer over a network. The connection is encrypted, so credentials and commands aren't sent as ordinary readable text.</p>
+<p>For example, suppose your Ubuntu server runs a Python application or a Perl-based dataset validation tool. Instead of sitting in front of that server, you can connect from your laptop and inspect logs, restart services, and deploy files remotely.</p>
+<h3 id="the-basic-architecture">The basic architecture</h3><p>SSH client — your computer</p>
+<p>Runs the <code>ssh</code> command</p>
+<p>Encrypted SSH connection</p>
+<p>Usually TCP port 22</p>
+<p>SSH server — remote Ubuntu</p>
+<p>Usually the <code>sshd</code> service</p>
+<p>Two parts are involved:</p>
+<ul>
+<li>Client: the computer initiating the connection.</li>
+<li>Server: the remote computer running an SSH server, commonly OpenSSH.</li>
+</ul>
+<p>SSH is useful for remote terminals, secure file transfers, deployment, server maintenance, and automation.</p>
+<h2 id="2-install-and-check-ssh-on-ubuntu">2. Install and check SSH on Ubuntu</h2><p>SSH client and SSH server are separate components. Your laptop may already have the client installed even if the SSH server is not installed.</p>
+<h3 id="on-the-client-computer">On the client computer</h3><p>Check whether SSH is available:</p>
+<pre><code>ssh -V</code></pre><p>If Ubuntu reports that the command is missing, install the client:</p>
+<pre><code>sudo apt update
+sudo apt install openssh-client</code></pre><h3 id="on-the-remote-ubuntu-server">On the remote Ubuntu server</h3><p>Install the server package if needed:</p>
+<pre><code>sudo apt update
+sudo apt install openssh-server</code></pre><p>Check its status:</p>
+<pre><code>sudo systemctl status ssh</code></pre><p>Start it now and enable it at boot:</p>
+<pre><code>sudo systemctl enable --now ssh</code></pre><p>Check whether it is listening:</p>
+<pre><code>sudo ss -lntp | grep ':22'</code></pre><p>Note: SSH can be configured to use a different port. A running service also doesn't guarantee that remote connections are allowed through the firewall or network.</p>
+<h2 id="3-make-your-first-ssh-connection">3. Make your first SSH connection</h2><p>The basic syntax is:</p>
+<pre><code>ssh username@server_ip</code></pre><p>Example with illustrative values:</p>
+<pre><code>ssh deploy@192.0.2.10</code></pre><p>Here:</p>
+<ul>
+<li><code>deploy</code> is the account on the remote server.</li>
+<li><code>192.0.2.10</code> is a documentation-only example IP address.</li>
+<li>You may be asked to verify the server's host key on the first connection.</li>
+</ul>
+<p>If the server is configured for password authentication, SSH may ask for the remote account's password. If key authentication is configured, it may use your private key instead.</p>
+<p>After connecting, try:</p>
+<pre><code>whoami
+hostname
+pwd</code></pre><p>These commands help confirm which account and machine you're actually using.</p>
+<p>To disconnect:</p>
+<pre><code>exit</code></pre><h3 id="connect-on-a-non-default-port">Connect on a non-default port</h3><p>If the server uses port <code>2222</code>:</p>
+<pre><code>ssh -p 2222 deploy@192.0.2.10</code></pre><p>Remember: <code>-p</code> specifies the SSH server port, not a port for your application.</p>
+<h2 id="4-understand-ssh-host-keys">4. Understand SSH host keys</h2><p>The first time you connect to a server, SSH may display a message asking whether you trust its host key.</p>
+<p>This key helps identify the server and detect unexpected changes to its identity.</p>
+<p>Do not automatically accept every host key. Verify the server fingerprint through a trusted channel, such as your administrator or cloud console.</p>
+<p>If SSH later reports that the host identification has changed, stop and investigate. The server may have been rebuilt, its keys may have been rotated, or there could be a security issue. Do not blindly delete the warning to make the connection work.</p>
+<h2 id="5-public-key-authentication-the-safer-approach">5. Public-key authentication: the safer approach</h2><p>Passwords can be guessed, reused, or exposed. SSH keys offer a strong alternative and are commonly used for DevOps administration.</p>
+<p>An SSH key pair contains two related keys:</p>
+<ul>
+<li>Private key: stays on your client computer. Keep it secret.</li>
+<li>Public key: can be installed on the remote server.</li>
+</ul>
+<h3 id="how-authentication-works">How authentication works</h3><p>1. Client creates a key pair</p>
+<p>Private key: <code>id_ed25519</code> · Public key: <code>id_ed25519.pub</code></p>
+<p>2. Public key is installed on the server</p>
+<p>Typically in the remote user's <code>~/.ssh/authorized_keys</code> file.</p>
+<p>3. Client proves possession of the private key</p>
+<p>The server verifies the proof using the matching public key.</p>
+<p>Access granted if the checks pass</p>
+<p>The private key is not supposed to be copied to the server. Only the public key is installed there.</p>
+<h3 id="step-1-generate-an-ssh-key-pair">Step 1 — Generate an SSH key pair</h3><p>On your client computer:</p>
+<pre><code>ssh-keygen -t ed25519 -C "devops-laptop"</code></pre><p>Follow the prompts. The default key paths are usually:</p>
+<pre><code>~/.ssh/id_ed25519
+~/.ssh/id_ed25519.pub</code></pre><p>Set a passphrase when practical. It protects the private key if someone obtains a copy of the file. An SSH agent can help you avoid entering the passphrase repeatedly.</p>
+<p>If the default key already exists, don't overwrite it without checking whether you still need it.</p>
+<p>Check the files:</p>
+<pre><code>ls -la ~/.ssh</code></pre><h3 id="step-2-copy-the-public-key-to-the-server">Step 2 — Copy the public key to the server</h3><p>If password-based SSH access is currently permitted and you have authorization:</p>
+<pre><code>ssh-copy-id deploy@192.0.2.10</code></pre><p>For a server using port <code>2222</code>:</p>
+<pre><code>ssh-copy-id -p 2222 deploy@192.0.2.10</code></pre><p>This installs the public key into the remote user's authorized keys, usually <code>~/.ssh/authorized_keys</code>.</p>
+<p>If <code>ssh-copy-id</code> is unavailable, a system administrator can install the public key through an approved access method.</p>
+<h3 id="step-3-test-key-based-login">Step 3 — Test key-based login</h3><pre><code>ssh deploy@192.0.2.10</code></pre><p>To specify a particular private key:</p>
+<pre><code>ssh -i ~/.ssh/id_ed25519 deploy@192.0.2.10</code></pre><p>You can test key authentication explicitly:</p>
+<pre><code>ssh -o PreferredAuthentications=publickey \
+    -o PasswordAuthentication=no \
+    deploy@192.0.2.10</code></pre><p>This test may fail if the server or account isn't configured for key-based access. Don't disable other authentication methods on a production server until you've verified your intended access path.</p>
+<h2 id="6-ssh-directory-and-file-permissions">6. SSH directory and file permissions</h2><p>OpenSSH may reject keys if the user's home directory, SSH directory, or key files have unsafe ownership or permissions.</p>
+<p>Typical permissions for a personal key setup are:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Typical permission</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>~/.ssh</code></td>
+<td><code>700</code></td>
+<td>Only the owner can access the directory</td>
+</tr>
+<tr>
+<td><code>~/.ssh/id_ed25519</code></td>
+<td><code>600</code></td>
+<td>Private key</td>
+</tr>
+<tr>
+<td><code>~/.ssh/id_ed25519.pub</code></td>
+<td><code>644</code></td>
+<td>Public key</td>
+</tr>
+<tr>
+<td><code>~/.ssh/authorized_keys</code></td>
+<td><code>600</code></td>
+<td>Public keys permitted to log in</td>
+</tr>
+</tbody></table>
+<p>Set permissions on your own client:</p>
+<pre><code>chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub</code></pre><p>On the remote server, as the relevant user or administrator:</p>
+<pre><code>chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys</code></pre><p>Check ownership as well:</p>
+<pre><code>ls -ld ~ ~/.ssh
+ls -l ~/.ssh</code></pre><p>The SSH directory and authorized-keys file should normally belong to the intended account. Don't use <code>chmod -R</code> or change ownership across an entire home directory without understanding the effects.</p>
+<p>Important: Never share your private key in a ticket, email, chat, Git repository, or public server. If a private key is exposed, treat it as compromised and replace it.</p>
+<h2 id="7-transfer-files-with-scp">7. Transfer files with <code>scp</code></h2><p><code>scp</code> copies files securely over SSH. It is useful for transferring deployment artifacts, configuration files, reports, and logs.</p>
+<h3 id="copy-a-file-from-your-laptop-to-the-server">Copy a file from your laptop to the server</h3><pre><code>scp ./app.conf deploy@192.0.2.10:/home/deploy/</code></pre><h3 id="download-a-server-log-to-your-laptop">Download a server log to your laptop</h3><pre><code>scp deploy@192.0.2.10:/var/log/myapp/app.log ./</code></pre><p>You may need appropriate read permissions to download a server file.</p>
+<h3 id="copy-an-entire-directory">Copy an entire directory</h3><pre><code>scp -r ./myapp deploy@192.0.2.10:/home/deploy/</code></pre><h3 id="use-a-custom-ssh-port">Use a custom SSH port</h3><pre><code>scp -P 2222 ./app.conf deploy@192.0.2.10:/home/deploy/</code></pre><p>Notice the difference: SSH uses lowercase <code>-p</code> for a port; SCP uses uppercase <code>-P</code>.</p>
+<p>Visual example: upload a deployment file</p>
+<p>Client</p>
+<p><code>./app.conf</code></p>
+<p>Remote server</p>
+<p><code>/home/deploy/app.conf</code></p>
+<p> Copy upload command</p>
+<p>For large directory synchronization or repeat deployments, <code>rsync -e ssh</code> is often more efficient because it can transfer only changed data. For interactive file browsing, consider <code>sftp</code>.</p>
+<p>Be careful when transferring configuration files: a successful copy does not mean the application is configured correctly or that the file should be installed into a privileged directory.</p>
+<h2 id="8-save-connection-settings-in-ssh-config">8. Save connection settings in SSH config</h2><p>Typing long commands every time gets tedious. SSH supports a client configuration file at <code>~/.ssh/config</code>.</p>
+<p>Create or edit it:</p>
+<pre><code>nano ~/.ssh/config</code></pre><p>Add a host entry, replacing the example address and username with the real values:</p>
+<pre><code>Host staging
+    HostName 192.0.2.10
+    User deploy
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes</code></pre><p>Set appropriate permissions:</p>
+<pre><code>chmod 600 ~/.ssh/config</code></pre><p>Now you can connect using the short alias:</p>
+<pre><code>ssh staging</code></pre><p>And copy files:</p>
+<pre><code>scp ./app.conf staging:/home/deploy/</code></pre><p>This file is on your client, not the remote server. Avoid putting passwords or private-key contents in it.</p>
+<h2 id="9-troubleshoot-ssh-like-a-devops-engineer">9. Troubleshoot SSH like a DevOps engineer</h2><p>When SSH fails, first identify the exact error. Different errors usually point to different layers of the connection.</p>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Common causes</th>
+<th>First checks</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Connection timed out</code></td>
+<td>Routing, firewall, security group, unreachable host</td>
+<td>IP, route, network/firewall rules</td>
+</tr>
+<tr>
+<td><code>Connection refused</code></td>
+<td>Server reachable but port not accepting connections</td>
+<td>SSH service and listening port</td>
+</tr>
+<tr>
+<td><code>Permission denied (publickey)</code></td>
+<td>Wrong user/key, missing public key, permissions</td>
+<td>Username, key selection, <code>authorized_keys</code></td>
+</tr>
+<tr>
+<td><code>Host key verification failed</code></td>
+<td>Host identity mismatch or stale entry</td>
+<td>Verify fingerprint before changing trust</td>
+</tr>
+<tr>
+<td><code>Could not resolve hostname</code></td>
+<td>Typo or DNS problem</td>
+<td>Hostname, <code>getent hosts</code></td>
+</tr>
+<tr>
+<td><code>REMOTE HOST IDENTIFICATION HAS CHANGED</code></td>
+<td>Server rebuilt, host key rotated, or possible attack</td>
+<td>Verify through a trusted channel</td>
+</tr>
+</tbody></table>
+<h3 id="useful-diagnostic-commands">Useful diagnostic commands</h3><p>Show detailed connection information:</p>
+<pre><code>ssh -v deploy@192.0.2.10</code></pre><p>Use <code>-vv</code> or <code>-vvv</code> for more detail if necessary. Review output before sharing it; logs can contain usernames, hostnames, paths, and other sensitive information.</p>
+<p>Check the route to a server:</p>
+<pre><code>ip route
+ip route get 192.0.2.10</code></pre><p>Check the SSH service on the remote Ubuntu server:</p>
+<pre><code>sudo systemctl status ssh
+sudo journalctl -u ssh -n 50 --no-pager
+sudo ss -lntp</code></pre><p>Check the SSH server configuration syntax:</p>
+<pre><code>sudo sshd -t</code></pre><p>If this command returns no output, the configuration syntax check generally passed. It does not prove that every access rule or network path will work.</p>
+<p>Check the DNS result:</p>
+<pre><code>getent hosts staging.example.com</code></pre><p>If a custom port is configured, make sure the client, SSH server, firewall, and any cloud security rules agree on that port.</p>
+<h3 id="a-safe-troubleshooting-sequence">A safe troubleshooting sequence</h3><p>1. Confirm the destination</p>
+<p>Check the hostname/IP, username, port, and network route.</p>
+<p>2. Confirm connectivity</p>
+<p>Look for timeouts, refused connections, or DNS failures.</p>
+<p>3. Check authentication</p>
+<p>Verify the user, selected key, public key, ownership, and permissions.</p>
+<p>4. Inspect server logs</p>
+<p>Use the journal and configuration checks to identify the actual cause.</p>
+<h2 id="10-configure-the-ssh-server-safely">10. Configure the SSH server safely</h2><p>The server's main configuration file is usually:</p>
+<pre><code>/etc/ssh/sshd_config</code></pre><p>Some Ubuntu installations also use additional configuration files under:</p>
+<pre><code>/etc/ssh/sshd_config.d/</code></pre><p>Inspect the active configuration and any included files before changing settings.</p>
+<p>For example, you might eventually configure key-based authentication or restrict SSH access to approved users. However, don't blindly copy hardening settings from a tutorial into a production server. The effective configuration can depend on included files, defaults, and <code>Match</code> rules.</p>
+<h3 id="safe-procedure-before-changing-ssh-settings">Safe procedure before changing SSH settings</h3><ol>
+<li>Keep your current SSH session open.</li>
+<li>Make a backup of the configuration file you plan to edit.</li>
+<li>Make one change at a time.</li>
+<li>Validate syntax with <code>sudo sshd -t</code>.</li>
+<li>If validation succeeds, reload the service if appropriate:</li>
+</ol>
+<pre><code>sudo systemctl reload ssh</code></pre><ol start="6">
+<li>Open a second terminal and verify that a new connection works.</li>
+<li>Only then close the original session.</li>
+</ol>
+<p>If reload isn't supported in your setup, investigate the appropriate service action before proceeding. Maintain console or out-of-band recovery access for important servers.</p>
+<h3 id="don-t-lock-yourself-out">Don't lock yourself out</h3><p>Avoid disabling password authentication or root login until you have confirmed that the intended account can successfully authenticate using a key and has the required administrative access.</p>
+<p>Other safety rules:</p>
+<ul>
+<li>Don't expose port 22 to the entire internet unless your security design calls for it.</li>
+<li>Prefer approved source-IP restrictions, VPN access, or a bastion host where appropriate.</li>
+<li>Use individual accounts and least-privilege access rather than sharing one administrator account.</li>
+<li>Keep private keys protected and rotate them when needed.</li>
+<li>Don't use <code>chmod 777</code> to fix SSH permission problems.</li>
+</ul>
+<h2 id="11-real-world-devops-case-study-deployment-server-unreachable">11. Real-world DevOps case study: deployment server unreachable</h2><p>Imagine a Python web application is running on an Ubuntu staging server. A deployment engineer suddenly receives:</p>
+<pre><code>ssh: connect to host 192.0.2.10 port 22: Connection refused</code></pre><p>The application team cannot access the server using SSH.</p>
+<h3 id="investigation">Investigation</h3><p>Step 1 — Interpret the error. A refusal commonly means the destination is reachable but nothing is accepting connections at that address and port, or a network device is actively rejecting the connection. It does not automatically mean the password or SSH key is wrong.</p>
+<p>Step 2 — Use the approved server console. If SSH is unavailable, access the server through its cloud console, hypervisor console, or another authorized recovery route.</p>
+<p>Step 3 — Check the service.</p>
+<pre><code>sudo systemctl status ssh
+sudo journalctl -u ssh -n 50 --no-pager</code></pre><p>Suppose the service is inactive after a maintenance change.</p>
+<p>Step 4 — Check the configuration before starting it.</p>
+<pre><code>sudo sshd -t</code></pre><p>If syntax is valid and the service is meant to be running, start it:</p>
+<pre><code>sudo systemctl start ssh</code></pre><p>Step 5 — Confirm it is listening.</p>
+<pre><code>sudo ss -lntp | grep ':22'</code></pre><p>Step 6 — Test a new connection from the client.</p>
+<pre><code>ssh -v deploy@192.0.2.10</code></pre><p>Step 7 — Verify the outcome. Confirm the expected account can log in and inspect the service logs for any remaining errors.</p>
+<h3 id="what-if-the-real-cause-is-different-">What if the real cause is different?</h3><ul>
+<li>If the service is running but no socket is listening on port 22, inspect the configured port and listen addresses.</li>
+<li>If the connection times out, investigate network paths, firewalls, cloud security groups, and routing.</li>
+<li>If the error is <code>Permission denied (publickey)</code>, investigate authentication instead of restarting the service.</li>
+<li>If SSH reports a host key change, verify the server identity before updating the client's trust record.</li>
+</ul>
+<p>DevOps lesson: Diagnose the layer that failed. Restarting services, changing permissions, or disabling security controls without evidence can make the incident worse.</p>
+<h2 id="12-hands-on-lab-practise-safely">12. Hands-on lab: practise safely</h2><p>Use a test Ubuntu machine or a server where you have permission to administer SSH. If you have only one Ubuntu machine, practise key generation and file permissions locally; don't assume SSH server access is available.</p>
+<h2 id="lab-checklist">Lab checklist</h2><p>0 of 8 complete</p>
+<p>Check the SSH client</p>
+<p>ssh -V</p>
+<p>Check the SSH service</p>
+<p>sudo systemctl status ssh</p>
+<p>Inspect SSH key files</p>
+<p>ls -la ~/.ssh</p>
+<p>Generate a test key if needed</p>
+<p>ssh-keygen -t ed25519 -C "devops-lab"</p>
+<p>Inspect listening ports</p>
+<p>sudo ss -lntp</p>
+<p>Read recent SSH logs</p>
+<p>sudo journalctl -u ssh -n 30 --no-pager</p>
+<p>Validate server configuration</p>
+<p>sudo sshd -t</p>
+<p>Practise file transfer with a test file</p>
+<p>scp ./hello.txt deploy@SERVER_IP:/home/deploy/</p>
+<p>Reset checklist</p>
+<p>Commands with <code>SERVER_IP</code> or example usernames are templates: replace them with valid details before use. The configuration test and server-side commands must run on the appropriate machine with sufficient permissions.</p>
+<h3 id="challenge-a-understand-the-connection">Challenge A — Understand the connection</h3><p>You have a server at <code>192.0.2.10</code>, a remote user named <code>deploy</code>, and SSH listens on port <code>2222</code>.</p>
+<p>Write the command that connects to that user on that server.</p>
+<p>Hint: SSH's port option is lowercase.</p>
+<p>Copy reference command</p>
+<h3 id="challenge-b-diagnose-a-key-problem">Challenge B — Diagnose a key problem</h3><p>The connection reaches the server, but the client returns <code>Permission denied (publickey)</code>.</p>
+<p>Before changing server security settings, inspect:</p>
+<ul>
+<li>The username used in the command.</li>
+<li>Which private key the client is offering (<code>ssh -v</code>).</li>
+<li>Whether the matching public key is in the correct user's <code>authorized_keys</code>.</li>
+<li>Ownership and permissions of the user's home and <code>.ssh</code> files.</li>
+<li>Server-side SSH logs, using an approved access path.</li>
+</ul>
+<p>Do not copy the private key to the server.</p>
+<h3 id="challenge-c-explain-the-result">Challenge C — Explain the result</h3><p>A server's SSH service is <code>active (running)</code>, but remote clients time out. The service status alone does not establish that remote access works. Network routes, firewall rules, security groups, listening addresses, and the port must also be checked.</p>
+<h2 id="13-knowledge-check">13. Knowledge check</h2><p>Complete this quiz before moving to the next lesson.</p>
+<p>Which file should normally remain secret on the SSH client when using Ed25519 key authentication?</p>
+<p>1 of 8</p>
+<p>Aknown_hosts</p>
+<p>Bauthorized_keys</p>
+<p>Cid_ed25519.pub</p>
+<p>Did_ed25519</p>
+<p>Next</p>
+<h2 id="14-assignment-tracker">14. Assignment tracker</h2><p>Complete these tasks to build confidence using SSH in real support and DevOps work.</p>
+<h2 id="lesson-13-assignments">Lesson 13 assignments</h2><p>0/6 completed</p>
+<p>Explain the difference between an SSH client and server.</p>
+<p>Generate an Ed25519 key pair and identify the public and private key files.</p>
+<p>Explain how authorized_keys enables public-key login.</p>
+<p>Set and verify appropriate SSH key permissions.</p>
+<p>Practise SSH and SCP with a test machine or authorized server.</p>
+<p>Diagnose a simulated timeout and a public-key authentication failure.</p>
+<p> Copy assignment report</p>
+<h2 id="15-ssh-cheat-sheet">15. SSH cheat sheet</h2><p>Connect and inspect</p>
+<p> Copy</p>
+<p>ssh deploy@SERVER_IP<br>ssh -p 2222 deploy@SERVER_IP<br>ssh -v deploy@SERVER_IP<br>exit</p>
+<p>Create and use keys</p>
+<p> Copy</p>
+<p>ssh-keygen -t ed25519 -C "devops-laptop"<br>ssh-copy-id deploy@SERVER_IP<br>ssh -i ~/.ssh/id_ed25519 deploy@SERVER_IP</p>
+<p>Permissions</p>
+<p> Copy</p>
+<p>chmod 700 ~/.ssh<br>chmod 600 ~/.ssh/id_ed25519<br>chmod 644 ~/.ssh/id_ed25519.pub<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>Transfer files</p>
+<p> Copy</p>
+<p>scp ./app.conf deploy@SERVER_IP:/home/deploy/<br>scp deploy@SERVER_IP:/var/log/myapp/app.log ./<br>scp -P 2222 ./app.conf deploy@SERVER_IP:/home/deploy/</p>
+<p>Server diagnostics</p>
+<p> Copy</p>
+<p>sudo systemctl status ssh<br>sudo journalctl -u ssh -n 50 --no-pager<br>sudo ss -lntp<br>sudo sshd -t<br>sudo systemctl reload ssh</p>
+<p>Replace example usernames, hostnames, IP addresses, ports and paths with the correct values for your environment. Server-side commands may require sudo.</p>
+<h2 id="16-lesson-completion-checklist">16. Lesson completion checklist</h2><p>Before moving on, make sure you can explain these five concepts without looking at the notes:</p>
+<ul>
+<li>SSH provides an encrypted remote connection.</li>
+<li>The private key stays secret; the public key is installed on the server.</li>
+<li><code>ssh</code> connects to a remote shell; <code>scp</code> transfers files.</li>
+<li>Timeouts, refused connections, and authentication failures require different investigations.</li>
+<li>Before modifying SSH server settings, validate the configuration and protect your existing access.</li>
+</ul>
+<h2 id="up-next-module-1-lesson-14">Up next: Module 1, Lesson 14</h2><p><a href="https://images.openai.com/static-rsc-4/upPsmuQN41ZHQLb3RlCNCD9pmFXMJFNNnJt3IND02VDX_v-BF1DyxB5a9pHBbQ2RMNMSgxbIE32xlDsAqytca-EJa4QNuO7XuYV9lEggvOFsmf81Ma94XupCpXf92GCr7IAefpmdUYAY4zL4NF3nnHE-xH24_ZROFVlRuPiCsCQ?purpose=inline">How to Be Your Own Linux Tech Support - Make Tech Easier</a></p>
+<p>MODULE 1 · LESSON 14</p>
+<h2 id="system-monitoring-and-resource-management">System Monitoring and Resource Management</h2><p>Learn how to monitor CPU, memory, disk I/O, load average, running processes, and resource bottlenecks on Ubuntu servers.</p>
+<p>Continue to Lesson 14 </p>
+
+</div>

@@ -1,0 +1,271 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-24-linux-kernel-boot-process-and-troubleshooting">Module 1, Lesson 24 — Linux Kernel, Boot Process and Troubleshooting</h2><p>Level: Intermediate · Estimated time: 35–45 minutes · Practical focus: startup and recovery</p>
+<p>In this lesson, you’ll learn how the Linux boot process works, the role of the kernel and init system, how to inspect boot logs, and how to troubleshoot a system that won’t boot or starts slowly.</p>
+<h2 id="1-the-linux-boot-process-simplified-">1. The Linux boot process (simplified)</h2><pre><code class="hljs language-text">Power on  --&gt;  BIOS/UEFI  --&gt;  Bootloader (GRUB)  --&gt;  Linux kernel  --&gt;  init (systemd)  --&gt;  services  --&gt;  login</code></pre><ol>
+<li><strong>BIOS/UEFI</strong> — firmware that performs a power-on self-test and finds the boot device.</li>
+<li><strong>GRUB</strong> — the bootloader that loads the kernel into memory.</li>
+<li><strong>Kernel</strong> — initializes hardware, mounts the root filesystem, and starts init.</li>
+<li><strong>systemd (init, PID 1)</strong> — starts services and brings the system to a usable state.</li>
+</ol>
+<h2 id="2-the-kernel-and-its-version">2. The kernel and its version</h2><p>Check the running kernel:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">uname</span> -r
+<span class="hljs-built_in">uname</span> -a</code></pre><p>List installed kernels:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ls</span> /boot</code></pre><p>The file <code>/boot/vmlinuz-*</code> is the compressed kernel. <code>initrd</code>/<code>initramfs-*</code> is a temporary root filesystem used during early boot.</p>
+<h2 id="3-systemd-init-and-service-manager">3. systemd — init and service manager</h2><p>systemd is PID 1 on most modern Linux systems. It starts services in parallel and manages their state.</p>
+<p>Common systemd commands:</p>
+<pre><code class="hljs language-bash">systemctl status nginx
+systemctl start nginx
+systemctl stop nginx
+systemctl restart nginx
+systemctl <span class="hljs-built_in">enable</span> nginx
+systemctl <span class="hljs-built_in">disable</span> nginx
+systemctl list-units --<span class="hljs-built_in">type</span>=service --state=failed</code></pre><p>Check boot time:</p>
+<pre><code class="hljs language-bash">systemd-analyze
+systemd-analyze blame</code></pre><p><code>blame</code> shows which services took the longest to start — useful for slow-boot troubleshooting.</p>
+<h2 id="4-inspect-boot-and-kernel-logs">4. Inspect boot and kernel logs</h2><p>Kernel ring buffer:</p>
+<pre><code class="hljs language-bash">dmesg
+dmesg | less
+dmesg -T        <span class="hljs-comment"># human-readable timestamps</span></code></pre><p>systemd journal for the current boot:</p>
+<pre><code class="hljs language-bash">journalctl -b
+journalctl -b -1      <span class="hljs-comment"># previous boot</span>
+journalctl -u nginx   <span class="hljs-comment"># a specific service</span></code></pre><p>The kernel log is stored in <code>/var/log/kern.log</code> on some systems, but <code>dmesg</code> and <code>journalctl</code> are the standard tools.</p>
+<h2 id="5-grub-and-boot-options">5. GRUB and boot options</h2><p>GRUB configuration:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> /etc/default/grub
+<span class="hljs-built_in">sudo</span> update-grub     <span class="hljs-comment"># apply changes on Ubuntu/Debian</span></code></pre><p>Common <code>GRUB_CMDLINE_LINUX_DEFAULT</code> additions:</p>
+<ul>
+<li><code>nomodeset</code> — disable graphics driver loading (fixes black screen on boot).</li>
+<li><code>single</code> or <code>systemd.unit=rescue.target</code> — boot into rescue mode.</li>
+</ul>
+<p>After editing <code>/etc/default/grub</code>, always run <code>sudo update-grub</code> and reboot to test.</p>
+<h2 id="6-boot-targets">6. Boot targets</h2><p>systemd uses targets instead of old runlevels:</p>
+<pre><code class="hljs language-bash">systemctl get-default        <span class="hljs-comment"># current default target</span>
+systemctl set-default multi-user.target   <span class="hljs-comment"># text mode</span>
+systemctl set-default graphical.target    <span class="hljs-comment"># desktop</span></code></pre><p>Common targets:</p>
+<ul>
+<li><code>graphical.target</code> — multi-user + GUI.</li>
+<li><code>multi-user.target</code> — multi-user, text mode.</li>
+<li><code>rescue.target</code> — minimal system for repair.</li>
+<li><code>emergency.target</code> — even more minimal.</li>
+</ul>
+<h2 id="7-troubleshooting-a-system-that-won-t-boot">7. Troubleshooting a system that won’t boot</h2><p>If Linux won’t start normally:</p>
+<ol>
+<li>Reboot and hold Shift (BIOS) or Esc (UEFI) to open the GRUB menu.</li>
+<li>Select “Advanced options” and try a previous kernel version.</li>
+<li>If that fails, boot into <code>rescue.target</code> by editing the GRUB entry (press <code>e</code>) and adding <code>systemd.unit=rescue.target</code>.</li>
+<li>In rescue mode, filesystems may be read-only. Remount writable:</li>
+</ol>
+<pre><code class="hljs language-bash">mount -o remount,rw /</code></pre><ol start="5">
+<li>Check logs:</li>
+</ol>
+<pre><code class="hljs language-bash">journalctl -xb
+dmesg | less</code></pre><ol start="6">
+<li>Common fixes:<ul>
+<li>Fix <code>/etc/fstab</code> entries for missing disks (a bad fstab entry can prevent boot).</li>
+<li>Reset a forgotten password with <code>passwd</code>.</li>
+<li>Reinstall GRUB from a live USB if the bootloader is broken.</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-interactive-practice-quiz">8. Interactive practice quiz</h2><p>1. Which process is PID 1 on most modern Linux systems?</p>
+<p>GRUB</p>
+<p>systemd</p>
+<p>kernel</p>
+<p>bash</p>
+<p>2. Which command shows kernel boot messages?</p>
+<p>dmesg</p>
+<p>lsblx</p>
+<p>lscpu</p>
+<p>systemctl status</p>
+<p>3. Which command shows services that failed at boot?</p>
+<p>systemctl list-units --type=service --state=failed</p>
+<p>systemctl status</p>
+<p>dmesg -f</p>
+<p>journalctl -f</p>
+<p>4. Which file holds GRUB defaults on Ubuntu?</p>
+<p>/etc/default/grub</p>
+<p>/boot/grub.cfg</p>
+<p>/etc/fstab</p>
+<p>/etc/passwd</p>
+<p>Check answers</p>
+<h2 id="9-realistic-devops-case-study-server-is-stuck-at-boot">9. Realistic DevOps case study: server is stuck at boot</h2><p>Scenario: After a disk was added and an <code>/etc/fstab</code> entry was created, the server won’t boot and drops to an emergency shell.</p>
+<p>Recovery steps:</p>
+<ol>
+<li>Reboot into GRUB, edit the boot entry, add <code>systemd.unit=rescue.target</code>, boot.</li>
+<li>Remount root read-write: <code>mount -o remount,rw /</code>.</li>
+<li>Inspect fstab: <code>cat /etc/fstab</code>.</li>
+<li>Comment out the bad disk line (prepend <code>#</code>).</li>
+<li>Reboot normally.</li>
+</ol>
+<p>Never delete fstab lines blindly — verify the device UUID first with <code>blkid</code>.</p>
+<h2 id="10-practical-assignment">10. Practical assignment</h2><p>Complete these on a Linux machine.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0/8 completed</p>
+<ol>
+<li>Check the running kernel version</li>
+</ol>
+<p>uname -r</p>
+<ol start="2">
+<li>List files in /boot</li>
+</ol>
+<p>ls /boot</p>
+<ol start="3">
+<li>Show systemd boot-time analysis</li>
+</ol>
+<p>systemd-analyze</p>
+<ol start="4">
+<li>Show slowest services</li>
+</ol>
+<p>systemd-analyze blame</p>
+<ol start="5">
+<li>View current boot journal</li>
+</ol>
+<p>journalctl -b</p>
+<ol start="6">
+<li>Check failed services</li>
+</ol>
+<p>systemctl list-units --type=service --state=failed</p>
+<ol start="7">
+<li>Check the default target</li>
+</ol>
+<p>systemctl get-default</p>
+<ol start="8">
+<li>View kernel ring buffer with timestamps</li>
+</ol>
+<p>dmesg -T</p>
+<h2 id="11-cheat-sheet-boot-and-kernel">11. Cheat sheet — boot and kernel</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kernel version</td>
+<td><code>uname -r</code></td>
+</tr>
+<tr>
+<td>Boot messages</td>
+<td><code>dmesg -T</code></td>
+</tr>
+<tr>
+<td>Current boot journal</td>
+<td><code>journalctl -b</code></td>
+</tr>
+<tr>
+<td>Previous boot journal</td>
+<td><code>journalctl -b -1</code></td>
+</tr>
+<tr>
+<td>Service logs</td>
+<td><code>journalctl -u &lt;service&gt;</code></td>
+</tr>
+<tr>
+<td>Boot time</td>
+<td><code>systemd-analyze</code></td>
+</tr>
+<tr>
+<td>Slow services</td>
+<td><code>systemd-analyze blame</code></td>
+</tr>
+<tr>
+<td>Failed services</td>
+<td><code>systemctl list-units --type=service --state=failed</code></td>
+</tr>
+<tr>
+<td>Default target</td>
+<td><code>systemctl get-default</code></td>
+</tr>
+<tr>
+<td>GRUB defaults</td>
+<td><code>/etc/default/grub</code></td>
+</tr>
+<tr>
+<td>Update GRUB</td>
+<td><code>sudo update-grub</code></td>
+</tr>
+<tr>
+<td>Remount root rw</td>
+<td><code>mount -o remount,rw /</code></td>
+</tr>
+</tbody></table>
+<p>Safety tip: Before editing <code>/etc/fstab</code> or GRUB config, make a backup copy so you can restore it from a rescue shell.</p>
+<h2 id="what-comes-next-">What comes next?</h2><p>Next lesson: Production capstone — troubleshoot and recover a broken application end-to-end.</p>
+<p>Continue to Lesson 25</p>
+
+</div>

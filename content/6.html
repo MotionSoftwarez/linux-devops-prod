@@ -1,0 +1,517 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-5">Linux for DevOps — Module 1, Lesson 5</h2><h2 id="linux-permissions-and-ownership-chmod-chown-chgrp-and-umask">Linux permissions and ownership: <code>chmod</code>, <code>chown</code>, <code>chgrp</code>, and <code>umask</code></h2><p>Beginner</p>
+<p>Hands-on lab</p>
+<p>Production safety</p>
+<p>Linux permissions control who can read, modify, or execute a file. Ownership determines which user and group a file belongs to.</p>
+<p>These concepts are essential in DevOps when deploying applications, running services, sharing files between team members, and troubleshooting <code>Permission denied</code> errors.</p>
+<h2 id="1-understand-linux-permissions-visually">1. Understand Linux permissions visually</h2><p>Imagine a web application deployment directory:</p>
+<p><code>/var/www/myapp</code></p>
+<p>Owned by user <code>deploy</code>, group <code>webteam</code></p>
+<p>Owner</p>
+<p>User who owns the file</p>
+<p>Group</p>
+<p>Users in the assigned group</p>
+<p>Others</p>
+<p>Everyone else</p>
+<p>Linux evaluates access according to the file's permission bits and the user's relationship to its owner and group, along with other security controls.</p>
+<p>For a file, these three permission classes are:</p>
+<ul>
+<li>Owner (<code>u</code>) — the file's owner.</li>
+<li>Group (<code>g</code>) — users belonging to the file's group.</li>
+<li>Others (<code>o</code>) — users who are neither the owner nor members of the assigned group.</li>
+<li>All (<code>a</code>) — shorthand for owner, group, and others when using symbolic permission commands.</li>
+</ul>
+<h2 id="2-learn-the-three-basic-permissions">2. Learn the three basic permissions</h2><table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Permission</th>
+<th>For a regular file</th>
+<th>For a directory</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>r</code></td>
+<td>Read</td>
+<td>View file contents</td>
+<td>List directory entries</td>
+</tr>
+<tr>
+<td><code>w</code></td>
+<td>Write</td>
+<td>Modify file contents</td>
+<td>Create, remove, or rename entries, subject to other restrictions</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>Execute</td>
+<td>Run a program or script</td>
+<td>Traverse/access entries by path, subject to other restrictions</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>No permission</td>
+<td>The corresponding action is not granted</td>
+<td>The corresponding action is not granted</td>
+</tr>
+</tbody></table>
+<p>Important: Directory permissions work differently from file permissions. For example, being able to read a directory doesn't necessarily mean you can access files inside it; execute permission is generally needed to traverse the directory.</p>
+<h3 id="decode-a-permission-string">Decode a permission string</h3><p>Run:</p>
+<pre><code>ls -l deploy.sh</code></pre><p>Example output:</p>
+<pre><code>-rwxr-x--- 1 deploy webteam 240 Oct 25 10:00 deploy.sh</code></pre><h2 id="break-down-rwxr-x-">Break down <code>-rwxr-x---</code></h2><h2 id="-">-</h2><p>File type</p>
+<h2 id="rwx">rwx</h2><p>Owner</p>
+<h2 id="r-x">r-x</h2><p>Group</p>
+<p>##</p>
+<p>Others</p>
+<ul>
+<li>The leading <code>-</code> indicates a regular file. A leading <code>d</code> indicates a directory.</li>
+<li>The owner can read, write, and execute the file.</li>
+<li>The group can read and execute it, but cannot write to it.</li>
+<li>Others have no permissions granted by these basic permission bits.</li>
+</ul>
+<p>The remaining output shows the link count, owner, group, size, modification time, and filename.</p>
+<h2 id="3-numeric-permissions-understand-755-644-and-700">3. Numeric permissions: understand <code>755</code>, <code>644</code>, and <code>700</code></h2><p>Linux can represent <code>r</code>, <code>w</code>, and <code>x</code> with numbers:</p>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read (<code>r</code>)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Write (<code>w</code>)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Execute (<code>x</code>)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>No permission (<code>-</code>)</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>Add the values for each class.</p>
+<p>For example, <code>rwx</code> = 4 + 2 + 1 = 7. <code>r-x</code> = 4 + 0 + 1 = 5. <code>r--</code> = 4 + 0 + 0 = 4.</p>
+<h2 id="permission-calculator">Permission calculator</h2><p>Select the permissions for each class to see the corresponding numeric mode.</p>
+<p>Owner</p>
+<p><code>rwx</code> (7)</p>
+<p><code>rw-</code> (6)</p>
+<p><code>r-x</code> (5)</p>
+<p><code>r--</code> (4)</p>
+<p>Group</p>
+<p><code>rwx</code> (7)</p>
+<p><code>rw-</code> (6)</p>
+<p><code>r-x</code> (5)</p>
+<p><code>r--</code> (4)</p>
+<p><code>---</code> (0)</p>
+<p>Others</p>
+<p><code>rwx</code> (7)</p>
+<p><code>rw-</code> (6)</p>
+<p><code>r-x</code> (5)</p>
+<p><code>r--</code> (4)</p>
+<p><code>---</code> (0)</p>
+<p>Selected permission mode</p>
+<h2 id="750">750</h2><p>rwx r-x ---</p>
+<p> Copy chmod example</p>
+<h3 id="common-numeric-modes">Common numeric modes</h3><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>755</code></td>
+<td>Owner <code>rwx</code>, group <code>r-x</code>, others <code>r-x</code></td>
+<td>Publicly accessible executable files or directories, where appropriate</td>
+</tr>
+<tr>
+<td><code>644</code></td>
+<td>Owner <code>rw-</code>, group <code>r--</code>, others <code>r--</code></td>
+<td>Non-sensitive configuration or text files that may be read by others</td>
+</tr>
+<tr>
+<td><code>700</code></td>
+<td>Owner <code>rwx</code>, group and others <code>---</code></td>
+<td>Private directories or scripts</td>
+</tr>
+<tr>
+<td><code>600</code></td>
+<td>Owner <code>rw-</code>, group and others <code>---</code></td>
+<td>Private files, such as a protected key file</td>
+</tr>
+<tr>
+<td><code>750</code></td>
+<td>Owner <code>rwx</code>, group <code>r-x</code>, others <code>---</code></td>
+<td>Restricted application directories</td>
+</tr>
+<tr>
+<td><code>640</code></td>
+<td>Owner <code>rw-</code>, group <code>r--</code>, others <code>---</code></td>
+<td>Files readable by the owner and an authorized group</td>
+</tr>
+</tbody></table>
+<p>These are examples, not universal rules. Choose permissions according to what the application and its users actually need.</p>
+<h2 id="4-change-permissions-with-chmod">4. Change permissions with <code>chmod</code></h2><p><code>chmod</code> means change mode. It changes file or directory permission bits.</p>
+<h3 id="numeric-method">Numeric method</h3><pre><code>chmod 644 app.conf
+chmod 755 deploy.sh
+chmod 700 private-dir</code></pre><p>Interpretation:</p>
+<ul>
+<li><code>chmod 644 app.conf</code> — owner can read and write; group and others can read.</li>
+<li><code>chmod 755 deploy.sh</code> — owner can read, write, and execute; group and others can read and execute.</li>
+<li><code>chmod 700 private-dir</code> — only the owner receives permissions through the basic mode bits.</li>
+</ul>
+<h3 id="symbolic-method">Symbolic method</h3><p>Symbolic permissions use:</p>
+<ul>
+<li><code>u</code> = owner</li>
+<li><code>g</code> = group</li>
+<li><code>o</code> = others</li>
+<li><code>a</code> = all</li>
+<li><code>+</code> = add permissions</li>
+<li><code>-</code> = remove permissions</li>
+<li><code>=</code> = set the specified permissions for that class</li>
+</ul>
+<p>Examples:</p>
+<pre><code>chmod u+x deploy.sh
+chmod g-w app.conf
+chmod o-r secret.txt
+chmod u=rw,g=r,o= app.conf</code></pre><p>What they mean:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chmod u+x deploy.sh</code></td>
+<td>Adds execute permission for the owner</td>
+</tr>
+<tr>
+<td><code>chmod g-w app.conf</code></td>
+<td>Removes group write permission</td>
+</tr>
+<tr>
+<td><code>chmod o-r secret.txt</code></td>
+<td>Removes read permission from others</td>
+</tr>
+<tr>
+<td><code>chmod u=rw,g=r,o= app.conf</code></td>
+<td>Sets owner to read/write, group to read, others to no permissions</td>
+</tr>
+</tbody></table>
+<p>Numeric vs symbolic: Numeric modes are convenient when you know the complete target mode. Symbolic modes are useful when you want to change just one permission without intentionally changing the others.</p>
+<h3 id="directories-and-recursive-changes">Directories and recursive changes</h3><pre><code>chmod 750 /srv/myapp</code></pre><p>This changes permissions on the specified directory itself.</p>
+<pre><code>chmod -R 750 /srv/myapp</code></pre><p>This recursively applies the mode to the directory and its contents. That can be dangerous: executable files, ordinary files, and nested directories often need different modes. Avoid broad recursive permission changes unless you have inspected the tree and planned the correct modes.</p>
+<h2 id="5-change-ownership-with-chown">5. Change ownership with <code>chown</code></h2><p><code>chown</code> means change owner.</p>
+<p>Check current ownership first:</p>
+<pre><code>ls -l app.conf</code></pre><p>Example:</p>
+<pre><code>-rw-r--r-- 1 root root 120 Oct 25 10:00 app.conf</code></pre><p>Here the owner is <code>root</code> and the group is <code>root</code>.</p>
+<p>Change the owner:</p>
+<pre><code>sudo chown deploy app.conf</code></pre><p>Change both owner and group:</p>
+<pre><code>sudo chown deploy:webteam app.conf</code></pre><p>Change only the group using <code>chown</code>:</p>
+<pre><code>sudo chown :webteam app.conf</code></pre><p>For a directory tree:</p>
+<pre><code>sudo chown -R deploy:webteam /srv/myapp</code></pre><p><code>-R</code> means recursive. Be particularly careful with recursive ownership changes on production servers because they may affect files the operating system or application expects to own.</p>
+<h2 id="6-change-group-ownership-with-chgrp">6. Change group ownership with <code>chgrp</code></h2><p><code>chgrp</code> means change group.</p>
+<pre><code>sudo chgrp webteam app.conf</code></pre><p>This changes the file's group to <code>webteam</code>, leaving the owner unchanged.</p>
+<p>For a directory tree:</p>
+<pre><code>sudo chgrp -R webteam /srv/myapp</code></pre><p>Use recursive changes only when every affected file and directory should belong to that group.</p>
+<h3 id="compare-the-commands">Compare the commands</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Primary purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chmod</code></td>
+<td>Change permissions</td>
+</tr>
+<tr>
+<td><code>chown</code></td>
+<td>Change owner; optionally group</td>
+</tr>
+<tr>
+<td><code>chgrp</code></td>
+<td>Change group</td>
+</tr>
+<tr>
+<td><code>umask</code></td>
+<td>Set default permission restrictions for newly created files and directories</td>
+</tr>
+</tbody></table>
+<p>Changing ownership and changing permissions are different operations. A file can have the correct owner but still lack the permissions a service needs.</p>
+<h2 id="7-understand-umask-default-permission-restrictions">7. Understand <code>umask</code>: default permission restrictions</h2><p>When a process creates a file or directory, Linux uses the process's creation mode together with its <code>umask</code> to determine the initial permissions.</p>
+<p>Think of <code>umask</code> as a filter that removes permissions from the requested defaults.</p>
+<p>Requested default mode</p>
+<h2 id="666-for-files">666 for files</h2><p>Read and write for owner, group, and others</p>
+<p>Apply <code>umask 022</code></p>
+<p>Remove group-write and others-write permissions</p>
+<p>Result for a regular file</p>
+<h2 id="644">644</h2><p>Owner read/write; group and others read</p>
+<p>A key detail: normal file creation modes typically start at <code>666</code> and directory creation modes at <code>777</code>. The execute bits are not normally requested for a newly created regular file, so <code>umask</code> doesn't automatically make a new script executable.</p>
+<h3 id="check-your-current-umask">Check your current umask</h3><pre><code>umask</code></pre><p>For a more detailed symbolic representation on many Bash/Linux setups:</p>
+<pre><code>umask -S</code></pre><h3 id="set-umask-for-the-current-shell">Set umask for the current shell</h3><pre><code>umask 022</code></pre><p>This affects files and directories subsequently created by processes launched from that shell, subject to the creation mode requested by each program.</p>
+<h3 id="common-examples">Common examples</h3><table>
+<thead>
+<tr>
+<th>Umask</th>
+<th>New regular file, typical</th>
+<th>New directory, typical</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>022</code></td>
+<td><code>644</code></td>
+<td><code>755</code></td>
+</tr>
+<tr>
+<td><code>027</code></td>
+<td><code>640</code></td>
+<td><code>750</code></td>
+</tr>
+<tr>
+<td><code>077</code></td>
+<td><code>600</code></td>
+<td><code>700</code></td>
+</tr>
+</tbody></table>
+<p>These are the usual results when the program requests modes <code>666</code> for a file and <code>777</code> for a directory.</p>
+<p>Safety tip: <code>umask</code> is not a replacement for reviewing permissions on an existing file. Changing the umask does not modify files already created. Also, a program can explicitly change permissions after creation.</p>
+<h2 id="8-realistic-devops-case-study-fix-permission-denied">8. Realistic DevOps case study: fix <code>Permission denied</code></h2><p>Scenario: A deployment script is present on the server, but the deployment user cannot run it.</p>
+<p>The practice file is <code>~/devops-lab/lesson5/deploy.sh</code>.</p>
+<h3 id="step-1-inspect-the-file">Step 1 — Inspect the file</h3><pre><code>ls -l ~/devops-lab/lesson5/deploy.sh</code></pre><p>Suppose the output is:</p>
+<pre><code>-rw-r--r-- 1 deploy webteam 85 Oct 25 10:00 deploy.sh</code></pre><p>The owner has read and write permission but no execute permission.</p>
+<h3 id="step-2-add-execute-permission-for-the-owner">Step 2 — Add execute permission for the owner</h3><pre><code>chmod u+x ~/devops-lab/lesson5/deploy.sh</code></pre><p>Verify the result:</p>
+<pre><code>ls -l ~/devops-lab/lesson5/deploy.sh</code></pre><p>The permission string should now begin with <code>-rwx</code>.</p>
+<h3 id="step-3-if-access-still-fails-inspect-ownership-and-the-path">Step 3 — If access still fails, inspect ownership and the path</h3><pre><code>id
+namei -l ~/devops-lab/lesson5/deploy.sh</code></pre><ul>
+<li><code>id</code> shows your user and group memberships.</li>
+<li><code>namei -l</code> displays the path components and their permissions on systems that provide it.</li>
+</ul>
+<p>The script may be executable but still inaccessible if the user cannot traverse a parent directory, or if the filesystem is mounted with <code>noexec</code>.</p>
+<h3 id="step-4-fix-the-actual-issue-not-everything-at-once">Step 4 — Fix the actual issue, not everything at once</h3><p>If the deployment team requires group access, verify the intended group before changing ownership or permissions. For example, an authorized administrator might set the group to <code>webteam</code> and grant the group the needed access.</p>
+<pre><code>sudo chgrp webteam ~/devops-lab/lesson5/deploy.sh
+chmod 750 ~/devops-lab/lesson5/deploy.sh</code></pre><p>This example allows the owner to read/write/execute, the group to read/execute, and others no access. Use it only if those are the intended access requirements.</p>
+<h3 id="production-safety-checklist">Production safety checklist</h3><ul>
+<li>Inspect with <code>ls -l</code> before changing anything.</li>
+<li>Confirm which user runs the service or deployment.</li>
+<li>Check parent-directory permissions as well as the target file.</li>
+<li>Apply the narrowest permission change that solves the issue.</li>
+<li>Avoid using <code>chmod 777</code> as a shortcut.</li>
+<li>Avoid recursive changes to <code>/</code>, <code>/etc</code>, <code>/usr</code>, or application trees without a reviewed plan.</li>
+<li>Verify the result and test with the appropriate service account when authorized.</li>
+</ul>
+<p><code>Permission denied</code> is a symptom. Find out which access check failed before changing permissions.</p>
+<h2 id="9-interactive-practice-lab">9. Interactive practice lab</h2><p>Use this lab on your own Linux machine or in a disposable environment. The commands create files under <code>~/devops-lab/lesson5</code> and do not require root privileges.</p>
+<h3 id="step-a-create-a-practice-file">Step A — Create a practice file</h3><pre><code>mkdir -p ~/devops-lab/lesson5
+cd ~/devops-lab/lesson5
+printf '#!/bin/sh\necho Deployment practice\n' &gt; deploy.sh
+ls -l deploy.sh</code></pre><h3 id="step-b-explore-symbolic-permissions">Step B — Explore symbolic permissions</h3><p>Try the commands below one at a time. After each command, run <code>ls -l deploy.sh</code> and observe the changes.</p>
+<p>1. Remove execute permission from everyone</p>
+<p>chmod a-x deploy.sh</p>
+<p>No execute bit should remain for owner, group, or others.</p>
+<p>2. Give the owner execute permission</p>
+<p>chmod u+x deploy.sh</p>
+<p>The owner's permission group should contain x.</p>
+<p>3. Remove write permission from group</p>
+<p>chmod g-w deploy.sh</p>
+<p>The group's permission group should not contain w.</p>
+<p>4. Set mode to 750 numerically</p>
+<p>chmod 750 deploy.sh</p>
+<p>The mode should show rwx for owner, r-x for group, and --- for others.</p>
+<p>Tick a step after running and checking it in your terminal. The checklist does not execute commands for you.</p>
+<h3 id="step-c-practise-ownership-and-umask-safely">Step C — Practise ownership and umask safely</h3><p>Inspect your account and current default mask:</p>
+<pre><code>id
+umask</code></pre><p>Create a test file after setting a temporary umask:</p>
+<pre><code>umask 077
+touch private-test.txt
+ls -l private-test.txt</code></pre><p>The new file will typically have mode <code>600</code> under this umask when created with the normal file-creation mode. Verify rather than assume.</p>
+<p>You can restore the usual mask for your current shell with:</p>
+<pre><code>umask 022</code></pre><p>For ownership practice, inspect the current owner and group with <code>ls -l</code>. Only use <code>chown</code> or <code>chgrp</code> on files you own or are explicitly authorized to change. On some systems, changing ownership requires administrator privileges.</p>
+<h2 id="10-knowledge-quiz">10. Knowledge quiz</h2><p>Answer the questions below to test your understanding of permissions, ownership, numeric modes, and <code>umask</code>.</p>
+<p>A file has mode 640. What permissions do users in its group receive?</p>
+<p>1 of 6</p>
+<p>ARead and write</p>
+<p>BRead only</p>
+<p>CNo permissions</p>
+<p>DRead and execute</p>
+<p>Next</p>
+<h2 id="11-practical-assignment">11. Practical assignment</h2><p>Complete the following tasks and record the results. Use the practice directory created in the lab.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><p>0/7</p>
+<p>1. Use ls -l to record the owner, group, and mode of deploy.sh.</p>
+<p>2. Set deploy.sh to mode 750 and verify the result.</p>
+<p>3. Create notes.txt and set its mode to 640.</p>
+<p>4. Use chmod g-w notes.txt and inspect the symbolic permissions.</p>
+<p>5. Check the current umask, set it to 027, create a new file, and inspect its mode.</p>
+<p>6. Explain the difference between chmod, chown, and chgrp in your own words.</p>
+<p>7. Describe two reasons a script might still fail to run after adding its execute bit.</p>
+<p>The tracker records completed items locally in this exercise interface; it doesn't inspect your Linux system.</p>
+<h3 id="suggested-commands">Suggested commands</h3><pre><code>cd ~/devops-lab/lesson5
+
+ls -l deploy.sh
+chmod 750 deploy.sh
+touch notes.txt
+chmod 640 notes.txt
+chmod g-w notes.txt
+ls -l notes.txt
+
+umask
+umask 027
+touch umask-test.txt
+ls -l umask-test.txt</code></pre><h2 id="12-final-cheat-sheet">12. Final cheat sheet</h2><h2 id="permissions-quick-reference">Permissions quick reference</h2><p> Copy commands</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ls -l file</code></td>
+<td>Inspect mode, owner, and group</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Check user and group memberships</td>
+</tr>
+<tr>
+<td><code>chmod 644 file</code></td>
+<td>Set owner read/write; group and others read</td>
+</tr>
+<tr>
+<td><code>chmod 755 script.sh</code></td>
+<td>Set owner full access; group and others read/execute</td>
+</tr>
+<tr>
+<td><code>chmod u+x script.sh</code></td>
+<td>Add execute permission for owner</td>
+</tr>
+<tr>
+<td><code>chmod g-w file</code></td>
+<td>Remove group write permission</td>
+</tr>
+<tr>
+<td><code>chmod 750 directory</code></td>
+<td>Restrict access to owner and group</td>
+</tr>
+<tr>
+<td><code>chown user file</code></td>
+<td>Change owner</td>
+</tr>
+<tr>
+<td><code>chown user:group file</code></td>
+<td>Change owner and group</td>
+</tr>
+<tr>
+<td><code>chgrp group file</code></td>
+<td>Change group</td>
+</tr>
+<tr>
+<td><code>umask</code></td>
+<td>Display the current mask</td>
+</tr>
+<tr>
+<td><code>umask 022</code></td>
+<td>Set the current shell's mask to <code>022</code></td>
+</tr>
+<tr>
+<td><code>umask 027</code></td>
+<td>Set the current shell's mask to <code>027</code></td>
+</tr>
+</tbody></table>
+<h3 id="remember-these-rules">Remember these rules</h3><ul>
+<li><code>r = 4</code>, <code>w = 2</code>, <code>x = 1</code>.</li>
+<li><code>chmod</code> changes permissions; <code>chown</code> and <code>chgrp</code> change ownership metadata.</li>
+<li><code>umask</code> influences default permissions when new files and directories are created.</li>
+<li>Directories generally need execute permission for traversal.</li>
+<li>Avoid <code>chmod 777</code> as a generic fix.</li>
+<li>Inspect first, make the smallest appropriate change, then verify.</li>
+</ul>
+<h2 id="up-next-module-1-lesson-6">Up next: Module 1, Lesson 6</h2><h2 id="linux-users-groups-and-sudo">Linux users, groups, and <code>sudo</code></h2><p>Learn about user accounts, group membership, privileged commands, and how DevOps teams grant access responsibly.</p>
+<p>Continue to Lesson 6 </p>
+
+</div>

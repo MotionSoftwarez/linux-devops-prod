@@ -1,0 +1,330 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-4">Linux for DevOps — Module 1, Lesson 4</h2><h2 id="read-and-edit-files-using-cat-less-head-tail-nano-and-grep">Read and edit files using <code>cat</code>, <code>less</code>, <code>head</code>, <code>tail</code>, <code>nano</code>, and <code>grep</code></h2><p>Beginner</p>
+<p>Hands-on</p>
+<p>DevOps troubleshooting</p>
+<p>By the end of this lesson, you’ll be able to inspect configuration files, review recent application logs, search for errors, monitor live log output, and edit text files safely from a Linux terminal.</p>
+<h2 id="1-meet-the-six-commands">1. Meet the six commands</h2><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+<th>Typical DevOps task</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cat</code></td>
+<td>Displays file contents</td>
+<td>Read a small configuration</td>
+</tr>
+<tr>
+<td><code>less</code></td>
+<td>Browses a file page by page</td>
+<td>Inspect a large log</td>
+</tr>
+<tr>
+<td><code>head</code></td>
+<td>Shows the first lines</td>
+<td>Check startup output</td>
+</tr>
+<tr>
+<td><code>tail</code></td>
+<td>Shows the last lines</td>
+<td>Investigate recent errors</td>
+</tr>
+<tr>
+<td><code>nano</code></td>
+<td>Edits text files</td>
+<td>Change a configuration</td>
+</tr>
+<tr>
+<td><code>grep</code></td>
+<td>Searches for matching lines</td>
+<td>Find <code>ERROR</code> messages</td>
+</tr>
+</tbody></table>
+<h2 id="2-visual-guide-which-command-should-you-use-">2. Visual guide: which command should you use?</h2><p>You have a file to inspect</p>
+<p>Small file</p>
+<p><code>cat</code> displays all its contents.</p>
+<p>Large file</p>
+<p><code>less</code> lets you browse; <code>head</code> and <code>tail</code> show selected portions.</p>
+<p>Find an error</p>
+<p><code>grep</code> searches for matching lines.</p>
+<p>Change the file</p>
+<p><code>nano</code> opens a terminal text editor.</p>
+<h2 id="3-display-file-contents-with-cat">3. Display file contents with <code>cat</code></h2><p>The simplest way to read a small text file is:</p>
+<pre><code>cat app.conf</code></pre><p>Example output:</p>
+<pre><code>APP_ENV=production
+APP_PORT=8080
+LOG_LEVEL=info</code></pre><p>Read a system file:</p>
+<pre><code>cat /etc/hostname</code></pre><p>This typically prints the system's hostname.</p>
+<p>You can also display multiple files consecutively:</p>
+<pre><code>cat first.txt second.txt</code></pre><p>When to use <code>cat</code>: Small configuration files, short text files, and quick checks.</p>
+<p>When not to use it: Very large logs, because thousands of lines can flood the terminal.</p>
+<p>Security tip: configuration files and logs can contain API keys, passwords, tokens, or personal information. Check for sensitive content before sharing output.</p>
+<h2 id="4-browse-large-files-with-less">4. Browse large files with <code>less</code></h2><p>Use <code>less</code> to inspect a file page by page:</p>
+<pre><code>less /var/log/syslog</code></pre><p>The file may not exist on every distribution. On some systems, application and system logs are available through <code>journalctl</code> instead.</p>
+<h3 id="essential-less-keyboard-shortcuts">Essential <code>less</code> keyboard shortcuts</h3><p>Space</p>
+<p>Move forward one screen</p>
+<p>b</p>
+<p>Move back one screen</p>
+<p>/error</p>
+<p>Search forward for the word error</p>
+<p>n</p>
+<p>Go to the next search match</p>
+<p>g</p>
+<p>Go to the beginning</p>
+<p>G</p>
+<p>Go to the end</p>
+<p>q</p>
+<p>Quit less</p>
+<p>Practise with a file available on most Linux systems:</p>
+<pre><code>less /etc/passwd</code></pre><p>This file contains account information, not passwords in readable form. However, it can reveal usernames and system details, so don't publish its contents unnecessarily.</p>
+<h2 id="5-read-the-beginning-of-a-file-with-head">5. Read the beginning of a file with <code>head</code></h2><p><code>head</code> displays the first 10 lines by default.</p>
+<pre><code>head app.log</code></pre><p>Show only the first five lines:</p>
+<pre><code>head -n 5 app.log</code></pre><h3 id="devops-example">DevOps example</h3><p>When an application starts, its log may record initialization messages at the beginning. Inspect the first 20 lines:</p>
+<pre><code>head -n 20 app.log</code></pre><p>This helps you check startup information without reading the entire file.</p>
+<h2 id="6-read-recent-entries-with-tail">6. Read recent entries with <code>tail</code></h2><p><code>tail</code> displays the last 10 lines by default.</p>
+<pre><code>tail app.log</code></pre><p>Show the last 25 lines:</p>
+<pre><code>tail -n 25 app.log</code></pre><h3 id="monitor-a-log-in-real-time">Monitor a log in real time</h3><pre><code>tail -f app.log</code></pre><p>This keeps running and displays new lines as they are appended to the file. It's useful when reproducing a bug or watching an application restart.</p>
+<ul>
+<li>Press <code>Ctrl+C</code> to stop following the log.</li>
+<li><code>tail -F app.log</code> can be useful when the log file is rotated or recreated.</li>
+</ul>
+<h3 id="example-live-application-log">Example: live application log</h3><p>[10:31:02] INFO Server started on port 8080</p>
+<p>[10:31:04] INFO Request received</p>
+<p>[10:31:05] WARN Database response slow</p>
+<p>[10:31:07] ERROR Database connection refused</p>
+<p>[10:31:09] INFO Retry scheduled</p>
+<p>Illustrative log entries, not output from a real server.</p>
+<p>Remember: <code>head</code> looks at the beginning; <code>tail</code> looks at the end.</p>
+<h2 id="7-find-errors-using-grep">7. Find errors using <code>grep</code></h2><p><code>grep</code> searches for lines that match a word or pattern.</p>
+<p>Search for <code>ERROR</code>:</p>
+<pre><code>grep "ERROR" app.log</code></pre><p>Ignore uppercase and lowercase:</p>
+<pre><code>grep -i "error" app.log</code></pre><p>Show line numbers:</p>
+<pre><code>grep -n "ERROR" app.log</code></pre><p>Search for multiple possible problems:</p>
+<pre><code>grep -inE "error|failed|timeout" app.log</code></pre><p>This searches case-insensitively for any of the three terms.</p>
+<p>Search recursively through a directory:</p>
+<pre><code>grep -rni "database" ./logs/</code></pre><p>Count matching lines:</p>
+<pre><code>grep -c "ERROR" app.log</code></pre><h3 id="combine-commands-with-a-pipe">Combine commands with a pipe</h3><p>Suppose <code>app.log</code> contains 50,000 lines, but you want errors from only the last 100 lines.</p>
+<pre><code>tail -n 100 app.log | grep -i "error"</code></pre><p>The <code>|</code> symbol is called a pipe. It sends the output from one command into another command.</p>
+<p><code>app.log</code></p>
+<p>Thousands of lines</p>
+<p><code>tail -n 100</code></p>
+<p>Select the last 100 lines</p>
+<p><code>grep -i "error"</code></p>
+<p>Keep only matching error lines</p>
+<h3 id="useful-grep-options">Useful <code>grep</code> options</h3><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-i</code></td>
+<td>Ignore letter case</td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>Display line numbers</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>Search recursively</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>Display lines that don't match</td>
+</tr>
+<tr>
+<td><code>-E</code></td>
+<td>Use extended regular expressions</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Count matching lines</td>
+</tr>
+</tbody></table>
+<p>A search that returns no matches doesn't necessarily mean no problem exists. The log path, time range, terminology, or logging level may be different.</p>
+<h2 id="8-edit-files-with-nano">8. Edit files with <code>nano</code></h2><p><code>nano</code> is a beginner-friendly text editor that works inside the terminal.</p>
+<p>Open or create a file:</p>
+<pre><code>nano app.conf</code></pre><p>Example configuration:</p>
+<pre><code>APP_ENV=development
+APP_PORT=8080
+LOG_LEVEL=debug</code></pre><p>You can use the arrow keys to move around, type to edit, and use the shortcuts below.</p>
+<p>Ctrl + O</p>
+<p>Save (write out) the file</p>
+<p>Enter</p>
+<p>Confirm the filename when saving</p>
+<p>Ctrl + X</p>
+<p>Exit nano</p>
+<p>Ctrl + W</p>
+<p>Search within the file</p>
+<h3 id="safe-editing-workflow">Safe editing workflow</h3><p>Before editing an important configuration:</p>
+<pre><code>cat app.conf
+cp -i app.conf app.conf.bak
+nano app.conf</code></pre><p>After editing:</p>
+<ol>
+<li>Save and exit.</li>
+<li>Review the changes.</li>
+<li>Validate the configuration using the application's supported test command.</li>
+<li>Apply the change according to your team's deployment procedure.</li>
+</ol>
+<p>Production safety: Editing a file does not guarantee that its syntax is valid. Don't restart a critical service until you have checked the configuration and followed the relevant change process.</p>
+<h2 id="9-realistic-devops-case-study-troubleshoot-a-failing-application">9. Realistic DevOps case study: troubleshoot a failing application</h2><p>Scenario: A web application is returning errors. You suspect the database connection, but you don't yet know the cause.</p>
+<p>For this exercise, assume the application log is <code>/var/log/myapp/app.log</code> and its configuration is <code>/etc/myapp/app.conf</code>. These are example paths; your actual application may use different locations.</p>
+<h3 id="step-1-inspect-recent-log-entries">Step 1 — Inspect recent log entries</h3><pre><code>tail -n 50 /var/log/myapp/app.log</code></pre><p>Look for recent warnings and errors.</p>
+<h3 id="step-2-search-for-likely-causes">Step 2 — Search for likely causes</h3><pre><code>grep -inE "error|failed|database|timeout" /var/log/myapp/app.log</code></pre><p>This filters the log for useful clues and shows line numbers.</p>
+<h3 id="step-3-inspect-the-surrounding-context">Step 3 — Inspect the surrounding context</h3><pre><code>less /var/log/myapp/app.log</code></pre><p>Inside <code>less</code>, type <code>/database</code> and press Enter. Press <code>n</code> to find the next match, then inspect the lines around it.</p>
+<h3 id="step-4-check-the-configuration-file">Step 4 — Check the configuration file</h3><p>First verify that the file exists:</p>
+<pre><code>ls -l /etc/myapp/app.conf</code></pre><p>If authorized, inspect it:</p>
+<pre><code>less /etc/myapp/app.conf</code></pre><p>Be careful not to expose credentials or tokens when viewing or sharing the output.</p>
+<h3 id="step-5-make-changes-only-when-evidence-supports-them">Step 5 — Make changes only when evidence supports them</h3><p>If an authorized engineer confirms that a setting needs to change, make a backup and edit the file:</p>
+<pre><code>sudo cp -i /etc/myapp/app.conf /etc/myapp/app.conf.bak
+sudo nano /etc/myapp/app.conf</code></pre><p>Then use the application's documented validation command before applying the change.</p>
+<h3 id="troubleshooting-decision-tree">Troubleshooting decision tree</h3><p>Application reports an error</p>
+<p>Inspect recent logs using <code>tail</code></p>
+<p>Search using <code>grep</code></p>
+<p>Error found</p>
+<p>Use <code>less</code> to examine nearby log entries.</p>
+<p>No match found</p>
+<p>Verify the path and time range; check the service journal if appropriate.</p>
+<p>Confirm the cause before changing configuration</p>
+<p>An error message is a clue, not always the root cause. A database connection failure could be caused by network issues, an unavailable database, incorrect settings, credentials, or access rules.</p>
+<h2 id="10-interactive-exercise-choose-the-right-command">10. Interactive exercise: choose the right command</h2><p>Try answering each question yourself, then reveal the suggested command.</p>
+<p>1. You want to display every line in a small file called `settings.txt`.</p>
+<p>Reveal answer</p>
+<p>2. You want to inspect the last 25 lines of a large log.</p>
+<p>Reveal answer</p>
+<p>3. You want to monitor new log entries while reproducing a bug.</p>
+<p>Reveal answer</p>
+<p>4. You need to search for the word `timeout`, regardless of case.</p>
+<p>Reveal answer</p>
+<p>5. You need to edit a text configuration file from the terminal.</p>
+<p>Reveal answer</p>
+<p>6. You want to browse a large log and search inside it interactively.</p>
+<p>Reveal answer</p>
+<p>Hide all answers</p>
+<h2 id="11-knowledge-quiz">11. Knowledge quiz</h2><p>Check what you've learned. Choose your answers, then submit to see your result and explanations.</p>
+<p>1. Which command displays the last 20 lines of a log?</p>
+<p>head -n 20 app.logtail -n 20 app.logcat -n 20 app.loggrep -n 20 app.log</p>
+<p>2. Which command searches for `failed` without distinguishing uppercase and lowercase?</p>
+<p>grep -i 'failed' app.loghead 'failed' app.lognano -i app.logtail -i 'failed' app.log</p>
+<p>3. Select every command that can help inspect a large log without printing all of it.</p>
+<p>less app.logtail -n 30 app.logcat app.loghead -n 10 app.log</p>
+<p>4. True or false: `tail -f app.log` normally keeps running until you stop it, for example with Ctrl+C.</p>
+<p>TrueFalse</p>
+<p>5. True or false: saving a file in nano guarantees that the application configuration is valid.</p>
+<p>TrueFalse</p>
+<p>Submit quiz</p>
+<h2 id="12-practical-assignment">12. Practical assignment</h2><p>Complete these tasks in a practice directory on your Linux machine. Do not use production logs or configuration files for your first attempt.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><p>0/8</p>
+<p>1. Create a practice log with sample messages</p>
+<p>mkdir -p ~/devops-lab/lesson4 &amp;&amp; printf 'INFO Server started\nWARN Slow request\nERROR Database timeout\nINFO Retry scheduled\n' &gt; ~/devops-lab/lesson4/app.log</p>
+<p>2. Display the complete sample log</p>
+<p>cat ~/devops-lab/lesson4/app.log</p>
+<p>3. Display the first two lines</p>
+<p>head -n 2 ~/devops-lab/lesson4/app.log</p>
+<p>4. Display the last two lines</p>
+<p>tail -n 2 ~/devops-lab/lesson4/app.log</p>
+<p>5. Search for errors and show line numbers</p>
+<p>grep -in 'error' ~/devops-lab/lesson4/app.log</p>
+<p>6. Browse the log interactively</p>
+<p>less ~/devops-lab/lesson4/app.log</p>
+<p>7. Create and edit a practice configuration</p>
+<p>nano ~/devops-lab/lesson4/app.conf</p>
+<p>8. Explain when to use cat, less, tail, grep, and nano</p>
+<p>Write one sentence for each command in your own notes.</p>
+<p>The checklist tracks your progress here; it does not verify commands executed in your terminal. The <code>nano</code> task may require you to save and exit manually.</p>
+<h2 id="13-cheat-sheet-keep-this-handy">13. Cheat sheet — keep this handy</h2><h2 id="linux-file-reading-commands">Linux file-reading commands</h2><p> Copy commands</p>
+<p>| Task | Command |<br>|---|---|<br>| Display a small file | <code>cat app.conf</code> |<br>| Browse a large file | <code>less app.log</code> |<br>| First 10 lines | <code>head app.log</code> |<br>| First 20 lines | <code>head -n 20 app.log</code> |<br>| Last 10 lines | <code>tail app.log</code> |<br>| Last 50 lines | <code>tail -n 50 app.log</code> |<br>| Follow new log lines | <code>tail -f app.log</code> |<br>| Search for errors | <code>grep "ERROR" app.log</code> |<br>| Ignore case | <code>grep -i "error" app.log</code> |<br>| Include line numbers | <code>grep -n "ERROR" app.log</code> |<br>| Search several patterns | <code>grep -inE "error|failed" app.log</code> |<br>| Edit a text file | <code>nano app.conf</code> |</p>
+<h3 id="six-habits-of-a-good-devops-engineer">Six habits of a good DevOps engineer</h3><ol>
+<li>Use <code>cat</code> for small files and <code>less</code> for large ones.</li>
+<li>Use <code>tail</code> to investigate recent events.</li>
+<li>Use <code>grep</code> to narrow down large amounts of log output.</li>
+<li>Use <code>tail -f</code> when monitoring an issue as it happens.</li>
+<li>Back up important configuration files before editing.</li>
+<li>Validate changes and protect sensitive log data before applying or sharing anything.</li>
+</ol>
+<h2 id="next-lesson">Next lesson</h2><h2 id="module-1-lesson-5">Module 1, Lesson 5</h2><p>Linux permissions and ownership: <code>chmod</code>, <code>chown</code>, <code>chgrp</code>, and <code>umask</code></p>
+<p>Understand users, groups, read/write/execute permissions, and how to troubleshoot “Permission denied” errors safely.</p>
+<p>Continue to Lesson 5 </p>
+
+</div>

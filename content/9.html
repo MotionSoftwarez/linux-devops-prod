@@ -1,0 +1,558 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-8">Linux for DevOps — Module 1, Lesson 8</h2><h2 id="linux-networking-fundamentals">Linux networking fundamentals</h2><p>Beginner-friendly</p>
+<p>Hands-on lab</p>
+<p>DevOps troubleshooting</p>
+<p>In this lesson, you'll learn how a Linux server connects to other machines, how to inspect IP addresses and ports, how DNS translates names into IP addresses, and how to diagnose a website that won't load.</p>
+<p>We'll use Ubuntu-oriented commands and a realistic web-server troubleshooting scenario. Most inspection commands are safe to run on a production server; some network tests depend on firewall rules and network policy.</p>
+<h2 id="1-how-linux-networking-works">1. How Linux networking works</h2><p>Imagine that your application runs on a Linux server. A browser wants to access it using a domain name such as <code>app.example.com</code>.</p>
+<p>Several things must work together:</p>
+<p>Client / browser</p>
+<p>Requests a website</p>
+<p>DNS lookup</p>
+<p>Finds the IP address for the domain</p>
+<p>Network route</p>
+<p>Packets travel toward the destination</p>
+<p>Linux server and port</p>
+<p>A service listens for connections, e.g. HTTPS on TCP 443</p>
+<p>Application response</p>
+<p>The browser receives an HTTP response</p>
+<p>If any stage fails, the website may not work. Your job as a DevOps engineer is to find which stage is failing, instead of randomly changing configuration.</p>
+<h3 id="essential-networking-terms">Essential networking terms</h3><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Simple explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IP address</td>
+<td>Network address of a device or interface</td>
+</tr>
+<tr>
+<td>Subnet</td>
+<td>A range of IP addresses that share a network prefix</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>Router used to reach networks outside the local subnet</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>Resolves names such as <code>example.com</code> to IP addresses</td>
+</tr>
+<tr>
+<td>Port</td>
+<td>Identifies a service endpoint on a machine</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>Transport protocol that establishes a connection</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>Transport protocol commonly used for DNS and other services</td>
+</tr>
+<tr>
+<td>HTTP/HTTPS</td>
+<td>Web application protocols</td>
+</tr>
+<tr>
+<td>Firewall</td>
+<td>Rules that allow or block network traffic</td>
+</tr>
+</tbody></table>
+<h2 id="2-understand-an-ip-address">2. Understand an IP address</h2><p>An IPv4 address looks like this:</p>
+<p><code>192.168.1.25</code></p>
+<p>An IPv6 address looks like this:</p>
+<p><code>2001:db8::25</code></p>
+<p>IPv4 uses 32-bit addresses; IPv6 uses 128-bit addresses.</p>
+<p>A machine can have multiple network interfaces, and each interface can have one or more IP addresses. For example, a cloud VM might have a private address on its network interface and a public address assigned through cloud networking or NAT.</p>
+<h2 id="3-inspect-the-network-with-ip">3. Inspect the network with <code>ip</code></h2><p>The <code>ip</code> command is the standard modern Linux tool for inspecting and managing network interfaces, addresses, routes, and neighbors.</p>
+<h3 id="see-network-interfaces-and-ip-addresses">See network interfaces and IP addresses</h3><pre><code>ip addr</code></pre><p>Short form:</p>
+<pre><code>ip a</code></pre><p>Example output, simplified:</p>
+<pre><code>2: eth0: &lt;BROADCAST,MULTICAST,UP&gt;
+    inet 192.168.1.25/24
+    inet6 2001:db8::25/64</code></pre><ul>
+<li><code>eth0</code> is an example interface name.</li>
+<li><code>inet</code> shows an IPv4 address.</li>
+<li><code>inet6</code> shows an IPv6 address.</li>
+<li><code>/24</code> is the IPv4 network prefix length.</li>
+<li><code>UP</code> indicates the interface is administratively enabled.</li>
+</ul>
+<p>Interface names may instead be things like <code>ens160</code>, <code>enp0s3</code>, or <code>wlan0</code>.</p>
+<h3 id="see-a-concise-address-listing">See a concise address listing</h3><pre><code>ip -br addr</code></pre><h3 id="check-whether-an-interface-is-up">Check whether an interface is up</h3><pre><code>ip link show</code></pre><h3 id="inspect-routing">Inspect routing</h3><pre><code>ip route</code></pre><p>Example:</p>
+<pre><code>default via 192.168.1.1 dev eth0
+192.168.1.0/24 dev eth0 proto kernel scope link</code></pre><p>The default route tells Linux where to send traffic when there isn't a more specific matching route.</p>
+<h3 id="visual-choosing-a-route">Visual: choosing a route</h3><p>Linux server</p>
+<p>192.168.1.25</p>
+<p>Destination lookup</p>
+<p>Does a specific route match?</p>
+<p>Yes</p>
+<p>Use the matching route.</p>
+<p>No</p>
+<p>Use the default route, if one exists.</p>
+<p>Test how Linux would route traffic to an example public IP:</p>
+<pre><code>ip route get 1.1.1.1</code></pre><p>This inspects the local routing decision. It does not prove that the destination is reachable.</p>
+<p>Safe practice: Start with <code>ip addr</code>, <code>ip route</code>, and <code>ip link show</code> to inspect. Avoid commands that change interface addresses, routes, or link state on a remote server unless you have authorization and a recovery plan; a mistake can disconnect your SSH session.</p>
+<h2 id="4-test-connectivity-with-ping">4. Test connectivity with <code>ping</code></h2><p><code>ping</code> sends ICMP Echo Requests and checks whether responses return.</p>
+<pre><code>ping -c 4 1.1.1.1</code></pre><ul>
+<li><code>-c 4</code> sends four requests, then stops.</li>
+<li><code>1.1.1.1</code> is an example public DNS resolver address.</li>
+</ul>
+<p>You may see output such as:</p>
+<pre><code>64 bytes from 1.1.1.1: icmp_seq=1 ttl=57 time=12 ms</code></pre><p>This means a response arrived for that probe. The time is the round-trip time for that packet.</p>
+<h3 id="how-to-interpret-results">How to interpret results</h3><ul>
+<li>Replies arrive: ICMP connectivity to that destination is working.</li>
+<li>100% packet loss: Could mean a connectivity problem, but ICMP may also be filtered.</li>
+<li>Destination unreachable: A local or intermediate system reports that the destination cannot be reached.</li>
+<li>High latency: Could indicate network congestion, distance, or other delays.</li>
+</ul>
+<p>Test a hostname too:</p>
+<pre><code>ping -c 4 example.com</code></pre><p>This involves name resolution as well as ICMP connectivity. If the hostname test fails but the IP-address test works, investigate DNS first.</p>
+<p>Important: A successful ping does not prove a web application is working. A server may block ICMP while serving HTTPS normally, or allow ICMP while its web service is broken.</p>
+<h2 id="5-check-web-connectivity-with-curl">5. Check web connectivity with <code>curl</code></h2><p><code>curl</code> is one of the most useful DevOps networking tools. It sends requests to URLs and can show response headers, HTTP status codes, and connection errors.</p>
+<h3 id="make-a-basic-request">Make a basic request</h3><pre><code>curl https://example.com</code></pre><p>This prints the response body to the terminal.</p>
+<h3 id="show-response-headers">Show response headers</h3><pre><code>curl -I https://example.com</code></pre><p>This sends a HEAD request. Some servers treat HEAD differently from GET, so a failure here does not always mean a normal GET request would fail.</p>
+<h3 id="show-connection-and-timing-details">Show connection and timing details</h3><pre><code>curl -v --connect-timeout 5 https://example.com/</code></pre><p>Verbose output can help distinguish DNS lookup, connection establishment, TLS negotiation, and HTTP response problems.</p>
+<h3 id="print-only-the-http-status-code">Print only the HTTP status code</h3><pre><code>curl -sS -o /dev/null -w '%{http_code}\n' https://example.com/</code></pre><p>Common status codes:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>200</code></td>
+<td>Request succeeded</td>
+</tr>
+<tr>
+<td><code>301</code> / <code>302</code></td>
+<td>Redirect</td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad request</td>
+</tr>
+<tr>
+<td><code>401</code> / <code>403</code></td>
+<td>Authentication required or access forbidden</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Server-side application error</td>
+</tr>
+<tr>
+<td><code>502</code></td>
+<td>Gateway received an invalid upstream response</td>
+</tr>
+<tr>
+<td><code>503</code></td>
+<td>Service unavailable</td>
+</tr>
+<tr>
+<td><code>504</code></td>
+<td>Gateway timed out waiting for upstream</td>
+</tr>
+</tbody></table>
+<p>A status code of <code>000</code> from curl commonly means no HTTP response code was received, such as when the connection or TLS negotiation failed.</p>
+<h3 id="test-a-local-web-service">Test a local web service</h3><p>If the app is supposed to be available on the same machine at port 8080:</p>
+<pre><code>curl -v --connect-timeout 3 http://127.0.0.1:8080/</code></pre><p>This tests the local loopback connection. It doesn't prove the service is reachable from another machine.</p>
+<h3 id="trace-a-redirect">Trace a redirect</h3><pre><code>curl -IL --max-redirs 5 https://example.com/</code></pre><p>This requests headers and follows redirects, up to the specified limit.</p>
+<p>Safe practice: Use trusted URLs. Avoid sending credentials, session tokens, or private headers in commands that may be saved in shell history. Don't use <code>curl</code> to pipe untrusted internet content directly into a shell.</p>
+<h2 id="6-understand-ports-and-inspect-them-with-ss">6. Understand ports and inspect them with <code>ss</code></h2><p>An IP address identifies a network endpoint's host/interface; a port identifies a service endpoint within that host.</p>
+<p>Examples of common ports:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>22</td>
+<td>SSH</td>
+</tr>
+<tr>
+<td>53</td>
+<td>DNS</td>
+</tr>
+<tr>
+<td>80</td>
+<td>HTTP</td>
+</tr>
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+</tr>
+<tr>
+<td>3306</td>
+<td>MySQL</td>
+</tr>
+<tr>
+<td>5432</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>8080</td>
+<td>Common alternative web/application port</td>
+</tr>
+</tbody></table>
+<p>These are conventions, not guarantees: services can be configured to use different ports.</p>
+<h3 id="see-listening-tcp-and-udp-sockets">See listening TCP and UDP sockets</h3><pre><code>ss -lnt
+ss -lun</code></pre><ul>
+<li><code>-l</code> — listening sockets.</li>
+<li><code>-n</code> — show numeric addresses and ports.</li>
+<li><code>-t</code> — TCP.</li>
+<li><code>-u</code> — UDP.</li>
+</ul>
+<p>For process details, use:</p>
+<pre><code>sudo ss -lntup</code></pre><p>This can show the processes associated with listening sockets, where permissions and system support allow.</p>
+<p>Example:</p>
+<pre><code>State   Local Address:Port
+LISTEN  0.0.0.0:80
+LISTEN  0.0.0.0:22
+LISTEN  127.0.0.1:8080</code></pre><p>Interpretation:</p>
+<ul>
+<li><code>0.0.0.0:80</code> means a service is listening on all IPv4 addresses on port 80.</li>
+<li><code>127.0.0.1:8080</code> means it is listening only on the IPv4 loopback address.</li>
+<li>A service listening only on loopback is not directly reachable through the server's external interface.</li>
+</ul>
+<p>IPv6 listeners, firewall rules, cloud security groups, NAT, and routing can further affect reachability.</p>
+<h3 id="visual-where-a-connection-can-fail">Visual: where a connection can fail</h3><p>Client</p>
+<p>Connects to server IP and port 443</p>
+<p>Network / firewall</p>
+<p>Route and access rules permit the traffic?</p>
+<p>Server socket</p>
+<p>Is a service listening on the target address and port?</p>
+<p>Application</p>
+<p>Does it handle the request successfully?</p>
+<p>A closed port, a filtered connection, and a service returning an HTTP error are different problems. The diagnostic command should help distinguish them.</p>
+<h2 id="7-dns-translate-names-into-ip-addresses">7. DNS: translate names into IP addresses</h2><p>DNS, the Domain Name System, maps domain names to records such as IP addresses.</p>
+<p>For example:</p>
+<pre><code>app.example.com  →  203.0.113.10</code></pre><p>The IP shown here belongs to a documentation-only address range and is just an example.</p>
+<h3 id="use-getent">Use <code>getent</code></h3><pre><code>getent hosts example.com</code></pre><p>This uses the system's configured name-service lookup path, which may include DNS, local files, or other configured sources.</p>
+<h3 id="use-resolvectl-on-systemd-resolved-systems">Use <code>resolvectl</code> on systemd-resolved systems</h3><pre><code>resolvectl status
+resolvectl query example.com</code></pre><p>These commands are useful when <code>systemd-resolved</code> manages name resolution. The command may not be available or relevant on every Linux distribution.</p>
+<h3 id="use-dig-or-nslookup">Use <code>dig</code> or <code>nslookup</code></h3><p>If installed:</p>
+<pre><code>dig example.com
+dig example.com A
+dig example.com AAAA
+nslookup example.com</code></pre><ul>
+<li><code>A</code> records return IPv4 addresses.</li>
+<li><code>AAAA</code> records return IPv6 addresses.</li>
+<li><code>dig</code> displays DNS query details, including response status and answer records.</li>
+</ul>
+<p>To query a particular DNS resolver:</p>
+<pre><code>dig @1.1.1.1 example.com</code></pre><p>This tests that resolver specifically; it does not necessarily reflect the DNS resolver your server normally uses.</p>
+<h3 id="check-local-name-resolution-configuration">Check local name-resolution configuration</h3><pre><code>cat /etc/resolv.conf
+cat /etc/hosts</code></pre><p><code>/etc/resolv.conf</code> may be managed automatically, so avoid editing it directly without understanding how the system configures DNS. <code>/etc/hosts</code> can contain local static hostname mappings.</p>
+<h3 id="dns-troubleshooting-flow">DNS troubleshooting flow</h3><p>Hostname fails</p>
+<p>Check resolution</p>
+<p><code>getent hosts example.com</code></p>
+<p>No result</p>
+<p>Check resolver configuration and DNS reachability.</p>
+<p>Address returned</p>
+<p>Test routing and the service at that address.</p>
+<p>A DNS lookup that succeeds doesn't prove that the returned address is correct for your environment or that the service is reachable.</p>
+<h2 id="8-check-the-hostname-and-local-network-configuration">8. Check the hostname and local network configuration</h2><p>The <code>hostname</code> command displays or manages the system's hostname.</p>
+<pre><code>hostname
+hostname -f
+hostnamectl</code></pre><ul>
+<li><code>hostname</code> — shows the current hostname.</li>
+<li><code>hostname -f</code> — attempts to show the fully qualified domain name, depending on system configuration and name resolution.</li>
+<li><code>hostnamectl</code> — displays system hostname information on systems using systemd.</li>
+</ul>
+<p>A machine's hostname is not necessarily its public DNS name.</p>
+<p>To inspect neighbor information for devices on the local network:</p>
+<pre><code>ip neigh</code></pre><p>This displays the local neighbor table, often using ARP for IPv4 and Neighbor Discovery for IPv6. An entry may be missing or stale if the host has not recently communicated with that neighbor.</p>
+<h3 id="quick-network-inspection-bundle">Quick network inspection bundle</h3><p>Run these commands when you first connect to a Linux server:</p>
+<pre><code>hostname
+ip -br addr
+ip route
+ip neigh
+ss -lnt</code></pre><p>These commands provide a quick overview of the hostname, addresses, routes, neighbors, and listening TCP ports.</p>
+<h2 id="9-realistic-devops-case-study-website-returns-connection-refused-">9. Realistic DevOps case study: website returns “connection refused”</h2><p>Scenario: Your application is deployed on an Ubuntu server. A teammate reports that <code>http://server-address:8080</code> isn't opening.</p>
+<p>You need to find out whether the problem is DNS, routing, firewall policy, the listening socket, or the application itself.</p>
+<h3 id="step-1-confirm-the-server-identity-and-address">Step 1 — Confirm the server identity and address</h3><p>On the server:</p>
+<pre><code>hostname
+ip -br addr
+ip route</code></pre><p>Verify you're logged into the correct server and that its network interface has the expected address.</p>
+<h3 id="step-2-check-whether-the-application-is-listening">Step 2 — Check whether the application is listening</h3><pre><code>sudo ss -lntp</code></pre><p>Look for port <code>8080</code>.</p>
+<p>Possible findings:</p>
+<ul>
+<li>Nothing is listening on port 8080: check the application process and its startup logs.</li>
+<li>The app listens on <code>127.0.0.1:8080</code>: it accepts local connections only.</li>
+<li>The app listens on <code>0.0.0.0:8080</code>: it accepts IPv4 connections on all local IPv4 interfaces, subject to firewall and network controls.</li>
+</ul>
+<h3 id="step-3-test-locally">Step 3 — Test locally</h3><pre><code>curl -v --connect-timeout 3 http://127.0.0.1:8080/</code></pre><p>If this fails, investigate the service itself before assuming the problem is external networking.</p>
+<p>If it succeeds, test the server's intended interface address locally, where appropriate:</p>
+<pre><code>curl -v --connect-timeout 3 http://SERVER_PRIVATE_IP:8080/</code></pre><p>Replace <code>SERVER_PRIVATE_IP</code> with the actual private address. A difference between the two results can reveal a binding or local network configuration issue.</p>
+<h3 id="step-4-test-from-the-client">Step 4 — Test from the client</h3><p>From the client machine:</p>
+<pre><code>getent hosts app.example.com
+curl -v --connect-timeout 5 http://app.example.com:8080/</code></pre><p>If the application is accessed by IP rather than domain, test that IP directly too.</p>
+<h3 id="step-5-interpret-the-symptoms">Step 5 — Interpret the symptoms</h3><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>What to investigate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DNS name doesn't resolve</td>
+<td>Resolver settings, DNS records, name-service configuration</td>
+</tr>
+<tr>
+<td><code>Connection refused</code></td>
+<td>No listener on that address/port, or an active reject rule</td>
+</tr>
+<tr>
+<td>Connection times out</td>
+<td>Firewall drops, routing, security groups, or an unresponsive destination</td>
+</tr>
+<tr>
+<td>Local curl works, remote curl fails</td>
+<td>Listening address, host firewall, network ACLs, routing, or cloud firewall</td>
+</tr>
+<tr>
+<td>HTTP <code>502</code></td>
+<td>Reverse proxy or gateway cannot get a valid upstream response</td>
+</tr>
+<tr>
+<td>HTTP <code>503</code></td>
+<td>Application unavailable, overloaded, or deliberately returning unavailable</td>
+</tr>
+<tr>
+<td>HTTP <code>404</code></td>
+<td>Server responds, but the requested route or resource wasn't found</td>
+</tr>
+<tr>
+<td>TLS certificate error</td>
+<td>Certificate validity, hostname mismatch, or certificate-chain configuration</td>
+</tr>
+</tbody></table>
+<p>These are diagnostic clues, not definitive conclusions. For example, a timeout can also occur when a host is down, and a refusal can originate from an intermediate network device.</p>
+<h3 id="step-6-check-the-service-logs">Step 6 — Check the service logs</h3><p>For an application managed by systemd, use its real service name:</p>
+<pre><code>sudo systemctl status nginx
+sudo journalctl -u nginx --since "15 minutes ago"</code></pre><p>These examples inspect Nginx. If your application uses another service name, substitute that name.</p>
+<h3 id="step-7-make-a-controlled-fix">Step 7 — Make a controlled fix</h3><p>If the application is configured to listen only on loopback but must accept connections from a reverse proxy or another network interface, adjust its configuration according to the intended architecture. Validate the configuration before applying it.</p>
+<p>If a firewall or cloud security group is blocking the traffic, request or implement the narrowest approved rule needed for the intended clients.</p>
+<p>Avoid blindly opening all ports or binding an application to every interface. A direct application port might be intended to remain private behind Nginx or another reverse proxy.</p>
+<p>Case study takeaway: Test from the server outward, then from the client inward. Each test narrows the failure point.</p>
+<h2 id="10-interactive-networking-lab">10. Interactive networking lab</h2><p>The following checklist lets you practise the investigation sequence. It does not execute commands on your server.</p>
+<h2 id="networking-checklist">Networking checklist</h2><p>0/8</p>
+<p>1. Identify the server</p>
+<p>hostname</p>
+<p>2. Inspect IP addresses</p>
+<p>ip -br addr</p>
+<p>3. Inspect routes</p>
+<p>ip route</p>
+<p>4. Test basic connectivity</p>
+<p>ping -c 4 1.1.1.1</p>
+<p>5. Test DNS resolution</p>
+<p>getent hosts example.com</p>
+<p>6. Inspect listening TCP ports</p>
+<p>ss -lnt</p>
+<p>7. Test an HTTPS endpoint</p>
+<p>curl -I --connect-timeout 5 https://example.com</p>
+<p>8. Inspect a local application port</p>
+<p>curl -v --connect-timeout 3 http://127.0.0.1:8080/</p>
+<p>The ping test may be blocked by policy. The localhost port 8080 test is expected to fail if no local service is listening there; that's useful information, not necessarily a problem.</p>
+<h3 id="mini-challenge-identify-the-likely-failure">Mini challenge: identify the likely failure</h3><p>Scenario: <code>curl http://192.0.2.25:8080/</code> works on the server itself, but the same URL times out from a remote client. The application is confirmed to be listening on the expected server interface.</p>
+<p>Choose the most useful next investigation.</p>
+<p>Change the DNS records immediately.</p>
+<p>Check host firewall rules, cloud security groups, and routing.</p>
+<p>Kill the application and restart it without checking logs.</p>
+<p>Change the server hostname.</p>
+<p>Check answer</p>
+<h2 id="11-knowledge-quiz">11. Knowledge quiz</h2><p>Test your understanding of Linux networking. The quiz includes multiple-choice questions, a select-all-that-apply question, and true/false statements.</p>
+<p>Which command displays the IP addresses assigned to Linux network interfaces?</p>
+<p>1 of 8</p>
+<p>Aip addr</p>
+<p>Bss -lnt</p>
+<p>Chostname -f</p>
+<p>Dip route</p>
+<p>Next</p>
+<h2 id="12-practical-assignment">12. Practical assignment</h2><p>Complete these tasks on a Linux lab machine. Use a server you own or are authorized to troubleshoot.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><p>0/8 complete</p>
+<p>1. Record the hostname and the IP addresses of the network interfaces.</p>
+<p>2. Identify the default route and explain which gateway it uses, if any.</p>
+<p>3. Test ICMP connectivity to a permitted destination and record the result.</p>
+<p>4. Resolve a hostname using getent hosts and compare with dig if installed.</p>
+<p>5. List listening TCP ports and identify one expected service.</p>
+<p>6. Use curl to request an HTTPS URL and record its HTTP status code.</p>
+<p>7. Diagnose a simulated connection failure using the case-study sequence.</p>
+<p>8. Write a short incident report with the evidence, likely cause, and next safe action.</p>
+<p> Copy incident-report template</p>
+<p>The checklist tracks your progress in this lesson; it does not verify the commands or change your server.</p>
+<h2 id="13-networking-cheat-sheet">13. Networking cheat sheet</h2><h2 id="quick-command-reference">Quick command reference</h2><p> Copy all</p>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Show hostname</td>
+<td><code>hostname</code></td>
+</tr>
+<tr>
+<td>Show interface addresses</td>
+<td><code>ip -br addr</code></td>
+</tr>
+<tr>
+<td>Show routes</td>
+<td><code>ip route</code></td>
+</tr>
+<tr>
+<td>Inspect a routing decision</td>
+<td><code>ip route get 1.1.1.1</code></td>
+</tr>
+<tr>
+<td>Show local neighbors</td>
+<td><code>ip neigh</code></td>
+</tr>
+<tr>
+<td>Test ICMP connectivity</td>
+<td><code>ping -c 4 1.1.1.1</code></td>
+</tr>
+<tr>
+<td>Test an HTTPS endpoint</td>
+<td><code>curl -I https://example.com</code></td>
+</tr>
+<tr>
+<td>Debug connection steps</td>
+<td><code>curl -v https://example.com/</code></td>
+</tr>
+<tr>
+<td>Show HTTP status</td>
+<td><code>curl -sS -o /dev/null -w '%{http_code}\n' https://example.com/</code></td>
+</tr>
+<tr>
+<td>Show listening TCP ports</td>
+<td><code>ss -lnt</code></td>
+</tr>
+<tr>
+<td>Show listening UDP ports</td>
+<td><code>ss -lun</code></td>
+</tr>
+<tr>
+<td>Show sockets and processes</td>
+<td><code>sudo ss -lntup</code></td>
+</tr>
+<tr>
+<td>Resolve using system configuration</td>
+<td><code>getent hosts example.com</code></td>
+</tr>
+<tr>
+<td>Inspect systemd DNS status</td>
+<td><code>resolvectl status</code></td>
+</tr>
+<tr>
+<td>Query DNS A record</td>
+<td><code>dig example.com A</code></td>
+</tr>
+<tr>
+<td>Query DNS AAAA record</td>
+<td><code>dig example.com AAAA</code></td>
+</tr>
+<tr>
+<td>Check service status</td>
+<td><code>sudo systemctl status nginx</code></td>
+</tr>
+<tr>
+<td>Read service logs</td>
+<td><code>sudo journalctl -u nginx --since '15 minutes ago'</code></td>
+</tr>
+</tbody></table>
+<h3 id="remember-this-troubleshooting-order">Remember this troubleshooting order</h3><p>1. Address and route — <code>ip addr</code>, <code>ip route</code></p>
+<p>2. Name resolution — <code>getent hosts</code>, <code>dig</code></p>
+<p>3. Listening port — <code>ss -lnt</code></p>
+<p>4. Connection and HTTP — <code>curl -v</code>, HTTP status</p>
+<p>5. Application and security controls — service logs, firewalls, routing and cloud rules</p>
+<h2 id="up-next-module-1-lesson-9">Up next — Module 1, Lesson 9</h2><h2 id="linux-package-management">Linux package management</h2><p>Learn <code>apt</code>, package installation and removal, repository configuration, package updates, and how to install tools safely on Ubuntu servers.</p>
+<p>Continue to Lesson 9 </p>
+
+</div>

@@ -1,0 +1,292 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-23-web-servers-nginx-on-linux">Module 1, Lesson 23 — Web Servers (Nginx) on Linux</h2><p>Level: Intermediate · Estimated time: 35–45 minutes · Practical focus: serving websites</p>
+<p>In this lesson, you’ll learn how to install and configure Nginx, serve a static website, manage the service with systemd, set up a basic reverse proxy, and troubleshoot a web server that isn’t responding.</p>
+<h2 id="1-what-is-nginx-">1. What is Nginx?</h2><p>Nginx (pronounced “engine-x”) is a high-performance web server, reverse proxy, and load balancer. It’s widely used in production to serve websites and forward traffic to application backends.</p>
+<p>Common use cases:</p>
+<ul>
+<li>Serve static files (HTML, CSS, images).</li>
+<li>Reverse proxy to an application (Node.js, Python, Go).</li>
+<li>Terminate TLS/SSL.</li>
+<li>Load balance across multiple backend servers.</li>
+</ul>
+<h2 id="2-install-nginx-on-ubuntu">2. Install Nginx on Ubuntu</h2><pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt update
+<span class="hljs-built_in">sudo</span> apt install -y nginx</code></pre><p>Start and enable Nginx:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl start nginx
+<span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> nginx</code></pre><p>Check status:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl status nginx</code></pre><p>Test the default page:</p>
+<pre><code class="hljs language-bash">curl http://localhost</code></pre><p>You should see the default “Welcome to nginx!” page.</p>
+<h2 id="3-important-nginx-files-and-directories">3. Important Nginx files and directories</h2><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/etc/nginx/nginx.conf</code></td>
+<td>Main configuration</td>
+</tr>
+<tr>
+<td><code>/etc/nginx/sites-available/</code></td>
+<td>Site definitions</td>
+</tr>
+<tr>
+<td><code>/etc/nginx/sites-enabled/</code></td>
+<td>Enabled sites (symlinks)</td>
+</tr>
+<tr>
+<td><code>/var/www/html/</code></td>
+<td>Default web root</td>
+</tr>
+<tr>
+<td><code>/var/log/nginx/</code></td>
+<td>Access and error logs</td>
+</tr>
+<tr>
+<td><code>/etc/nginx/mime.types</code></td>
+<td>MIME type mappings</td>
+</tr>
+</tbody></table>
+<p>Nginx reads configuration from <code>nginx.conf</code>, which includes files in <code>sites-enabled/</code>.</p>
+<h2 id="4-serve-a-static-website">4. Serve a static website</h2><p>Create your site files:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /var/www/myapp/html
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"&lt;h1&gt;Hello from Linotutor&lt;/h1&gt;&lt;p&gt;Running on Nginx.&lt;/p&gt;"</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /var/www/myapp/html/index.html</code></pre><p>Create a site configuration:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/nginx/sites-available/myapp &lt;&lt;<span class="hljs-string">'EOF'</span>
+server {
+    listen 80;
+    server_name myapp.local;
+
+    root /var/www/myapp/html;
+    index index.html;
+
+    location / {
+        try_files <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =404;
+    }
+}
+EOF</code></pre><p>Enable the site:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">ln</span> -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/myapp</code></pre><p>Test the configuration:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> nginx -t</code></pre><p>If it says “syntax is ok” and “test is successful”, reload Nginx:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl reload nginx</code></pre><p>Test with curl:</p>
+<pre><code class="hljs language-bash">curl -H <span class="hljs-string">"Host: myapp.local"</span> http://localhost</code></pre><h2 id="5-manage-the-nginx-service">5. Manage the Nginx service</h2><pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl start nginx
+<span class="hljs-built_in">sudo</span> systemctl stop nginx
+<span class="hljs-built_in">sudo</span> systemctl restart nginx
+<span class="hljs-built_in">sudo</span> systemctl reload nginx
+<span class="hljs-built_in">sudo</span> systemctl status nginx</code></pre><p>Use <code>reload</code> after config changes (zero-downtime where possible). Use <code>restart</code> only when necessary.</p>
+<h2 id="6-basic-reverse-proxy">6. Basic reverse proxy</h2><p>Forward traffic to a backend application on port 3000:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/nginx/sites-available/myapp &lt;&lt;<span class="hljs-string">'EOF'</span>
+server {
+    listen 80;
+    server_name myapp.local;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host <span class="hljs-variable">$host</span>;
+        proxy_set_header X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+    }
+}
+EOF
+
+<span class="hljs-built_in">sudo</span> nginx -t
+<span class="hljs-built_in">sudo</span> systemctl reload nginx</code></pre><h2 id="7-firewall-access-ufw-">7. Firewall access (UFW)</h2><p>Allow HTTP traffic:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> ufw allow <span class="hljs-string">'Nginx Full'</span></code></pre><p>Check status:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> ufw status</code></pre><h2 id="8-interactive-practice-quiz">8. Interactive practice quiz</h2><p>1. Which file is the main Nginx configuration?</p>
+<p>/etc/nginx/sites-available/default</p>
+<p>/etc/nginx/nginx.conf</p>
+<p>/var/www/html/index.html</p>
+<p>/var/log/nginx/error.log</p>
+<p>2. Which command tests the Nginx configuration without restarting?</p>
+<p>sudo nginx -t</p>
+<p>sudo systemctl restart nginx</p>
+<p>sudo systemctl reload nginx</p>
+<p>curl <a href="http://localhost">http://localhost</a></p>
+<p>3. Which command applies configuration changes without dropping connections?</p>
+<p>sudo systemctl reload nginx</p>
+<p>sudo systemctl restart nginx</p>
+<p>sudo nginx -t</p>
+<p>sudo ufw reload</p>
+<p>Check answers</p>
+<h2 id="9-realistic-devops-case-study-website-returns-404">9. Realistic DevOps case study: website returns 404</h2><p>Scenario: You deployed a site, but visiting it returns “404 Not Found”.</p>
+<p>Investigate methodically:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># 1. Is Nginx running?</span>
+<span class="hljs-built_in">sudo</span> systemctl status nginx
+
+<span class="hljs-comment"># 2. Is the config valid?</span>
+<span class="hljs-built_in">sudo</span> nginx -t
+
+<span class="hljs-comment"># 3. Is the site enabled?</span>
+<span class="hljs-built_in">ls</span> -l /etc/nginx/sites-enabled/
+
+<span class="hljs-comment"># 4. Does the web root and file exist?</span>
+<span class="hljs-built_in">ls</span> -l /var/www/myapp/html/index.html
+
+<span class="hljs-comment"># 5. Check the error log</span>
+<span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tail</span> -n 30 /var/log/nginx/error.log</code></pre><p>Common causes: wrong <code>root</code> path, missing <code>index</code> file, site not symlinked into <code>sites-enabled</code>, or a typo in <code>server_name</code>.</p>
+<h2 id="10-practical-assignment">10. Practical assignment</h2><p>Complete these on a Linux machine.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0/7 completed</p>
+<ol>
+<li>Install Nginx</li>
+</ol>
+<p>sudo apt install -y nginx</p>
+<ol start="2">
+<li>Start and enable Nginx</li>
+</ol>
+<p>sudo systemctl start nginx &amp;&amp; sudo systemctl enable nginx</p>
+<ol start="3">
+<li>Verify Nginx responds</li>
+</ol>
+<p>curl <a href="http://localhost">http://localhost</a></p>
+<ol start="4">
+<li>Create a custom web root and index page</li>
+</ol>
+<p>sudo mkdir -p /var/www/lab/html
+echo "</p><h1>Lab Page</h1>" | sudo tee /var/www/lab/html/index.html<p></p>
+<ol start="5">
+<li>Create and enable a site config</li>
+</ol>
+<p>Create /etc/nginx/sites-available/lab and symlink it into sites-enabled</p>
+<ol start="6">
+<li>Test and reload</li>
+</ol>
+<p>sudo nginx -t &amp;&amp; sudo systemctl reload nginx</p>
+<ol start="7">
+<li>Confirm the custom page</li>
+</ol>
+<p>curl -H "Host: lab.local" <a href="http://localhost">http://localhost</a></p>
+<h2 id="11-cheat-sheet-nginx-essentials">11. Cheat sheet — Nginx essentials</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Install</td>
+<td><code>sudo apt install nginx</code></td>
+</tr>
+<tr>
+<td>Start</td>
+<td><code>sudo systemctl start nginx</code></td>
+</tr>
+<tr>
+<td>Status</td>
+<td><code>sudo systemctl status nginx</code></td>
+</tr>
+<tr>
+<td>Reload config</td>
+<td><code>sudo systemctl reload nginx</code></td>
+</tr>
+<tr>
+<td>Restart</td>
+<td><code>sudo systemctl restart nginx</code></td>
+</tr>
+<tr>
+<td>Test config</td>
+<td><code>sudo nginx -t</code></td>
+</tr>
+<tr>
+<td>Main config</td>
+<td><code>/etc/nginx/nginx.conf</code></td>
+</tr>
+<tr>
+<td>Sites available</td>
+<td><code>/etc/nginx/sites-available/</code></td>
+</tr>
+<tr>
+<td>Sites enabled</td>
+<td><code>/etc/nginx/sites-enabled/</code></td>
+</tr>
+<tr>
+<td>Default web root</td>
+<td><code>/var/www/html/</code></td>
+</tr>
+<tr>
+<td>Logs</td>
+<td><code>/var/log/nginx/</code></td>
+</tr>
+<tr>
+<td>Allow HTTP</td>
+<td><code>sudo ufw allow 'Nginx Full'</code></td>
+</tr>
+</tbody></table>
+<p>Safety tip: Back up <code>/etc/nginx</code> before making large config changes so you can restore a working configuration quickly.</p>
+<h2 id="what-comes-next-">What comes next?</h2><p>Next lesson: Linux kernel, boot process and troubleshooting — understand how Linux starts and how to fix boot issues.</p>
+<p>Continue to Lesson 24</p>
+
+</div>

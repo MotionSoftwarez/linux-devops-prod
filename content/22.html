@@ -1,0 +1,274 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-21-git-essentials-on-linux">Module 1, Lesson 21 — Git Essentials on Linux</h2><p>Level: Beginner · Estimated time: 30–40 minutes · Practical focus: version control on a Linux server</p>
+<p>In this lesson, you’ll learn how to initialize a Git repository, track changes, commit work, inspect history, and collaborate using remotes. Git is a day-to-day DevOps tool for managing application code, infrastructure-as-code, and configuration files on Linux.</p>
+<h2 id="1-what-is-git-">1. What is Git?</h2><p>Git is a distributed version-control system. Every developer has a full copy of the repository history, so you can work offline and sync later.</p>
+<p>Think of Git like a save-game system for your code:</p>
+<ul>
+<li>Commit — save a snapshot with a message.</li>
+<li>Branch — create a parallel timeline to experiment safely.</li>
+<li>Merge — combine work from different timelines.</li>
+<li>Remote — a copy of the repository on another machine (GitHub, GitLab, Bitbucket, or your own Linux server).</li>
+</ul>
+<h2 id="2-install-git">2. Install Git</h2><p>On Ubuntu:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt update
+<span class="hljs-built_in">sudo</span> apt install git</code></pre><p>Verify the installation:</p>
+<pre><code class="hljs language-bash">git --version</code></pre><p>Configure your identity (do this once per machine):</p>
+<pre><code class="hljs language-bash">git config --global user.name <span class="hljs-string">"Your Name"</span>
+git config --global user.email <span class="hljs-string">"you@example.com"</span></code></pre><p>Check your settings:</p>
+<pre><code class="hljs language-bash">git config --list</code></pre><h2 id="3-create-and-inspect-a-repository">3. Create and inspect a repository</h2><p>Initialize a new repository:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> -p ~/devops-lagit/myapp
+<span class="hljs-built_in">cd</span> ~/devops-lagit/myapp
+git init</code></pre><p>This creates a hidden <code>.git</code> directory. Git now tracks this folder.</p>
+<p>Check status:</p>
+<pre><code class="hljs language-bash">git status</code></pre><h2 id="4-track-and-commit-changes">4. Track and commit changes</h2><p>Create a file:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">"# My App"</span> &gt; README.md</code></pre><p>Stage the file:</p>
+<pre><code class="hljs language-bash">git add README.md</code></pre><p>Commit with a message:</p>
+<pre><code class="hljs language-bash">git commit -m <span class="hljs-string">"Add initial README"</span></code></pre><p>View history:</p>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">log</span> --oneline</code></pre><p>See what changed before committing:</p>
+<pre><code class="hljs language-bash">git diff</code></pre><h2 id="5-the-typical-git-workflow">5. The typical Git workflow</h2><pre><code class="hljs language-text">working directory  --git add--&gt;  staging area  --git commit--&gt;  repository</code></pre><ol>
+<li>Edit files in your working directory.</li>
+<li><code>git add</code> the files you want to include.</li>
+<li><code>git commit -m "message"</code> to save a snapshot.</li>
+<li>Repeat.</li>
+</ol>
+<h2 id="6-undoing-and-fixing-mistakes">6. Undoing and fixing mistakes</h2><p>Unstage a file (keep changes in working directory):</p>
+<pre><code class="hljs language-bash">git restore --staged app.conf</code></pre><p>Discard changes in a file (revert to last commit):</p>
+<pre><code class="hljs language-bash">git restore app.conf</code></pre><p>Safety: <code>git restore</code> destroys uncommitted changes in that file. Use it only when you’re sure.</p>
+<h2 id="7-working-with-branches">7. Working with branches</h2><p>Create and switch to a new branch:</p>
+<pre><code class="hljs language-bash">git checkout -b feature/nginx-config</code></pre><p>List branches:</p>
+<pre><code class="hljs language-bash">git branch</code></pre><p>Switch back to main:</p>
+<pre><code class="hljs language-bash">git checkout main</code></pre><p>Merge a feature branch into main:</p>
+<pre><code class="hljs language-bash">git checkout main
+git merge feature/nginx-config</code></pre><p>Delete a merged branch:</p>
+<pre><code class="hljs language-bash">git branch -d feature/nginx-config</code></pre><h2 id="8-remotes-and-collaboration">8. Remotes and collaboration</h2><p>Add a remote repository:</p>
+<pre><code class="hljs language-bash">git remote add origin https://github.com/yourname/myapp.git</code></pre><p>Push your commits:</p>
+<pre><code class="hljs language-bash">git push -u origin main</code></pre><p>Fetch and merge changes from a remote:</p>
+<pre><code class="hljs language-bash">git pull</code></pre><p>Clone an existing repository:</p>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">clone</span> https://github.com/yourname/myapp.git ~/myapp</code></pre><h2 id="9-interactive-practice-quiz">9. Interactive practice quiz</h2><p>Which command creates a new Git repository in the current folder?</p>
+<p>1. git init
+2. git create
+3. git new
+4. git make</p>
+<p>Check answers</p>
+<p>Which command saves a snapshot of staged changes?</p>
+<p>1. git save
+2. git commit -m "message"
+3. git store
+4. git snapshot</p>
+<p>Check answers</p>
+<p>Which command sends local commits to a remote repository?</p>
+<p>1. git send
+2. git upload
+3. git push
+4. git remote</p>
+<p>Check answers</p>
+<h2 id="10-realistic-devops-case-study-track-an-application-configuration">10. Realistic DevOps case study: track an application configuration</h2><p>Scenario: You manage an Nginx configuration file <code>/etc/nginx/sites-available/myapp</code>. You want to track changes to it with Git so you can roll back if a change breaks the site.</p>
+<p>Do not edit files directly in <code>/etc</code> for your first attempt. Practise in a copy:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> -p ~/devops-lagit/nginx-lab
+<span class="hljs-built_in">cp</span> /etc/nginx/sites-available/myapp ~/devops-lagit/nginx-lab/myapp.conf 2&gt;/dev/null || <span class="hljs-built_in">echo</span> <span class="hljs-string">"server { listen 80; }"</span> &gt; ~/devops-lagit/nginx-lab/myapp.conf
+<span class="hljs-built_in">cd</span> ~/devops-lagit/nginx-lab
+git init
+git add myapp.conf
+git commit -m <span class="hljs-string">"Initial Nginx config"</span></code></pre><p>Later, if you edit the config and something breaks:</p>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">log</span> --oneline
+git show &lt;commit-id&gt;
+git restore --<span class="hljs-built_in">source</span>=HEAD~1 myapp.conf</code></pre><h2 id="11-knowledge-quiz">11. Knowledge quiz</h2><p>1. What does <code>git status</code> show?</p>
+<p>The difference between branches</p>
+<p>Which files are changed, staged, or untracked</p>
+<p>The remote URL</p>
+<p>The commit history</p>
+<p>2. Which command creates a new branch and switches to it?</p>
+<p>git branch new-feature</p>
+<p>git checkout -b new-feature</p>
+<p>git switch new-feature</p>
+<p>git create new-feature</p>
+<p>Check answers</p>
+<h2 id="12-practical-assignment">12. Practical assignment</h2><p>Complete these in a practice directory on your Linux machine.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0/8 completed</p>
+<ol>
+<li>Install Git and check the version</li>
+</ol>
+<p>git --version</p>
+<ol start="2">
+<li>Configure your name and email</li>
+</ol>
+<p>git config --global user.name "Your Name"
+git config --global user.email "<a href="mailto:you@example.com">you@example.com</a>"</p>
+<ol start="3">
+<li>Create a practice repository</li>
+</ol>
+<p>mkdir -p ~/devops-lagit/practice &amp;&amp; cd ~/devops-lagit/practice &amp;&amp; git init</p>
+<ol start="4">
+<li>Create a file and stage it</li>
+</ol>
+<p>echo "app v1" &gt; app.txt &amp;&amp; git add app.txt</p>
+<ol start="5">
+<li>Commit the file</li>
+</ol>
+<p>git commit -m "Add app.txt"</p>
+<ol start="6">
+<li>Create a feature branch and switch to it</li>
+</ol>
+<p>git checkout -b feature/readme</p>
+<ol start="7">
+<li>Add a README and commit on the branch</li>
+</ol>
+<p>echo "# Practice" &gt; README.md &amp;&amp; git add README.md &amp;&amp; git commit -m "Add README"</p>
+<ol start="8">
+<li>View the commit history</li>
+</ol>
+<p>git log --oneline</p>
+<h2 id="13-cheat-sheet-git-essentials">13. Cheat sheet — Git essentials</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Install Git</td>
+<td><code>sudo apt install git</code></td>
+</tr>
+<tr>
+<td>Set username</td>
+<td><code>git config --global user.name "Name"</code></td>
+</tr>
+<tr>
+<td>Set email</td>
+<td><code>git config --global user.email "email"</code></td>
+</tr>
+<tr>
+<td>Initialize repo</td>
+<td><code>git init</code></td>
+</tr>
+<tr>
+<td>Check status</td>
+<td><code>git status</code></td>
+</tr>
+<tr>
+<td>Stage a file</td>
+<td><code>git add file.txt</code></td>
+</tr>
+<tr>
+<td>Commit</td>
+<td><code>git commit -m "message"</code></td>
+</tr>
+<tr>
+<td>View history</td>
+<td><code>git log --oneline</code></td>
+</tr>
+<tr>
+<td>Create + switch branch</td>
+<td><code>git checkout -b branch</code></td>
+</tr>
+<tr>
+<td>Switch branch</td>
+<td><code>git checkout main</code></td>
+</tr>
+<tr>
+<td>Merge branch</td>
+<td><code>git merge branch</code></td>
+</tr>
+<tr>
+<td>Add remote</td>
+<td><code>git remote add origin &lt;url&gt;</code></td>
+</tr>
+<tr>
+<td>Push</td>
+<td><code>git push -u origin main</code></td>
+</tr>
+<tr>
+<td>Pull changes</td>
+<td><code>git pull</code></td>
+</tr>
+<tr>
+<td>Clone</td>
+<td><code>git clone &lt;url&gt; ~/folder</code></td>
+</tr>
+<tr>
+<td>Discard file changes</td>
+<td><code>git restore file.txt</code></td>
+</tr>
+</tbody></table>
+<p>Safety tip: Never run <code>git reset --hard</code> or <code>git restore</code> on work you haven’t committed unless you are sure you want to lose it.</p>
+<h2 id="what-comes-next-">What comes next?</h2><p>Next lesson: Containers and Docker foundations on Linux — run applications in isolated containers.</p>
+<p>Continue to Lesson 22</p>
+
+</div>

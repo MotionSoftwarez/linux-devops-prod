@@ -1,0 +1,262 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-22-containers-and-docker-foundations-on-linux">Module 1, Lesson 22 — Containers and Docker Foundations on Linux</h2><p>Level: Intermediate · Estimated time: 35–45 minutes · Practical focus: container basics</p>
+<p>In this lesson, you’ll learn what containers are, how they differ from virtual machines, how to install Docker on Ubuntu, run and manage containers, and inspect container logs and resources. Containers are the foundation behind modern DevOps and Kubernetes.</p>
+<h2 id="1-what-is-a-container-">1. What is a container?</h2><p>A container packages an application with its libraries, dependencies, and configuration into a single isolated unit. It runs as an isolated process on the host Linux kernel.</p>
+<p>Containers vs virtual machines:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Container</th>
+<th>Virtual Machine</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Shares host kernel</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Startup time</td>
+<td>Seconds</td>
+<td>Minutes</td>
+</tr>
+<tr>
+<td>Disk image size</td>
+<td>Megabytes</td>
+<td>Gigabytes</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>Process-level</td>
+<td>Full hardware</td>
+</tr>
+</tbody></table>
+<p>Containers are lightweight because they don’t boot a full operating system — they use Linux kernel features (namespaces and cgroups) for isolation and resource limits.</p>
+<h2 id="2-install-docker-on-ubuntu">2. Install Docker on Ubuntu</h2><pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt update
+<span class="hljs-built_in">sudo</span> apt install -y docker.io</code></pre><p>Start and enable Docker:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl start docker
+<span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> docker</code></pre><p>Verify Docker is running:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl status docker</code></pre><p>Run Docker without <code>sudo</code> (optional, add your user to the docker group):</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> usermod -aG docker <span class="hljs-variable">$USER</span></code></pre><p>Then log out and back in for the group change to take effect.</p>
+<h2 id="3-run-your-first-container">3. Run your first container</h2><p>Download and run the Nginx image:</p>
+<pre><code class="hljs language-bash">docker run -d -p 8080:80 --name my-nginx nginx</code></pre><p>What this does:</p>
+<ul>
+<li><code>-d</code> — run in the background (detached).</li>
+<li><code>-p 8080:80</code> — map host port 8080 to container port 80.</li>
+<li><code>--name my-nginx</code> — give the container a name.</li>
+<li><code>nginx</code> — the image to use.</li>
+</ul>
+<p>Test it:</p>
+<pre><code class="hljs language-bash">curl http://localhost:8080</code></pre><p>You should see the Nginx welcome page HTML.</p>
+<h2 id="4-manage-containers">4. Manage containers</h2><p>List running containers:</p>
+<pre><code class="hljs language-bash">docker ps</code></pre><p>List all containers (including stopped):</p>
+<pre><code class="hljs language-bash">docker ps -a</code></pre><p>Stop a container:</p>
+<pre><code class="hljs language-bash">docker stop my-nginx</code></pre><p>Start a stopped container:</p>
+<pre><code class="hljs language-bash">docker start my-nginx</code></pre><p>Remove a stopped container:</p>
+<pre><code class="hljs language-bash">docker <span class="hljs-built_in">rm</span> my-nginx</code></pre><p>Remove a running container (force):</p>
+<pre><code class="hljs language-bash">docker <span class="hljs-built_in">rm</span> -f my-nginx</code></pre><h2 id="5-inspect-containers">5. Inspect containers</h2><p>View container logs:</p>
+<pre><code class="hljs language-bash">docker logs my-nginx</code></pre><p>Follow logs in real time:</p>
+<pre><code class="hljs language-bash">docker logs -f my-nginx</code></pre><p>Inspect container details:</p>
+<pre><code class="hljs language-bash">docker inspect my-nginx</code></pre><p>Run a command inside a running container:</p>
+<pre><code class="hljs language-bash">docker <span class="hljs-built_in">exec</span> -it my-nginx bash</code></pre><p>Type <code>exit</code> to leave the container shell.</p>
+<h2 id="6-images">6. Images</h2><p>List downloaded images:</p>
+<pre><code class="hljs language-bash">docker images</code></pre><p>Remove an image:</p>
+<pre><code class="hljs language-bash">docker rmi nginx</code></pre><p>Pull an image without running it:</p>
+<pre><code class="hljs language-bash">docker pull alpine</code></pre><h2 id="7-interactive-practice-quiz">7. Interactive practice quiz</h2><p>1. What makes containers lighter than virtual machines?</p>
+<p>They share the host kernel</p>
+<p>They boot a full OS</p>
+<p>They use more disk space</p>
+<p>They are slower to start</p>
+<p>2. Which flag runs a Docker container in the background?</p>
+<p>-it</p>
+<p>-d</p>
+<p>-p</p>
+<p>--name</p>
+<p>3. Which command shows running containers?</p>
+<p>docker images</p>
+<p>docker ps</p>
+<p>docker logs</p>
+<p>docker inspect</p>
+<p>Check answers</p>
+<h2 id="8-realistic-devops-case-study-run-a-temporary-test-web-server">8. Realistic DevOps case study: run a temporary test web server</h2><p>Scenario: You need a quick web server to test an application deployment, but you don’t want to install Nginx directly on the host.</p>
+<p>Run a throwaway container:</p>
+<pre><code class="hljs language-bash">docker run -d -p 9090:80 --name test-web nginx
+curl http://localhost:9090</code></pre><p>When testing is done, remove it completely:</p>
+<pre><code class="hljs language-bash">docker <span class="hljs-built_in">rm</span> -f test-web</code></pre><p>Because it was a container, nothing is left installed on your host.</p>
+<h2 id="9-practical-assignment">9. Practical assignment</h2><p>Complete these on a Linux machine with Docker installed.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0/7 completed</p>
+<ol>
+<li>Install Docker</li>
+</ol>
+<p>sudo apt install -y docker.io</p>
+<ol start="2">
+<li>Start Docker</li>
+</ol>
+<p>sudo systemctl start docker</p>
+<ol start="3">
+<li>Check Docker status</li>
+</ol>
+<p>sudo systemctl status docker</p>
+<ol start="4">
+<li>Run an Nginx container on port 8080</li>
+</ol>
+<p>docker run -d -p 8080:80 --name web1 nginx</p>
+<ol start="5">
+<li>Confirm it responds</li>
+</ol>
+<p>curl <a href="http://localhost:8080">http://localhost:8080</a></p>
+<ol start="6">
+<li>View the container logs</li>
+</ol>
+<p>docker logs web1</p>
+<ol start="7">
+<li>Stop and remove the container</li>
+</ol>
+<p>docker rm -f web1</p>
+<h2 id="10-cheat-sheet-docker-essentials">10. Cheat sheet — Docker essentials</h2><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Install Docker</td>
+<td><code>sudo apt install docker.io</code></td>
+</tr>
+<tr>
+<td>Start Docker</td>
+<td><code>sudo systemctl start docker</code></td>
+</tr>
+<tr>
+<td>Status</td>
+<td><code>sudo systemctl status docker</code></td>
+</tr>
+<tr>
+<td>List images</td>
+<td><code>docker images</code></td>
+</tr>
+<tr>
+<td>List running containers</td>
+<td><code>docker ps</code></td>
+</tr>
+<tr>
+<td>List all containers</td>
+<td><code>docker ps -a</code></td>
+</tr>
+<tr>
+<td>Run detached</td>
+<td><code>docker run -d -p 8080:80 --name c nginx</code></td>
+</tr>
+<tr>
+<td>View logs</td>
+<td><code>docker logs c</code></td>
+</tr>
+<tr>
+<td>Follow logs</td>
+<td><code>docker logs -f c</code></td>
+</tr>
+<tr>
+<td>Exec into container</td>
+<td><code>docker exec -it c bash</code></td>
+</tr>
+<tr>
+<td>Stop container</td>
+<td><code>docker stop c</code></td>
+</tr>
+<tr>
+<td>Remove container</td>
+<td><code>docker rm c</code></td>
+</tr>
+<tr>
+<td>Remove force</td>
+<td><code>docker rm -f c</code></td>
+</tr>
+<tr>
+<td>Remove image</td>
+<td><code>docker rmi image</code></td>
+</tr>
+</tbody></table>
+<p>Safety tip: Containers are isolated from the host, but processes running as root inside a container still have capabilities. Prefer running containers as a non-root user where possible.</p>
+<h2 id="what-comes-next-">What comes next?</h2><p>Next lesson: Web servers (Nginx) on Linux — serve websites and reverse-proxy applications.</p>
+<p>Continue to Lesson 23</p>
+
+</div>

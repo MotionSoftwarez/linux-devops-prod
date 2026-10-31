@@ -1,0 +1,476 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-7">Linux for DevOps — Module 1, Lesson 7</h2><h2 id="linux-processes-and-jobs-ps-top-pgrep-kill-jobs-bg-fg-and-nohup">Linux processes and jobs: <code>ps</code>, <code>top</code>, <code>pgrep</code>, <code>kill</code>, <code>jobs</code>, <code>bg</code>, <code>fg</code>, and <code>nohup</code></h2><p>Beginner</p>
+<p>Hands-on lab</p>
+<p>DevOps troubleshooting</p>
+<p>Every application running on Linux uses one or more processes. When a website becomes slow, a deployment hangs, or a background script stops after you disconnect from SSH, understanding processes helps you investigate and respond safely.</p>
+<p>In this lesson, you'll learn to inspect running programs, understand process IDs and signals, control terminal jobs, and run commands that can continue after a terminal session ends.</p>
+<h2 id="1-what-is-a-process-">1. What is a process?</h2><p>A process is a running instance of a program.</p>
+<p>For example, when a Linux server runs Nginx, Python, a shell script, or a database, the operating system tracks the corresponding processes.</p>
+<p>Program on disk</p>
+<p>Example: <code>app.py</code></p>
+<p>Running process</p>
+<p>Has a PID, memory, state, and resource usage</p>
+<p>PID</p>
+<p>Process identifier</p>
+<p>Memory</p>
+<p>RAM usage</p>
+<p>CPU</p>
+<p>Processing activity</p>
+<p>A program is the code or executable stored on disk. A process is a running instance of that program. The same program can have multiple processes.</p>
+<h3 id="what-is-a-pid-">What is a PID?</h3><p>PID stands for Process ID. Linux assigns a numeric identifier to each process.</p>
+<p>Example:</p>
+<pre><code>PID    COMMAND
+1      systemd
+842    nginx
+1095   python3
+1270   bash</code></pre><p>These numbers are illustrative. Actual PIDs vary between systems and change as processes start and stop.</p>
+<p>A process also has a parent process ID (PPID), which helps show how processes were started.</p>
+<h2 id="2-understand-the-process-tree">2. Understand the process tree</h2><p>Processes can start other processes. The resulting parent-child relationships form a process tree.</p>
+<p>systemd</p>
+<p>PID 1 on many Linux systems</p>
+<p>nginx</p>
+<p>Web server</p>
+<p>sshd</p>
+<p>SSH service</p>
+<p>SSH shell</p>
+<p>Your interactive terminal session</p>
+<p>Python script</p>
+<p>A command launched from the shell</p>
+<p>Simplified illustration; real process relationships depend on the system and how programs are launched.</p>
+<p>To see processes and their parents, use:</p>
+<pre><code>ps -ef</code></pre><p>Or show a process tree:</p>
+<pre><code>ps -ef --forest</code></pre><p>Some Linux variants have different <code>ps</code> options, but these are commonly available on Ubuntu.</p>
+<h2 id="3-inspect-processes-with-ps">3. Inspect processes with <code>ps</code></h2><p><code>ps</code> means process status. It provides a snapshot of running processes.</p>
+<h3 id="common-commands">Common commands</h3><pre><code>ps
+ps -ef
+ps aux</code></pre><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ps</code></td>
+<td>Show processes associated with the current terminal</td>
+</tr>
+<tr>
+<td><code>ps -ef</code></td>
+<td>Show a detailed process listing</td>
+</tr>
+<tr>
+<td><code>ps aux</code></td>
+<td>Show processes in a BSD-style format, including resource fields</td>
+</tr>
+<tr>
+<td><code>ps -u "$USER"</code></td>
+<td>Show processes associated with your user</td>
+</tr>
+<tr>
+<td><code>ps -p 1234 -f</code></td>
+<td>Inspect the process with PID 1234</td>
+</tr>
+<tr>
+<td><code>ps -o pid,ppid,stat,%cpu,%mem,cmd -p 1234</code></td>
+<td>Select specific fields for one process</td>
+</tr>
+</tbody></table>
+<h3 id="read-a-ps-ef-row">Read a <code>ps -ef</code> row</h3><p>Example:</p>
+<pre><code>UID      PID  PPID  C STIME TTY      TIME CMD
+deploy  1234  1100  0 10:00 pts/0  00:00:02 python3 app.py</code></pre><ul>
+<li><code>UID</code> — account running the process.</li>
+<li><code>PID</code> — process ID.</li>
+<li><code>PPID</code> — parent process ID.</li>
+<li><code>C</code> — CPU utilization-related field in this format.</li>
+<li><code>STIME</code> — process start time or date.</li>
+<li><code>TTY</code> — associated terminal, if any.</li>
+<li><code>TIME</code> — accumulated CPU time.</li>
+<li><code>CMD</code> — command associated with the process.</li>
+</ul>
+<p>DevOps tip: Before terminating a process, inspect its PID, command, user, and parent process. A PID alone is not enough to establish that the process is safe to stop.</p>
+<h2 id="4-find-a-process-with-pgrep">4. Find a process with <code>pgrep</code></h2><p>Suppose a server is running several programs and you want to find a Python process without reading the entire <code>ps</code> output.</p>
+<p>Use <code>pgrep</code>:</p>
+<pre><code>pgrep python</code></pre><p>To display process IDs and command names:</p>
+<pre><code>pgrep -a python</code></pre><p>To search for an exact process name:</p>
+<pre><code>pgrep -x nginx</code></pre><p>To find processes belonging to a particular user:</p>
+<pre><code>pgrep -u deploy -a</code></pre><p>The last command lists processes belonging to <code>deploy</code> on systems supporting these common <code>pgrep</code> options.</p>
+<h3 id="pgrep-versus-ps"><code>pgrep</code> versus <code>ps</code></h3><ul>
+<li>Use <code>ps</code> when you want a broad snapshot or more detailed process information.</li>
+<li>Use <code>pgrep</code> when you want to find process IDs by name, user, or matching criteria.</li>
+</ul>
+<p>Be careful: <code>pgrep python</code> can match multiple Python processes. Always inspect the results before acting on a PID.</p>
+<h2 id="5-understand-process-states">5. Understand process states</h2><p>Linux processes have states that help explain what they're doing.</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>R</code></td>
+<td>Running or ready to run</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>Interruptible sleep, commonly waiting for an event</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>Uninterruptible sleep, often waiting for I/O</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>Stopped or job-control stopped</td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>Zombie: exited, but its parent has not yet collected its exit status</td>
+</tr>
+</tbody></table>
+<p>A process in state <code>D</code> may not respond to ordinary termination signals until the kernel operation it is waiting for completes. A zombie process has already exited; sending it another termination signal does not solve the underlying parent-reaping issue.</p>
+<p>Inspect states with:</p>
+<pre><code>ps -eo pid,ppid,stat,comm</code></pre><h3 id="see-resource-usage-with-top">See resource usage with <code>top</code></h3><p>Run:</p>
+<pre><code>top</code></pre><p><code>top</code> refreshes the display of processes and system resource usage.</p>
+<p>Useful keys inside <code>top</code> include:</p>
+<ul>
+<li><code>P</code> — sort by CPU usage on common procps-ng versions.</li>
+<li><code>M</code> — sort by memory usage.</li>
+<li><code>1</code> — toggle individual CPU core displays on many versions.</li>
+<li><code>q</code> — quit.</li>
+</ul>
+<h2 id="what-to-investigate-in-top">What to investigate in <code>top</code></h2><p>High CPU</p>
+<p>Identify which process consumes CPU, then inspect its command and logs. High CPU isn't always a fault.</p>
+<p>High memory</p>
+<p>Check whether memory usage is expected, increasing over time, or causing system pressure.</p>
+<p>Long-running process</p>
+<p>Compare its runtime and activity with the expected behavior of the application.</p>
+<p>For a one-time snapshot, you can also run:</p>
+<pre><code>top -b -n 1 | head -n 20</code></pre><p>This runs <code>top</code> in batch mode once and shows the first 20 lines.</p>
+<h2 id="6-stop-processes-with-kill-and-signals">6. Stop processes with <code>kill</code> and signals</h2><p>The command <code>kill</code> sends a signal to a process. Despite its name, it doesn't always immediately terminate the process.</p>
+<h3 id="common-signals">Common signals</h3><table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Number</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SIGTERM</code></td>
+<td>15</td>
+<td>Requests orderly termination</td>
+</tr>
+<tr>
+<td><code>SIGKILL</code></td>
+<td>9</td>
+<td>Forces termination; cannot be caught or ignored by the target</td>
+</tr>
+<tr>
+<td><code>SIGINT</code></td>
+<td>2</td>
+<td>Interrupt, often associated with Ctrl+C in a terminal</td>
+</tr>
+<tr>
+<td><code>SIGHUP</code></td>
+<td>1</td>
+<td>Hangup; some programs use it to reload configuration, but behavior is application-specific</td>
+</tr>
+<tr>
+<td><code>SIGSTOP</code></td>
+<td>19 on x86/Linux</td>
+<td>Stops a process; cannot be caught or ignored</td>
+</tr>
+</tbody></table>
+<p>Signal numbers can vary across Unix-like platforms. Signal names are more portable than hard-coded numbers.</p>
+<h3 id="prefer-graceful-termination">Prefer graceful termination</h3><p>For a known, disposable test process:</p>
+<pre><code>kill -TERM 1234</code></pre><p>This asks PID <code>1234</code> to terminate gracefully. Replace the example PID with a verified target.</p>
+<p>Check whether it is still running:</p>
+<pre><code>ps -p 1234 -f</code></pre><p>If the process doesn't terminate, investigate why before escalating. Only when necessary and authorized, <code>SIGKILL</code> can be used:</p>
+<pre><code>kill -KILL 1234</code></pre><p>A forced kill prevents the application from handling cleanup routines. It can leave temporary files, incomplete writes, or inconsistent application state.</p>
+<h3 id="stop-or-continue-a-process">Stop or continue a process</h3><pre><code>kill -STOP 1234
+kill -CONT 1234</code></pre><ul>
+<li><code>STOP</code> suspends a process.</li>
+<li><code>CONT</code> resumes a stopped process.</li>
+</ul>
+<p>These commands affect the specified process, and permission to signal it depends on user privileges and system policy.</p>
+<p>Production safety rule: Don't terminate processes just because their names look unfamiliar or their CPU usage is high. Identify the service, check its dependencies, and use the service manager when appropriate. For example, managed Nginx services are normally controlled with <code>systemctl</code>, not by killing a random worker PID.</p>
+<h2 id="7-terminal-jobs-foreground-and-background">7. Terminal jobs: foreground and background</h2><p>A job is a command or pipeline managed by your current shell's job-control feature. A job can contain one or more processes.</p>
+<p>For example, if you run a long script directly in Bash, the shell waits for it in the foreground. You usually cannot enter another command in that same terminal until the script finishes or is suspended.</p>
+<h3 id="foreground-versus-background">Foreground versus background</h3><p>Foreground</p>
+<p>The command occupies your terminal interaction.</p>
+<p>Example: <code>sleep 60</code></p>
+<p>Background</p>
+<p>The shell returns a prompt while the job runs.</p>
+<p>Example: <code>sleep 60 &amp;</code></p>
+<p>Background doesn't necessarily mean detached from the terminal. A background job may still depend on the shell, terminal input, and terminal output.</p>
+<p>Try a harmless foreground command:</p>
+<pre><code>sleep 30</code></pre><p>It waits for 30 seconds. To interrupt it, press Ctrl+C.</p>
+<p>Now start a background job:</p>
+<pre><code>sleep 300 &amp;</code></pre><p>The shell prints a job number and often a PID, for example:</p>
+<pre><code>[1] 2450</code></pre><p>Here, <code>[1]</code> is the shell's job number and <code>2450</code> is an example PID. They are different identifiers.</p>
+<h3 id="list-jobs-with-jobs">List jobs with <code>jobs</code></h3><pre><code>jobs
+jobs -l</code></pre><p>Example:</p>
+<pre><code>[1]+  Running    sleep 300 &amp;</code></pre><p><code>jobs</code> shows jobs managed by the current shell. It generally won't list unrelated processes launched from another terminal or by a system service.</p>
+<h3 id="bring-a-background-job-to-the-foreground-with-fg">Bring a background job to the foreground with <code>fg</code></h3><pre><code>fg %1</code></pre><p>This brings job number 1 into the foreground, if that job exists in the current shell.</p>
+<p>To suspend a foreground job, press Ctrl+Z. The shell stops the job and returns the prompt. Then:</p>
+<pre><code>jobs
+bg %1</code></pre><p><code>bg %1</code> resumes job 1 in the background.</p>
+<p>The typical workflow is:</p>
+<p>Run a command</p>
+<p><code>sleep 300</code></p>
+<p>Press Ctrl+Z</p>
+<p>Suspends the foreground job</p>
+<p>Run <code>bg</code></p>
+<p>Resumes the suspended job in the background</p>
+<p>Run <code>fg</code></p>
+<p>Brings the job back to the foreground</p>
+<p>To end the test job, bring it to the foreground and press Ctrl+C, or use <code>kill</code> on its verified PID.</p>
+<h2 id="8-run-commands-with-nohup">8. Run commands with <code>nohup</code></h2><p>Suppose you start a data-processing script over SSH. You want it to keep running even if you close the terminal session.</p>
+<p><code>nohup</code> runs a command with the hangup signal ignored. This can help with simple long-running tasks.</p>
+<p>Example:</p>
+<pre><code>nohup python3 process_data.py &gt; process.log 2&gt;&amp;1 &amp;</code></pre><p>Breakdown:</p>
+<ul>
+<li><code>nohup</code> — ignores the hangup signal for the command.</li>
+<li><code>python3 process_data.py</code> — the command being run.</li>
+<li><code>&gt;</code> — redirects standard output to a file, replacing the file if it already exists.</li>
+<li><code>process.log</code> — destination for standard output.</li>
+<li><code>2&gt;&amp;1</code> — redirects standard error to the same destination as standard output.</li>
+<li><code>&amp;</code> — asks the shell to start the command in the background.</li>
+</ul>
+<p>Check the log:</p>
+<pre><code>tail -f process.log</code></pre><p>Press Ctrl+C to stop following the log. This stops <code>tail</code>, not the Python process.</p>
+<p>Find the script:</p>
+<pre><code>pgrep -af process_data.py</code></pre><p>Inspect the result carefully before taking action. Command-line matching can return multiple processes.</p>
+<h3 id="does-nohup-guarantee-that-a-job-survives-everything-">Does <code>nohup</code> guarantee that a job survives everything?</h3><p>No. It is not a service manager. It doesn't automatically restart a crashed process, supervise its health, or guarantee survival through reboots. Shell behavior, terminal handling, resource limits, and application design still matter.</p>
+<p>For a temporary task, <code>nohup</code> may be sufficient. For a production application, use an appropriate managed mechanism, such as a <code>systemd</code> service, a container orchestrator, or a job scheduler.</p>
+<p>Important: A background job and a detached job are not the same thing. <code>command &amp;</code> backgrounds a job, but doesn't by itself guarantee that it will survive logout.</p>
+<h2 id="9-realistic-devops-case-study-a-deployment-script-appears-stuck">9. Realistic DevOps case study: a deployment script appears stuck</h2><p>Scenario: You're connected to an Ubuntu server through SSH. A deployment script is taking longer than expected, and the application hasn't updated.</p>
+<p>Your goal is to diagnose the problem without accidentally terminating a critical service.</p>
+<h3 id="step-1-find-the-process">Step 1 — Find the process</h3><pre><code>pgrep -af deploy</code></pre><p>If you don't find it, inspect your own processes:</p>
+<pre><code>ps -u "$USER" -f</code></pre><p>Don't assume a process is stuck merely because it has been running for a long time.</p>
+<h3 id="step-2-inspect-the-pid-and-parent">Step 2 — Inspect the PID and parent</h3><p>Suppose you identify a relevant PID of <code>2450</code> in the output. Verify that the command and user are what you expect:</p>
+<pre><code>ps -p 2450 -o pid,ppid,user,stat,etime,%cpu,%mem,cmd</code></pre><p>The PID here is only an example. Use the actual verified PID from your system.</p>
+<h3 id="step-3-inspect-logs-and-resource-activity">Step 3 — Inspect logs and resource activity</h3><p>If the deployment writes a log:</p>
+<pre><code>tail -n 50 deploy.log</code></pre><p>Look for the latest error messages and whether progress has stopped. If appropriate, inspect resource use with:</p>
+<pre><code>top</code></pre><p>A process consuming no CPU could be waiting for a network response, disk I/O, a lock, or user input. It isn't necessarily broken.</p>
+<h3 id="step-4-check-whether-the-process-is-a-shell-job">Step 4 — Check whether the process is a shell job</h3><p>If you launched the script from your current shell:</p>
+<pre><code>jobs -l</code></pre><p>If it is suspended, <code>fg</code> may bring it back to the foreground so you can inspect or interact with it. If it is an unrelated service process, <code>jobs</code> won't help.</p>
+<h3 id="step-5-decide-on-a-safe-next-action">Step 5 — Decide on a safe next action</h3><p>Use this decision guide:</p>
+<p>Deployment seems stuck</p>
+<p>Check PID, user, command, state, and logs</p>
+<p>Progress exists</p>
+<p>Wait or investigate expected processing time.</p>
+<p>No progress</p>
+<p>Investigate dependencies, locks, input, and errors.</p>
+<p>If termination is justified</p>
+<p>Use the application's documented shutdown or an approved graceful termination process.</p>
+<p>For a managed service, check its status and logs using the appropriate service manager rather than killing a worker blindly.</p>
+<h3 id="step-6-if-the-task-needs-to-continue-after-ssh-disconnects">Step 6 — If the task needs to continue after SSH disconnects</h3><p>For a suitable, non-production batch script, you might start it with:</p>
+<pre><code>nohup python3 process_data.py &gt; process.log 2&gt;&amp;1 &amp;</code></pre><p>For production deployments, prefer a supervised service or job runner with logging, status reporting, restart behavior, and clear ownership.</p>
+<p>Case study takeaway: Observe first, identify the correct process, understand its state, inspect logs, then take the least disruptive action.</p>
+<h2 id="10-interactive-practice-exercises">10. Interactive practice exercises</h2><p>Run these in your own terminal. They use <code>sleep</code>, which is a harmless way to practise process and job control.</p>
+<h2 id="hands-on-checklist">Hands-on checklist</h2><p>0/7</p>
+<p>1. Start a foreground process</p>
+<p>sleep 120</p>
+<p>Press Ctrl+C to interrupt it, or use Ctrl+Z to suspend it.</p>
+<p>2. Start a background process</p>
+<p>sleep 300 &amp;</p>
+<p>The shell returns a job number and usually a PID.</p>
+<p>3. List jobs in the current shell</p>
+<p>jobs -l</p>
+<p>Observe the job number and process ID.</p>
+<p>4. Find sleep processes</p>
+<p>pgrep -a sleep</p>
+<p>This may show multiple processes. Match the command before acting.</p>
+<p>5. Inspect a selected PID</p>
+<p>ps -p PID -o pid,ppid,stat,etime,cmd</p>
+<p>Replace PID with the real numeric process ID.</p>
+<p>6. Bring a job to the foreground</p>
+<p>fg %1</p>
+<p>Use the actual job number shown by jobs; press Ctrl+C to stop the test job.</p>
+<p>7. Inspect processes with top</p>
+<p>top</p>
+<p>Explore CPU and memory columns, then press q to exit.</p>
+<p>The checklist is a learning aid. It does not run commands or verify your terminal's state. For the <code>fg</code> exercise, replace <code>%1</code> with the job number actually shown by your shell.</p>
+<h3 id="bonus-practise-nohup-safely">Bonus: practise <code>nohup</code> safely</h3><p>Create a tiny batch job that prints a timestamp every five seconds:</p>
+<pre><code>mkdir -p ~/devops-lab/lesson7
+cd ~/devops-lab/lesson7
+
+nohup bash -c 'for i in 1 2 3 4 5; do date; sleep 5; done' &gt; timestamps.log 2&gt;&amp;1 &amp;</code></pre><p>Inspect the output:</p>
+<pre><code>cat timestamps.log
+tail -f timestamps.log</code></pre><p>The script ends on its own after five iterations. Use Ctrl+C to stop <code>tail -f</code> when you've seen enough; the logger will finish independently.</p>
+<h2 id="11-knowledge-quiz">11. Knowledge quiz</h2><p>Choose the correct answer for each question. Submit to see your score and explanations.</p>
+<p>1. Which command displays a detailed snapshot of all processes?</p>
+<p>jobsps -effgnohup</p>
+<p>2. What does `kill -TERM 2450` do?</p>
+<p>Immediately forces the process to stopRequests graceful termination of PID 2450Starts PID 2450 in the backgroundDisplays CPU usage</p>
+<p>3. Which command brings job number 2 to the foreground?</p>
+<p>bg %2jobs -2fg %2ps %2</p>
+<p>4. True or false: `command &amp;` guarantees the process will survive logout and reboot.</p>
+<p>TrueFalse</p>
+<p>5. Which signal cannot be caught or ignored by the target process?</p>
+<p>SIGTERMSIGINTSIGHUPSIGKILL</p>
+<p>6. Which command finds processes matching a name and shows their command lines?</p>
+<p>pgrep -a pythonwhoami pythonjobs -a pythonchmod -a python</p>
+<p>Submit answers</p>
+<h2 id="12-practical-assignment">12. Practical assignment</h2><p>Complete these tasks in your Linux lab. Don't terminate system services or processes belonging to other users as part of this exercise.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><p>0/8</p>
+<p>1. Run ps -ef and identify three processes.</p>
+<p>2. Use pgrep -a to locate a known process, such as sleep.</p>
+<p>3. Start sleep 180 in the background and inspect it with jobs -l.</p>
+<p>4. Inspect its PID with ps -p PID -o pid,ppid,stat,etime,cmd.</p>
+<p>5. Bring the background job to the foreground using fg and stop the test with Ctrl+C.</p>
+<p>6. Run the timestamp logging exercise with nohup and inspect its log.</p>
+<p>7. Explain the difference between a PID and a shell job number.</p>
+<p>8. Explain when SIGTERM is preferable to SIGKILL.</p>
+<p>Tick each task after completing it. The checklist doesn't inspect your terminal or validate your work.</p>
+<h2 id="13-cheat-sheet">13. Cheat sheet</h2><h2 id="linux-process-commands">Linux process commands</h2><p> Copy commands</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ps -ef</code></td>
+<td>Detailed process listing</td>
+</tr>
+<tr>
+<td><code>ps aux</code></td>
+<td>Process listing with resource fields</td>
+</tr>
+<tr>
+<td><code>ps -p PID -f</code></td>
+<td>Inspect a specific PID</td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td>Monitor process and system activity</td>
+</tr>
+<tr>
+<td><code>pgrep -a NAME</code></td>
+<td>Find processes by name</td>
+</tr>
+<tr>
+<td><code>jobs -l</code></td>
+<td>List current shell jobs and PIDs</td>
+</tr>
+<tr>
+<td><code>command &amp;</code></td>
+<td>Start a shell job in the background</td>
+</tr>
+<tr>
+<td><code>fg %1</code></td>
+<td>Bring job 1 to the foreground</td>
+</tr>
+<tr>
+<td><code>bg %1</code></td>
+<td>Resume job 1 in the background</td>
+</tr>
+<tr>
+<td><code>kill -TERM PID</code></td>
+<td>Request graceful termination</td>
+</tr>
+<tr>
+<td><code>kill -KILL PID</code></td>
+<td>Force termination</td>
+</tr>
+<tr>
+<td><code>nohup COMMAND &gt; log 2&gt;&amp;1 &amp;</code></td>
+<td>Run a command in the background while ignoring hangup signals</td>
+</tr>
+<tr>
+<td><code>tail -f output.log</code></td>
+<td>Follow new log entries</td>
+</tr>
+</tbody></table>
+<h3 id="five-rules-for-safe-process-management">Five rules for safe process management</h3><ol>
+<li>Identify before acting: verify the PID, command, user, and parent process.</li>
+<li>Observe before terminating: inspect logs, state, and resource usage.</li>
+<li>Prefer graceful shutdown: use SIGTERM or the application's documented shutdown procedure before considering SIGKILL.</li>
+<li>Know your shell: <code>jobs</code>, <code>fg</code>, and <code>bg</code> work with jobs managed by the current shell.</li>
+<li>Use supervision for production: use service managers or job schedulers for restart policies, monitoring, and reliable lifecycle management.</li>
+</ol>
+<h2 id="up-next-module-1-lesson-8">Up next — Module 1, Lesson 8</h2><h2 id="linux-networking-fundamentals">Linux networking fundamentals</h2><p>Learn <code>ip</code>, <code>ping</code>, <code>curl</code>, <code>ss</code>, <code>hostname</code>, DNS troubleshooting, ports, and how to diagnose connectivity problems on a DevOps server.</p>
+<p>Continue to Lesson 8 </p>
+
+</div>

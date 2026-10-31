@@ -1,0 +1,396 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-2-understanding-the-linux-filesystem">Module 1 · Lesson 2: Understanding the Linux Filesystem</h2><p>Level: Beginner · Estimated time: 25–35 minutes · Practical focus: navigating a Linux server</p>
+<p>In this lesson, you'll learn how Linux organizes files, where configuration and log files live, and how to find the right file when an application fails.</p>
+<h2 id="1-what-is-the-linux-filesystem-">1. What is the Linux filesystem?</h2><p>Think of the filesystem as a tree of folders and files. Unlike Windows, where you commonly see separate drives such as <code>C:\</code> and <code>D:\</code>, a typical Linux system organizes its files under a single root directory represented by <code>/</code>.</p>
+<h2 id="linux-filesystem-tree">Linux filesystem tree</h2><h2 id="-">/</h2><p>Root directory</p>
+<p><code>/etc</code></p>
+<p>System configuration</p>
+<p><code>/home</code></p>
+<p>User directories</p>
+<p><code>/var</code></p>
+<p>Logs and changing data</p>
+<p><code>/usr</code></p>
+<p>Programs and shared resources</p>
+<p><code>/opt</code></p>
+<p>Optional application software</p>
+<p><code>/tmp</code></p>
+<p>Temporary files</p>
+<p>Simplified overview. These directories have different purposes; their exact contents vary by Linux distribution and installed software.</p>
+<p>Remember: <code>/</code> is the root of the filesystem. It is not the same as <code>/root</code>, which is the home directory of the root administrator account.</p>
+<h2 id="2-the-directories-every-devops-engineer-should-know">2. The directories every DevOps engineer should know</h2><table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Purpose</th>
+<th>Practical example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code></td>
+<td>Filesystem root</td>
+<td>Starting point for absolute paths</td>
+</tr>
+<tr>
+<td><code>/home</code></td>
+<td>Regular users' home directories</td>
+<td><code>/home/student</code></td>
+</tr>
+<tr>
+<td><code>/root</code></td>
+<td>Root user's home directory</td>
+<td><code>/root/.ssh</code></td>
+</tr>
+<tr>
+<td><code>/etc</code></td>
+<td>System and application configuration</td>
+<td><code>/etc/ssh/sshd_config</code></td>
+</tr>
+<tr>
+<td><code>/var/log</code></td>
+<td>Many system and application logs</td>
+<td><code>/var/log/syslog</code> on many Ubuntu systems</td>
+</tr>
+<tr>
+<td><code>/var</code></td>
+<td>Variable data, logs, caches, queues</td>
+<td><code>/var/lib</code></td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>Temporary files</td>
+<td>Temporary scripts or working files</td>
+</tr>
+<tr>
+<td><code>/usr/bin</code></td>
+<td>Many installed user commands</td>
+<td><code>/usr/bin/grep</code></td>
+</tr>
+<tr>
+<td><code>/usr/sbin</code></td>
+<td>Many administrative commands</td>
+<td>Utilities for system administration</td>
+</tr>
+<tr>
+<td><code>/bin</code> and <code>/sbin</code></td>
+<td>Essential commands; often linked into <code>/usr</code> on modern distributions</td>
+<td><code>ls</code>, <code>sh</code></td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td>Optional or third-party application software</td>
+<td><code>/opt/myapp</code></td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>Device files</td>
+<td><code>/dev/null</code></td>
+</tr>
+<tr>
+<td><code>/proc</code></td>
+<td>Virtual filesystem exposing process and kernel information</td>
+<td><code>/proc/meminfo</code></td>
+</tr>
+<tr>
+<td><code>/sys</code></td>
+<td>Kernel and device information</td>
+<td><code>/sys/class</code></td>
+</tr>
+<tr>
+<td><code>/mnt</code> and <code>/media</code></td>
+<td>Common mount locations</td>
+<td>Mounted disks and removable media</td>
+</tr>
+</tbody></table>
+<p>Two important distinctions:</p>
+<ul>
+<li><code>/etc</code> usually contains configuration, not the application logs themselves.</li>
+<li><code>/var/log</code> is a common log location, but some applications log to the system journal or to a custom directory.</li>
+</ul>
+<h2 id="3-absolute-paths-vs-relative-paths">3. Absolute paths vs relative paths</h2><p>An absolute path starts at <code>/</code>. A relative path is interpreted from your current working directory.</p>
+<h3 id="visual-example">Visual example</h3><p>Current directory</p>
+<h2 id="-home-student"><code>/home/student</code></h2><p>Documents/</p>
+<p>notes.txt</p>
+<p>Absolute</p>
+<p><code>/home/student/Documents/notes.txt</code></p>
+<p>Identifies the path from <code>/</code>.</p>
+<p>Relative</p>
+<p><code>Documents/notes.txt</code></p>
+<p>Works from <code>/home/student</code>.</p>
+<p>Useful navigation shortcuts:</p>
+<ul>
+<li><code>.</code> means the current directory.</li>
+<li><code>..</code> means the parent directory.</li>
+<li><code>~</code> usually expands to the current user's home directory.</li>
+<li><code>/</code> means the filesystem root.</li>
+</ul>
+<p>For example:</p>
+<pre><code>pwd
+cd ..
+pwd
+cd ~
+pwd</code></pre><p>The output depends on where you start, but the sequence shows how to inspect your location, move up one directory, and return to your home directory.</p>
+<h2 id="4-hands-on-command-lab">4. Hands-on command lab</h2><p>Let's learn how to navigate and inspect the filesystem.</p>
+<h3 id="step-1-find-your-current-location">Step 1 — Find your current location</h3><pre><code>pwd</code></pre><p>Example output:</p>
+<pre><code>/home/student</code></pre><p>This tells you the current working directory.</p>
+<h3 id="step-2-list-files-and-directories">Step 2 — List files and directories</h3><pre><code>ls
+ls -l
+ls -a
+ls -lh</code></pre><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What changes?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ls</code></td>
+<td>Basic listing</td>
+</tr>
+<tr>
+<td><code>ls -l</code></td>
+<td>Detailed information</td>
+</tr>
+<tr>
+<td><code>ls -a</code></td>
+<td>Includes hidden entries</td>
+</tr>
+<tr>
+<td><code>ls -lh</code></td>
+<td>Detailed listing with human-readable sizes</td>
+</tr>
+</tbody></table>
+<p>Linux filenames beginning with a dot, such as <code>.bashrc</code>, are hidden from the ordinary <code>ls</code> listing.</p>
+<h3 id="step-3-navigate-safely">Step 3 — Navigate safely</h3><pre><code>cd /var/log
+pwd
+ls</code></pre><p>You have now moved to the common location for system logs.</p>
+<p>Return home:</p>
+<pre><code>cd ~</code></pre><h3 id="step-4-inspect-a-file-without-changing-it">Step 4 — Inspect a file without changing it</h3><pre><code>less /etc/hostname</code></pre><p>Press <code>q</code> to exit <code>less</code>.</p>
+<p>For a small text file, you can also use:</p>
+<pre><code>cat /etc/hostname</code></pre><h3 id="step-5-find-a-file">Step 5 — Find a file</h3><pre><code>find /etc -name "hostname" 2&gt;/dev/null</code></pre><p>This searches <code>/etc</code> for a file named <code>hostname</code>. The redirection suppresses permission-related error messages; it does not grant additional permissions.</p>
+<p>DevOps tip: start with <code>pwd</code>, then inspect with <code>ls</code>, and only then navigate or edit. This simple habit prevents many mistakes.</p>
+<h2 id="5-interactive-filesystem-challenge">5. Interactive filesystem challenge</h2><h2 id="virtual-linux-lab">Virtual Linux lab</h2><p>Safe simulation</p>
+<p>This practice panel simulates command results. It does not execute commands on a real Linux machine.</p>
+<p>student@linux:~$</p>
+<p>Choose a command to inspect the simulated filesystem.</p>
+<p>Choose a task</p>
+<p>1. Run ls /2. Navigate to /var/log and inspect its contents3. Run pwd after returning homeComplete challenge</p>
+<h2 id="6-real-world-case-study-website-logs-are-missing">6. Real-world case study: Website logs are missing</h2><h2 id="incident-find-the-application-logs">Incident: Find the application logs</h2><p>A website is reporting errors. A teammate asks you to find the system logs and check whether Nginx has an application log directory.</p>
+<p>Your starting information</p>
+<ul>
+<li>Operating system: Ubuntu server</li>
+<li>System logs may be in <code>/var/log</code></li>
+<li>Nginx logs are often stored under <code>/var/log/nginx/</code>, if installed and configured that way</li>
+<li>You must inspect files before making any changes</li>
+</ul>
+<p>Which command is the best first step to inspect the common system log directory?</p>
+<p><code>cd /var/log</code> followed by <code>ls</code></p>
+<p><code>rm -rf /var/log</code></p>
+<p><code>chmod -R 777 /var/log</code></p>
+<p><code>reboot</code></p>
+<p>Check diagnosis</p>
+<h3 id="a-professional-investigation-workflow">A professional investigation workflow</h3><p>After locating the directory, you might run:</p>
+<pre><code>ls -lah /var/log
+ls -lah /var/log/nginx
+systemctl status nginx
+journalctl -u nginx --since "30 minutes ago"</code></pre><p>The second command may report that the directory does not exist. That is useful evidence, not proof by itself that Nginx is broken. The service may be uninstalled, configured to log elsewhere, or not have created those files.</p>
+<p>The lesson: locate, inspect, collect evidence, and verify before changing the system.</p>
+<h2 id="7-knowledge-check-filesystem-quiz">7. Knowledge check — Filesystem quiz</h2><p>Test your understanding before moving to the next lesson.</p>
+<p>A script must read the configuration file <code>/etc/ssh/sshd_config</code>. Which directory is commonly used for system configuration?</p>
+<p>1 of 5</p>
+<p>A/etc</p>
+<p>B/proc</p>
+<p>C/home</p>
+<p>D/tmp</p>
+<p>Next</p>
+<h2 id="8-chapter-assignment-filesystem-investigation">8. Chapter assignment — Filesystem investigation</h2><p>Complete these tasks on your own Linux environment.</p>
+<h2 id="practical-assignment">Practical assignment</h2><p>0/6</p>
+<p>Find your current directory using pwd.</p>
+<p>pwd</p>
+<p>List all entries, including hidden files, in your home directory.</p>
+<p>ls -la ~</p>
+<p>Inspect the top-level filesystem directories.</p>
+<p>ls /</p>
+<p>Inspect the hostname file without editing it.</p>
+<p>cat /etc/hostname</p>
+<p>Check whether an Nginx log directory exists.</p>
+<p>ls -lah /var/log/nginx</p>
+<p>Explain the difference between /, /root, and /home.</p>
+<p>Note: the Nginx log directory may not exist if Nginx is not installed or configured to use that location. An error is a valid observation; record what you found rather than assuming the server is broken.</p>
+<h2 id="9-cheat-sheet-linux-filesystem">9. Cheat sheet — Linux filesystem</h2><h2 id="essential-commands">Essential commands</h2><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pwd</code></td>
+<td>Print current directory</td>
+</tr>
+<tr>
+<td><code>ls -la</code></td>
+<td>List all entries with details</td>
+</tr>
+<tr>
+<td><code>cd /path</code></td>
+<td>Change to a specified directory</td>
+</tr>
+<tr>
+<td><code>cd ..</code></td>
+<td>Move to parent directory</td>
+</tr>
+<tr>
+<td><code>cd ~</code></td>
+<td>Move to home directory</td>
+</tr>
+<tr>
+<td><code>cat file</code></td>
+<td>Display file contents</td>
+</tr>
+<tr>
+<td><code>less file</code></td>
+<td>Read a file interactively</td>
+</tr>
+<tr>
+<td><code>file filename</code></td>
+<td>Identify file type</td>
+</tr>
+<tr>
+<td><code>stat filename</code></td>
+<td>Inspect file metadata</td>
+</tr>
+<tr>
+<td><code>find /path -name "name"</code></td>
+<td>Search by filename</td>
+</tr>
+<tr>
+<td><code>du -sh /path</code></td>
+<td>Estimate directory disk usage</td>
+</tr>
+<tr>
+<td><code>df -h</code></td>
+<td>Inspect filesystem space usage</td>
+</tr>
+</tbody></table>
+<p> Copy command reference</p>
+<h2 id="quick-directory-reference">Quick directory reference</h2><table>
+<thead>
+<tr>
+<th>If you need to find…</th>
+<th>Start with…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SSH configuration</td>
+<td><code>/etc/ssh/</code></td>
+</tr>
+<tr>
+<td>System logs</td>
+<td><code>/var/log/</code> or <code>journalctl</code></td>
+</tr>
+<tr>
+<td>User files</td>
+<td><code>/home/username/</code></td>
+</tr>
+<tr>
+<td>Temporary files</td>
+<td><code>/tmp/</code></td>
+</tr>
+<tr>
+<td>Kernel information</td>
+<td><code>/proc/</code> and <code>/sys/</code></td>
+</tr>
+<tr>
+<td>Installed commands</td>
+<td><code>/usr/bin/</code></td>
+</tr>
+<tr>
+<td>Application data</td>
+<td>Often <code>/var/lib/</code> or an application-specific path</td>
+</tr>
+</tbody></table>
+<p>Production safety rule: never delete or recursively change permissions on a system directory just to investigate a problem. Begin with read-only inspection and make changes only when the cause is understood.</p>
+<h2 id="10-what-comes-next-">10. What comes next?</h2><p><a href="https://images.openai.com/static-rsc-4/sBB8iiQ-G96KikOJoBbToNScOe6nWAbdFmhdqG-5C4vmuPTLl6btWKIY9MFJkH2MIOVCVjBYERKplhX5iz7qm3L_qYoiqPGbt4X93X9J9afFRlp_roO2jg2Hq6UJerm466XFNp3DM6H9CqzSXpCFJBanLASeZBQPUpYgBZh9uTg?purpose=inline">Linux Terminal Commands for Cloud Computing and DevOps | Gaurav Singh posted on the topic | LinkedIn</a></p>
+<p>Next lesson</p>
+<h2 id="lesson-3-create-copy-move-and-delete-files">Lesson 3 — Create, Copy, Move, and Delete Files</h2><p>Learn <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, and <code>rm</code> through a simulated project directory and a practical deployment exercise.</p>
+<p>Includes command examples, a safe file-management lab, a case study, assignments, and a quiz.</p>
+<p>Start Lesson 3 </p>
+
+</div>

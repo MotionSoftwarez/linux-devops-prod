@@ -1,0 +1,621 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-16">Linux for DevOps — Module 1, Lesson 16</h2><h2 id="cron-jobs-and-scheduled-automation-on-ubuntu">Cron Jobs and Scheduled Automation on Ubuntu</h2><p><a href="https://images.openai.com/static-rsc-4/Z9reviAbkH-BvHdsF3-wFIMRbHqhuljKhUWyZm9h5iULn218E4XB7L9ISkVIqyMBTfmVljHVIO_z5k7hDP_xkHp0w4D-Ynz59cF0qwV_DvQPIcY8NK-iMarHlmYEyhRFcf_Y8UZprRdA2VW4acZtB_Iq4AaLJC0MwXKPoZKDP9g?purpose=inline">Different ways to schedule and list CRON jobs in Linux</a></p>
+<p><a href="https://www.howtoforge.com/different-ways-to-schedule-and-list-cron-jobs-in-linux/?utm_source=chatgpt.com">howtoforge.com</a></p>
+<p>In Lesson 15, you created a Bash health-check script. In this lesson, you'll learn how to make Ubuntu run that script automatically at a specific time, without needing to open a terminal and run it manually.</p>
+<p>This is a fundamental DevOps skill. Scheduled jobs can check server health, collect logs, run backups, process journal-delivery packages, and generate regular reports.</p>
+<h2 id="what-you-ll-learn">What you'll learn</h2><p>Understand cron and the cron daemon</p>
+<p>Read and write cron expressions</p>
+<p>Manage user crontabs and system-wide scheduled jobs</p>
+<p>Handle PATH, environment variables, and working directories</p>
+<p>Capture output and errors in log files</p>
+<p>Prevent overlapping scheduled jobs</p>
+<p>Troubleshoot missed or failed executions</p>
+<p>Schedule the Lesson 15 health-check script safely</p>
+<p>0 of 8 learning objectives completed</p>
+<h2 id="1-what-is-cron-">1. What is cron?</h2><p>Cron is a time-based job scheduler commonly used on Linux systems. You specify when a command should run, and a cron service launches it at the scheduled time.</p>
+<p>For example, you can schedule a health-check script to run every 15 minutes, a report to run every morning, or a backup script to run every Sunday.</p>
+<p>Cron schedule</p>
+<p>Every 15 minutes</p>
+<p>Cron service</p>
+<p>Checks configured schedules and launches due jobs</p>
+<p>Bash script runs</p>
+<p>Checks disk usage and service state</p>
+<p>Output and exit status</p>
+<p>Logs support monitoring and troubleshooting</p>
+<h3 id="cron-versus-bash">Cron versus Bash</h3><ul>
+<li>Bash script: defines what actions to perform.</li>
+<li>Cron schedule: defines when to start the script.</li>
+<li>Cron daemon: manages scheduled execution.</li>
+<li>Log file: records output so you can investigate what happened.</li>
+</ul>
+<p>Cron is not a replacement for a service manager such as systemd. Cron is useful for time-based tasks; systemd services are often a better fit for applications that must stay running continuously.</p>
+<h2 id="2-cron-syntax-understand-the-five-fields">2. Cron syntax: understand the five fields</h2><p>A standard user crontab entry has five time fields followed by the command.</p>
+<h3 id="example-cron-expression">Example cron expression</h3><h2 id="-15-">*/15 * * * *</h2><p>Run every 15 minutes</p>
+<h3 id="1">1</h3><p>Minute</p>
+<p>0–59</p>
+<h3 id="2">2</h3><p>Hour</p>
+<p>0–23</p>
+<h3 id="3">3</h3><p>Day</p>
+<p>1–31</p>
+<h3 id="4">4</h3><p>Month</p>
+<p>1–12</p>
+<h3 id="5">5</h3><p>Weekday</p>
+<p>0–7</p>
+<p>In the weekday field, 0 and 7 commonly both mean Sunday; 1 is Monday.</p>
+<p>The five fields are separated by spaces. After them comes the command to execute.</p>
+<h3 id="symbols-you-ll-use-frequently">Symbols you'll use frequently</h3><table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>Every allowed value</td>
+<td><code>* * * * *</code> — every minute</td>
+</tr>
+<tr>
+<td><code>*/n</code></td>
+<td>Every n units</td>
+<td><code>*/15 * * * *</code> — every 15 minutes</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>Several specific values</td>
+<td><code>0 9,17 * * *</code> — 9 AM and 5 PM</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>A range</td>
+<td><code>0 9-17 * * *</code> — hourly at minute 0, 9 AM through 5 PM</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>A specific value</td>
+<td><code>30 8 * * *</code> — 8:30 AM daily</td>
+</tr>
+</tbody></table>
+<p>Cron times use the machine's configured local time zone unless the implementation or configuration specifies otherwise.</p>
+<h2 id="3-common-cron-schedules">3. Common cron schedules</h2><p>Here are useful examples for Ubuntu and DevOps tasks.</p>
+<table>
+<thead>
+<tr>
+<th>Cron expression</th>
+<th>Schedule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>* * * * *</code></td>
+<td>Every minute</td>
+</tr>
+<tr>
+<td><code>*/5 * * * *</code></td>
+<td>Every 5 minutes</td>
+</tr>
+<tr>
+<td><code>*/15 * * * *</code></td>
+<td>Every 15 minutes</td>
+</tr>
+<tr>
+<td><code>0 * * * *</code></td>
+<td>At the start of every hour</td>
+</tr>
+<tr>
+<td><code>30 8 * * *</code></td>
+<td>Every day at 8:30 AM</td>
+</tr>
+<tr>
+<td><code>0 2 * * *</code></td>
+<td>Every day at 2:00 AM</td>
+</tr>
+<tr>
+<td><code>0 9 * * 1-5</code></td>
+<td>At 9 AM Monday through Friday</td>
+</tr>
+<tr>
+<td><code>0 6 * * 0</code></td>
+<td>Every Sunday at 6 AM</td>
+</tr>
+<tr>
+<td><code>0 0 1 * *</code></td>
+<td>Midnight on the first day of every month</td>
+</tr>
+</tbody></table>
+<p>A few things to remember:</p>
+<ul>
+<li><code>0 2 * * *</code> means 2:00 AM, not every two hours.</li>
+<li><code>0 */2 * * *</code> means every two hours, on the hour.</li>
+<li><code>*/10 * * * *</code> means every 10 minutes, not 10 minutes after every script completion.</li>
+<li>A job scheduled at a time that doesn't exist during a daylight-saving clock change may be skipped, depending on the cron implementation.</li>
+</ul>
+<h3 id="interactive-build-a-cron-expression">Interactive: build a cron expression</h3><p>Choose a schedule and see the corresponding expression.</p>
+<p>Choose the schedule type</p>
+<p>Every 5 minutes</p>
+<p>Every 15 minutes</p>
+<p>At the start of every hour</p>
+<p>Daily or weekday schedule</p>
+<p>Generated expression</p>
+<h2 id="-15-">*/15 * * * *</h2><p> Copy expression</p>
+<p>This expression contains only the five schedule fields. Add a command to create a complete crontab entry.</p>
+<h2 id="4-user-crontabs-schedule-jobs-for-your-account">4. User crontabs: schedule jobs for your account</h2><p>A user crontab contains schedules that run as the user who owns that crontab.</p>
+<p>For example, if you edit your own crontab, jobs normally run with your user's permissions—not automatically as root.</p>
+<h3 id="step-1-check-the-cron-service">Step 1 — Check the cron service</h3><p>On Ubuntu:</p>
+<pre><code>systemctl status cron</code></pre><p>If cron is installed but inactive and you have permission to administer the machine:</p>
+<pre><code>sudo systemctl enable --now cron</code></pre><p>Check again:</p>
+<pre><code>systemctl is-active cron
+systemctl is-enabled cron</code></pre><p><code>is-active</code> checks the current state; <code>is-enabled</code> checks whether the service is configured to start automatically.</p>
+<h3 id="step-2-open-your-crontab">Step 2 — Open your crontab</h3><pre><code>crontab -e</code></pre><p>The first time, Ubuntu may ask you to select an editor. Choose Nano if you are not comfortable with Vim.</p>
+<p>Add this harmless test job:</p>
+<pre><code>* * * * * /usr/bin/date &gt;&gt; /tmp/cron-learning.log 2&gt;&amp;1</code></pre><p>Save and exit. Wait a minute, then inspect the log:</p>
+<pre><code>tail -n 10 /tmp/cron-learning.log</code></pre><p>You should see timestamps appended as the job runs.</p>
+<p>This is a learning exercise, not a recommended production schedule: every-minute jobs should be used only when needed.</p>
+<h3 id="step-3-manage-your-crontab">Step 3 — Manage your crontab</h3><pre><code>crontab -l</code></pre><p>Lists your current jobs.</p>
+<pre><code>crontab -e</code></pre><p>Edits your jobs.</p>
+<pre><code>crontab -r</code></pre><p>Removes your entire user crontab. Avoid running this casually; it can delete every schedule configured in that crontab.</p>
+<p>To remove only the learning job, use <code>crontab -e</code> and delete just that entry.</p>
+<h2 id="5-user-cron-versus-system-cron">5. User cron versus system cron</h2><p>Ubuntu offers several places to configure scheduled tasks.</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Typical purpose</th>
+<th>Runs as</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>crontab -e</code></td>
+<td>Personal or application-user jobs</td>
+<td>Crontab owner</td>
+</tr>
+<tr>
+<td><code>/etc/crontab</code></td>
+<td>System-wide schedules</td>
+<td>User specified in each entry</td>
+</tr>
+<tr>
+<td><code>/etc/cron.d/</code></td>
+<td>Separate system/application schedule files</td>
+<td>User specified in each entry</td>
+</tr>
+<tr>
+<td><code>/etc/cron.hourly/</code></td>
+<td>Scripts intended for hourly execution</td>
+<td>Depends on the system's cron configuration</td>
+</tr>
+<tr>
+<td><code>/etc/cron.daily/</code></td>
+<td>Daily maintenance scripts</td>
+<td>Depends on the system's cron configuration</td>
+</tr>
+<tr>
+<td><code>/etc/cron.weekly/</code></td>
+<td>Weekly maintenance scripts</td>
+<td>Depends on the system's cron configuration</td>
+</tr>
+<tr>
+<td><code>/etc/cron.monthly/</code></td>
+<td>Monthly maintenance scripts</td>
+<td>Depends on the system's cron configuration</td>
+</tr>
+</tbody></table>
+<p>The crucial syntax difference is that <code>/etc/crontab</code> and files in <code>/etc/cron.d/</code> include an additional username field before the command.</p>
+<p>User crontab:</p>
+<pre><code>0 2 * * * /opt/myapp/backup.sh</code></pre><p>System crontab entry:</p>
+<pre><code>0 2 * * * backupuser /opt/myapp/backup.sh</code></pre><p>The second line runs as <code>backupuser</code>, assuming that account exists and has the required permissions.</p>
+<p>Files in <code>/etc/cron.d/</code> should follow the system's expected format and naming rules. They generally need to be owned by root and not be writable by other users.</p>
+<h3 id="special-schedules">Special schedules</h3><p>Some cron implementations support shortcuts such as:</p>
+<pre><code>@reboot /opt/myapp/startup-check.sh
+@daily /opt/myapp/daily-report.sh
+@weekly /opt/myapp/weekly-report.sh</code></pre><p><code>@reboot</code> means when the cron service starts, rather than exactly at a daily time. It is not a substitute for configuring a long-running application as a systemd service.</p>
+<h2 id="6-the-most-common-cron-problem-the-environment-is-different">6. The most common cron problem: the environment is different</h2><p>When you run a command interactively, your terminal usually provides a richer environment than cron does.</p>
+<p>Your terminal might have:</p>
+<ul>
+<li>A customized <code>PATH</code></li>
+<li>Variables loaded by shell startup files</li>
+<li>A familiar working directory</li>
+<li>A virtual environment activated manually</li>
+<li>Functions or aliases</li>
+<li>Access to files available only to your interactive user</li>
+</ul>
+<p>Cron generally does not start your usual interactive shell session.</p>
+<h3 id="interactive-shell-versus-cron">Interactive shell versus cron</h3><p>Terminal</p>
+<p>Your configured PATH</p>
+<p>Interactive settings</p>
+<p>Often your project directory</p>
+<p>Cron</p>
+<p>Minimal environment</p>
+<p>Different PATH</p>
+<p>Usually not your project directory</p>
+<p>Result: a script that works in your terminal may fail when scheduled.</p>
+<h3 id="problem-a-command-not-found">Problem A — Command not found</h3><p>This may work in your terminal:</p>
+<pre><code>python3 /opt/myapp/report.py</code></pre><p>But a scheduled task may not find <code>python3</code> if its directory isn't in cron's <code>PATH</code>.</p>
+<p>Find the executable's path in your terminal:</p>
+<pre><code>command -v python3
+command -v bash
+command -v flock</code></pre><p>Then use the actual absolute paths in your script or crontab. On many Ubuntu systems, these commands resolve to paths such as <code>/usr/bin/python3</code>, <code>/usr/bin/bash</code>, and <code>/usr/bin/flock</code>, but verify your own machine.</p>
+<h3 id="problem-b-wrong-working-directory">Problem B — Wrong working directory</h3><p>This script is fragile:</p>
+<pre><code>#!/usr/bin/env bash
+python3 report.py</code></pre><p>If cron starts the script outside the project directory, Python may not find <code>report.py</code>.</p>
+<p>A more reliable approach:</p>
+<pre><code>#!/usr/bin/env bash
+set -Eeuo pipefail
+
+cd /opt/myapp
+/usr/bin/python3 /opt/myapp/report.py</code></pre><p>An absolute script path is even clearer:</p>
+<pre><code>/usr/bin/python3 /opt/myapp/report.py</code></pre><p>The Python script may still depend on files or relative paths, so its working directory and configuration should be considered explicitly.</p>
+<h3 id="problem-c-missing-environment-variables">Problem C — Missing environment variables</h3><p>Suppose your application requires:</p>
+<pre><code>export APP_ENV=production</code></pre><p>Don't assume that variable exists when cron runs.</p>
+<p>You can set non-secret variables in the crontab:</p>
+<pre><code>APP_ENV=production</code></pre><p>However, credentials should not be casually embedded in a crontab or script. Prefer an approved secrets mechanism or a protected configuration file readable only by the service account.</p>
+<p>For Python applications, use the project's virtual environment explicitly:</p>
+<pre><code>/opt/myapp/venv/bin/python /opt/myapp/report.py</code></pre><p>This avoids relying on whichever Python happens to be selected by the environment.</p>
+<h2 id="7-logging-and-output-redirection">7. Logging and output redirection</h2><p>Cron jobs run without a normal terminal attached, so you need a way to capture their output.</p>
+<p>Remember the two main output streams:</p>
+<ul>
+<li>stdout (file descriptor 1): normal output.</li>
+<li>stderr (file descriptor 2): error messages.</li>
+</ul>
+<h3 id="common-redirection-patterns">Common redirection patterns</h3><table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&gt; output.log</code></td>
+<td>Write stdout, replacing the file</td>
+</tr>
+<tr>
+<td><code>&gt;&gt; output.log</code></td>
+<td>Append stdout to the file</td>
+</tr>
+<tr>
+<td><code>2&gt; errors.log</code></td>
+<td>Write stderr to a file</td>
+</tr>
+<tr>
+<td><code>2&gt;&amp;1</code></td>
+<td>Redirect stderr to the current stdout destination</td>
+</tr>
+<tr>
+<td><code>&gt; job.log 2&gt;&amp;1</code></td>
+<td>Send both stdout and stderr to one log</td>
+</tr>
+<tr>
+<td><code>&gt;/dev/null 2&gt;&amp;1</code></td>
+<td>Discard both output streams</td>
+</tr>
+</tbody></table>
+<p>Order matters. For example, <code>&gt; job.log 2&gt;&amp;1</code> sends both streams to the log. Reversing the order can leave stderr going to its original destination.</p>
+<h3 id="example-capture-a-daily-report">Example: capture a daily report</h3><pre><code>30 8 * * * /opt/myapp/daily_report.sh &gt;&gt; /var/log/myapp/daily_report.log 2&gt;&amp;1</code></pre><p>This runs daily at 8:30 AM and appends output to the log.</p>
+<p>For a production job, confirm that the cron user can write to the log file and traverse its parent directories. Also configure log rotation so the file doesn't grow forever.</p>
+<h3 id="capture-output-during-learning">Capture output during learning</h3><p>Try this in your own crontab:</p>
+<pre><code>*/5 * * * * /usr/bin/date &gt;&gt; /tmp/cron-learning.log 2&gt;&amp;1</code></pre><p>Wait five minutes or more, then run:</p>
+<pre><code>tail -n 20 /tmp/cron-learning.log</code></pre><p>For a script that reports an error and exits nonzero, capture both streams so the reason is available for troubleshooting.</p>
+<h2 id="8-prevent-overlapping-jobs-with-flock">8. Prevent overlapping jobs with <code>flock</code></h2><p>Imagine a report normally takes two minutes to run, but one day it takes 20 minutes. If cron starts the same report every five minutes, several copies may run simultaneously.</p>
+<p>This can cause:</p>
+<ul>
+<li>Duplicate processing</li>
+<li>High CPU or memory use</li>
+<li>Competing writes to the same files</li>
+<li>Inconsistent reports</li>
+<li>An increasing backlog of jobs</li>
+</ul>
+<h3 id="the-solution-use-a-lock">The solution: use a lock</h3><p>On Ubuntu, <code>flock</code> from the <code>util-linux</code> package is commonly available. It can provide a simple lock around a command.</p>
+<p>Example crontab entry:</p>
+<pre><code>*/5 * * * * /usr/bin/flock -n /tmp/myapp-report.lock /opt/myapp/report.sh &gt;&gt; /var/log/myapp/report.log 2&gt;&amp;1</code></pre><p>How it works:</p>
+<ul>
+<li><code>-n</code> means do not wait if the lock is already held.</li>
+<li>If another instance has the lock, the new invocation doesn't start the command.</li>
+<li>The lock is released when the process holding it exits and closes the lock descriptor.</li>
+</ul>
+<p>Verify the actual <code>flock</code> path with <code>command -v flock</code> before using this exact entry.</p>
+<p>Cron triggers the job</p>
+<p>Attempt to acquire lock</p>
+<p>Lock available</p>
+<p>Run job</p>
+<p>Lock held</p>
+<p>Skip this run</p>
+<h3 id="important-details-about-locks">Important details about locks</h3><ul>
+<li>Every instance must use the same lock file to coordinate with each other.</li>
+<li>Choose a directory with suitable permissions and appropriate persistence for your use case.</li>
+<li>Don't manually delete a lock file just because it exists. With <code>flock</code>, the file's existence alone does not mean a lock is held.</li>
+<li><code>flock</code> helps prevent overlapping executions on a shared lock, but it doesn't protect against duplicate work caused by crashes, partial transactions, or separate hosts unless your design handles those cases.</li>
+</ul>
+<h2 id="9-safe-scheduling-a-production-checklist">9. Safe scheduling: a production checklist</h2><p>Before putting a scheduled job on a real Ubuntu server, check the following.</p>
+<p>The script has been tested manually with the intended service account.</p>
+<p>The crontab uses the correct time zone and schedule.</p>
+<p>Commands and important file paths are absolute where practical.</p>
+<p>Required directories, permissions, and configuration are checked.</p>
+<p>The job captures useful output and error messages.</p>
+<p>The job cannot accidentally delete or overwrite unrelated data.</p>
+<p>Overlapping execution has been considered and controlled where necessary.</p>
+<p>Logs have a retention or rotation policy.</p>
+<p>Failures can be detected and investigated.</p>
+<p>The job has a documented owner and purpose.</p>
+<p>0 of 10 safety checks completed</p>
+<p>A good scheduled job should be predictable, observable, and safe to repeat. For tasks such as package processing, backups, and deployment, consider whether a partially completed run could be repeated without causing damage.</p>
+<h2 id="10-realistic-devops-case-study-schedule-the-lesson-15-health-check">10. Realistic DevOps case study: schedule the Lesson 15 health check</h2><h3 id="scenario">Scenario</h3><p>Your Ubuntu server runs a journal delivery validation application. You want to check:</p>
+<ul>
+<li>Root filesystem usage</li>
+<li>Whether the selected system service is active</li>
+<li>Whether the health-check script completed successfully</li>
+<li>What happened if the job failed overnight</li>
+</ul>
+<p>You created the health-check script in Lesson 15 at:</p>
+<pre><code>~/devops-lab/health_check.sh</code></pre><p>For a scheduled job, use a stable absolute path, not <code>~</code>, because cron doesn't expand <code>~</code> in every context as you might expect.</p>
+<h3 id="step-a-prepare-a-dedicated-location">Step A — Prepare a dedicated location</h3><p>For this learning exercise, use your own home directory and a log folder:</p>
+<pre><code>mkdir -p "$HOME/devops-lab/logs"
+chmod 700 "$HOME/devops-lab"
+chmod 700 "$HOME/devops-lab/logs"</code></pre><p>Find your actual home directory:</p>
+<pre><code>printf '%s\n' "$HOME"</code></pre><p>Confirm that the health-check script exists:</p>
+<pre><code>ls -l "$HOME/devops-lab/health_check.sh"
+bash -n "$HOME/devops-lab/health_check.sh"</code></pre><p>If you created the script under a different directory in Lesson 15, adjust the paths accordingly.</p>
+<h3 id="step-b-test-the-script-manually">Step B — Test the script manually</h3><p>Run it before scheduling:</p>
+<pre><code>bash "$HOME/devops-lab/health_check.sh" cron 80
+echo "Exit status: $?"</code></pre><p>If it reports that the <code>cron</code> service is inactive, investigate the service rather than assuming the script itself is broken. The script reports status; it does not repair the system.</p>
+<h3 id="step-c-schedule-it-every-15-minutes">Step C — Schedule it every 15 minutes</h3><p>Open your user crontab:</p>
+<pre><code>crontab -e</code></pre><p>Add the following entry, replacing <code>/home/YOUR_USER</code> with the actual absolute path printed by <code>printf '%s\n' "$HOME"</code>:</p>
+<pre><code>*/15 * * * * /usr/bin/flock -n /tmp/health-check.lock /usr/bin/bash /home/YOUR_USER/devops-lab/health_check.sh cron 80 &gt;&gt; /home/YOUR_USER/devops-lab/logs/health-check.log 2&gt;&amp;1</code></pre><p>This is a template: substitute your actual username and verify the executable paths first.</p>
+<p>For example, you can check:</p>
+<pre><code>command -v bash
+command -v flock
+command -v systemctl</code></pre><p>The example uses a lock so a slow health check won't overlap with another invocation using the same lock.</p>
+<p>Production consideration: <code>/tmp</code> is suitable for many simple single-host learning jobs, but lock-file placement and permissions should be chosen deliberately on production systems.</p>
+<h3 id="step-d-verify-the-schedule">Step D — Verify the schedule</h3><p>Confirm the crontab contains your entry:</p>
+<pre><code>crontab -l</code></pre><p>Wait for the next scheduled time and inspect the log:</p>
+<pre><code>tail -n 50 "$HOME/devops-lab/logs/health-check.log"</code></pre><p>If you need to watch a run live:</p>
+<pre><code>tail -f "$HOME/devops-lab/logs/health-check.log"</code></pre><p>Press <code>Ctrl+C</code> to stop following the log. It doesn't stop the scheduled job.</p>
+<h3 id="step-e-understand-what-success-means">Step E — Understand what success means</h3><p>The health-check script returns:</p>
+<ul>
+<li><code>0</code> if its implemented checks pass.</li>
+<li><code>1</code> if a check or prerequisite fails.</li>
+<li><code>2</code> for an invalid threshold.</li>
+</ul>
+<p>The log tells you what happened during execution, while the exit status tells the calling process whether the script succeeded. Cron itself does not automatically turn every nonzero status into an alert. You need a monitoring or notification mechanism if failures must page someone.</p>
+<p>This is an operationally useful distinction: a scheduled job running is not the same as the job succeeding.</p>
+<h2 id="11-troubleshooting-cron-jobs-on-ubuntu">11. Troubleshooting cron jobs on Ubuntu</h2><p>If a scheduled job doesn't run, troubleshoot in layers rather than changing multiple things at once.</p>
+<p>1. Is the cron service running?</p>
+<pre><code>systemctl is-active cron
+systemctl status cron</code></pre><p>If it is inactive, inspect why before enabling or restarting it.</p>
+<p>2. Is the entry installed?</p>
+<pre><code>crontab -l</code></pre><p>Check spelling, field positions, the intended user, and whether the command has been saved.</p>
+<p>3. What do the logs say?</p>
+<pre><code>sudo journalctl -u cron --since "1 hour ago"</code></pre><p>On some Ubuntu installations, cron activity may also appear in <code>/var/log/syslog</code>. Log availability depends on system configuration.</p>
+<p>4. Does the command work manually?</p>
+<pre><code>bash -n /absolute/path/to/script.sh
+bash /absolute/path/to/script.sh</code></pre><p>Check the script's syntax, dependencies, permissions, paths, and configuration.</p>
+<p>5. Check output and permissions</p>
+<p>Inspect the job log, verify the log directory is writable, and check that the scheduled user can read the script and access the required files.</p>
+<h3 id="common-errors-and-likely-causes">Common errors and likely causes</h3><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>What to investigate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>command not found</code></td>
+<td>Cron's <code>PATH</code>, absolute executable paths</td>
+</tr>
+<tr>
+<td><code>No such file or directory</code></td>
+<td>Incorrect script path, missing interpreter, wrong working directory</td>
+</tr>
+<tr>
+<td>Permission denied</td>
+<td>Execute/read permissions, parent-directory permissions, service-account access</td>
+</tr>
+<tr>
+<td>Works manually but not in cron</td>
+<td>Environment variables, current directory, shell assumptions, permissions</td>
+</tr>
+<tr>
+<td>Log file stays empty</td>
+<td>Schedule timing, service state, redirection path, script output</td>
+</tr>
+<tr>
+<td>Job runs twice at once</td>
+<td>Runtime exceeds interval, missing lock or coordination</td>
+</tr>
+<tr>
+<td>Script exits nonzero</td>
+<td>Inspect its error output and return status</td>
+</tr>
+<tr>
+<td>Job didn't run while the machine was off</td>
+<td>Cron normally doesn't replay missed jobs automatically</td>
+</tr>
+</tbody></table>
+<h3 id="what-about-jobs-missed-while-the-server-is-off-">What about jobs missed while the server is off?</h3><p>Traditional cron generally does not replay every missed execution after a machine has been powered off. If a task must catch up after downtime, investigate <code>anacron</code> for appropriate periodic jobs or a systemd timer with suitable persistence settings.</p>
+<p>For tasks that must execute once per business date, avoid assuming that a simple cron schedule guarantees exactly-once processing. Use application-level tracking or idempotent processing.</p>
+<h2 id="12-practical-exercises">12. Practical exercises</h2><p>Complete these on your Ubuntu machine. The initial exercises use a harmless timestamp command so you can learn cron without changing system services or data.</p>
+<h2 id="hands-on-checklist">Hands-on checklist</h2><p>0/6</p>
+<p>Exercise 1 — Check the cron service</p>
+<p>Confirm whether the scheduler is active.</p>
+<p>Copy command</p>
+<p>Exercise 2 — Inspect your schedule</p>
+<p>List your current user's scheduled jobs.</p>
+<p>Copy command</p>
+<p>Exercise 3 — Create a timestamp log</p>
+<p>Create a log file and append one timestamp.</p>
+<p>Copy command</p>
+<p>Exercise 4 — Verify a script's syntax</p>
+<p>Run this if you created the Lesson 15 health-check script at the example path.</p>
+<p>Copy command</p>
+<p>Exercise 5 — Inspect the cron journal</p>
+<p>Review recent cron service events. Log detail depends on the system configuration.</p>
+<p>Copy command</p>
+<p>Exercise 6 — Check a lock utility</p>
+<p>Confirm the executable path before using flock in a schedule.</p>
+<p>Copy command</p>
+<p>Copying a command doesn't execute it. Review commands before running them, especially commands that use sudo.</p>
+<h3 id="challenge-diagnose-a-failed-scheduled-report">Challenge: diagnose a failed scheduled report</h3><p>Imagine your report works manually but produces no output under cron.</p>
+<p>Write down how you would investigate:</p>
+<ol>
+<li>Confirm the cron service is active.</li>
+<li>Verify the correct user's crontab.</li>
+<li>Check whether the script uses relative paths or commands that depend on <code>PATH</code>.</li>
+<li>Redirect both stdout and stderr to a known writable log file.</li>
+<li>Run <code>bash -n</code> and test the script manually.</li>
+<li>Inspect cron logs and identify the actual cause before making changes.</li>
+</ol>
+<p>Try to diagnose the failure without restarting the server or reinstalling cron.</p>
+<h2 id="13-interactive-quiz">13. Interactive quiz</h2><p>Test your understanding of cron syntax, environment variables, logging, locking, and troubleshooting.</p>
+<p>On a standard five-field user crontab, what does <code>*/15 * * * *</code> schedule?</p>
+<p>1 of 8</p>
+<p>AEvery 15 hours</p>
+<p>BEvery 15 minutes</p>
+<p>CAt 15 minutes past midnight daily</p>
+<p>DEvery 15 days</p>
+<p>Next</p>
+<h2 id="14-assignment-tracker">14. Assignment tracker</h2><p>Complete these tasks on your Ubuntu system.</p>
+<h2 id="your-progress">Your progress</h2><h3 id="0-10">0/10</h3><p>Check whether the cron service is active and enabled.</p>
+<p>Inspect your user crontab with crontab -l.</p>
+<p>Create and verify a harmless timestamp job.</p>
+<p>Write down the five cron schedule fields and their ranges.</p>
+<p>Explain the difference between user crontabs and /etc/crontab.</p>
+<p>Test a scheduled script using absolute paths.</p>
+<p>Capture stdout and stderr in a log file.</p>
+<p>Use flock to prevent overlapping instances of a test job.</p>
+<p>Schedule the Lesson 15 health-check script every 15 minutes.</p>
+<p>Document how to troubleshoot a failed or missed scheduled job.</p>
+<p> Copy assignment progress</p>
+<p>Progress is tracked in this lesson view; it does not verify that the commands were executed successfully.</p>
+<h2 id="15-cron-cheat-sheet">15. Cron cheat sheet</h2><p>Manage user schedules</p>
+<pre><code>crontab -e
+crontab -l</code></pre><p>Check cron</p>
+<pre><code>systemctl status cron
+systemctl is-active cron
+sudo journalctl -u cron --since "1 hour ago"</code></pre><p>Check scripts</p>
+<pre><code>bash -n /absolute/path/script.sh
+bash /absolute/path/script.sh</code></pre><p>Append output and errors</p>
+<pre><code>/absolute/path/script.sh &gt;&gt; /absolute/path/job.log 2&gt;&amp;1</code></pre><p>Prevent overlapping runs</p>
+<pre><code>/usr/bin/flock -n /tmp/job.lock /absolute/path/script.sh</code></pre><p>Useful schedules</p>
+<table>
+<thead>
+<tr>
+<th>Schedule</th>
+<th>Expression</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Every 5 minutes</td>
+<td><code>*/5 * * * *</code></td>
+</tr>
+<tr>
+<td>Every 15 minutes</td>
+<td><code>*/15 * * * *</code></td>
+</tr>
+<tr>
+<td>Hourly</td>
+<td><code>0 * * * *</code></td>
+</tr>
+<tr>
+<td>Daily at 2 AM</td>
+<td><code>0 2 * * *</code></td>
+</tr>
+<tr>
+<td>Weekdays at 9 AM</td>
+<td><code>0 9 * * 1-5</code></td>
+</tr>
+<tr>
+<td>Sundays at 6 AM</td>
+<td><code>0 6 * * 0</code></td>
+</tr>
+</tbody></table>
+<p> Copy cheat sheet commands</p>
+<h2 id="16-lesson-completion-checklist">16. Lesson completion checklist</h2><p>I can read a five-field cron expression.</p>
+<p>I know where user and system schedules are configured.</p>
+<p>I understand why cron needs explicit paths and environment configuration.</p>
+<p>I can capture output and errors in log files.</p>
+<p>I understand how flock can prevent overlapping jobs.</p>
+<p>I can inspect cron logs and diagnose a failed run.</p>
+<p>I can schedule and verify the Lesson 15 health-check script.</p>
+<p>0 of 7 learning goals checked.</p>
+<p>Key takeaway: Cron determines when a task runs; Bash determines what it does. Reliable scheduled automation needs explicit paths, correct permissions, useful logs, controlled concurrency, and a way to detect failures.</p>
+<h2 id="continue-to-lesson-17">Continue to Lesson 17</h2><h2 id="lesson-17-environment-variables-configuration-and-secrets">Lesson 17: Environment Variables, Configuration and Secrets</h2><p>Module 1 · Linux for DevOps</p>
+<p>Learn how Linux processes inherit environments, configure applications safely, use <code>.env</code> files appropriately, manage permissions for secrets, and troubleshoot configuration problems in Bash and scheduled jobs.</p>
+<p>Continue to Lesson 17 </p>
+
+</div>

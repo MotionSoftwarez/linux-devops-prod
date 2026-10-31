@@ -1,0 +1,409 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-6">Linux for DevOps — Module 1, Lesson 6</h2><h2 id="linux-users-groups-and-sudo">Linux users, groups, and <code>sudo</code></h2><p>Beginner</p>
+<p>Practical lab</p>
+<p>Server security</p>
+<p>In DevOps, several people and services may use the same Linux server. A deployment engineer might need to update application files, while a monitoring service only needs to read logs.</p>
+<p>Linux uses users, groups, file permissions, and controlled administrative privileges to manage this access safely.</p>
+<p>By the end of this lesson, you'll understand how to identify your user, inspect group membership, look up accounts, create and modify users, change passwords, and run authorized commands with <code>sudo</code>.</p>
+<h2 id="1-visualize-linux-users-and-groups">1. Visualize Linux users and groups</h2><p>Imagine a server running a website. Different accounts have different responsibilities.</p>
+<p>Linux server</p>
+<p>Hosts application files, logs, and services</p>
+<p>Users</p>
+<p><code>deploy</code>, <code>alice</code>, <code>bob</code>, <code>www-data</code></p>
+<p>Individual accounts that run commands or services</p>
+<p>Groups</p>
+<p><code>webteam</code>, <code>developers</code>, <code>monitoring</code></p>
+<p>Collections of users that can share access</p>
+<p>Access controls</p>
+<p>File permissions, group membership, and <code>sudo</code> policy</p>
+<p>For example:</p>
+<ul>
+<li><code>alice</code> belongs to the <code>developers</code> group.</li>
+<li><code>bob</code> belongs to the <code>monitoring</code> group.</li>
+<li>Both may be allowed to log in, but neither automatically receives administrator privileges.</li>
+<li>A service account such as <code>www-data</code> may run a web server without being used for ordinary interactive logins.</li>
+</ul>
+<p>A user is an account. A group is a way to organize users for shared access. A privileged command is an operation that requires permissions beyond those of the current user.</p>
+<h2 id="2-identify-yourself-with-whoami">2. Identify yourself with <code>whoami</code></h2><p>Run:</p>
+<pre><code>whoami</code></pre><p>Example output:</p>
+<pre><code>pawan</code></pre><p>This reports the effective username associated with the current command context. It's useful when you've switched users or entered a shell on a remote server.</p>
+<p>Try these related commands:</p>
+<pre><code>id
+groups</code></pre><p>Example output from <code>id</code>:</p>
+<pre><code>uid=1001(pawan) gid=1001(pawan) groups=1001(pawan),1005(webteam)</code></pre><p>How to read it:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>uid</code></td>
+<td>Numeric user ID</td>
+</tr>
+<tr>
+<td><code>gid</code></td>
+<td>Numeric ID of the primary group</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Groups associated with the current process credentials</td>
+</tr>
+<tr>
+<td><code>pawan</code></td>
+<td>Example account name</td>
+</tr>
+<tr>
+<td><code>webteam</code></td>
+<td>Example supplementary group</td>
+</tr>
+</tbody></table>
+<p>The names and numbers above are illustrative; your actual output will differ.</p>
+<h3 id="whoami-vs-id-vs-groups"><code>whoami</code> vs <code>id</code> vs <code>groups</code></h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>whoami</code></td>
+<td>Effective username</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>User ID, primary group, and group memberships</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Group names associated with the user or specified account</td>
+</tr>
+</tbody></table>
+<p>Try:</p>
+<pre><code>groups
+groups deploy
+id deploy</code></pre><p>The last two commands inspect the account named <code>deploy</code>, if it exists and your system can resolve it.</p>
+<h2 id="3-look-up-accounts-with-getent">3. Look up accounts with <code>getent</code></h2><p>Linux account information can come from local files or a centralized identity service, such as LDAP. <code>getent</code> queries the system's configured account databases.</p>
+<p>Look up a user:</p>
+<pre><code>getent passwd deploy</code></pre><p>Example output:</p>
+<pre><code>deploy:x:1002:1002:Deployment User:/home/deploy:/bin/bash</code></pre><p>The fields are separated by colons:</p>
+<h3 id="understand-the-account-record">Understand the account record</h3><p>deploy : x : 1002 : 1002 : Deployment User : /home/deploy : /bin/bash</p>
+<p>1. Username</p>
+<p>Account name</p>
+<p>2. Password placeholder</p>
+<p>x usually means password data is stored separately, commonly in /etc/shadow</p>
+<p>3. UID</p>
+<p>Numeric user ID</p>
+<p>4. Primary GID</p>
+<p>Numeric primary group ID</p>
+<p>5. GECOS</p>
+<p>Optional descriptive account information</p>
+<p>6. Home directory</p>
+<p>The user's home path</p>
+<p>7. Login shell</p>
+<p>The shell configured for the account</p>
+<p>Look up a group:</p>
+<pre><code>getent group webteam</code></pre><p>Example output:</p>
+<pre><code>webteam:x:1050:deploy,alice</code></pre><p>This indicates that <code>webteam</code> has GID <code>1050</code> and lists <code>deploy</code> and <code>alice</code> as supplementary members in this example. A user's primary group is not necessarily listed in that final member field.</p>
+<h3 id="useful-lookups">Useful lookups</h3><pre><code>getent passwd
+getent group
+getent group sudo</code></pre><p>The first two may return many records. On Ubuntu, the <code>sudo</code> group commonly identifies users authorized for administrative access through the default sudo policy, but actual permissions depend on the configured policy.</p>
+<h2 id="4-create-a-user-with-useradd">4. Create a user with <code>useradd</code></h2><p>Creating users generally requires administrator privileges.</p>
+<p>First, understand the command:</p>
+<pre><code>sudo useradd -m -s /bin/bash deploy</code></pre><ul>
+<li><code>sudo</code> — request execution with elevated privileges.</li>
+<li><code>useradd</code> — create a user account.</li>
+<li><code>-m</code> — create a home directory if needed.</li>
+<li><code>-s /bin/bash</code> — set Bash as the login shell.</li>
+<li><code>deploy</code> — the new account name.</li>
+</ul>
+<p>Then set a password interactively:</p>
+<pre><code>sudo passwd deploy</code></pre><p>The system will prompt you to enter and confirm the new password. Password input may not appear on the screen while you type; that is normal.</p>
+<p>Verify the account:</p>
+<pre><code>getent passwd deploy
+id deploy
+ls -ld /home/deploy</code></pre><p>Important: A created account does not automatically have administrative privileges. Account creation, password setup, SSH access, group membership, and service permissions are separate concerns.</p>
+<h2 id="5-modify-users-with-usermod">5. Modify users with <code>usermod</code></h2><p><code>usermod</code> changes attributes of an existing user account.</p>
+<h3 id="add-a-user-to-a-supplementary-group">Add a user to a supplementary group</h3><pre><code>sudo usermod -aG webteam deploy</code></pre><p>Meaning:</p>
+<ul>
+<li><code>-a</code> — append to existing supplementary groups.</li>
+<li><code>-G webteam</code> — specify the supplementary group.</li>
+<li><code>deploy</code> — account to modify.</li>
+</ul>
+<p>Critical rule: Use <code>-aG</code> when adding supplementary group membership. Using <code>-G</code> without <code>-a</code> can replace the user's existing supplementary group list.</p>
+<p>Verify the configured group membership:</p>
+<pre><code>id deploy
+getent group webteam</code></pre><p>A running process or an existing login session may not immediately reflect changed group memberships. A new login session is often needed.</p>
+<h3 id="other-useful-examples">Other useful examples</h3><p>Change the user's login shell:</p>
+<pre><code>sudo usermod -s /bin/bash deploy</code></pre><p>Lock an account's password authentication:</p>
+<pre><code>sudo passwd -l deploy</code></pre><p>Unlock it:</p>
+<pre><code>sudo passwd -u deploy</code></pre><p>Password locking is not a universal guarantee that every login method is disabled; SSH keys and other authentication mechanisms may behave differently. For a departing employee or compromised account, follow the organization's full account-disablement procedure.</p>
+<h2 id="6-understand-passwd">6. Understand <code>passwd</code></h2><p>The <code>passwd</code> command manages account passwords.</p>
+<p>Change your own password:</p>
+<pre><code>passwd</code></pre><p>Change another user's password as an authorized administrator:</p>
+<pre><code>sudo passwd deploy</code></pre><p>Additional account administration commands:</p>
+<pre><code>sudo passwd -S deploy
+sudo passwd -l deploy
+sudo passwd -u deploy</code></pre><p><code>passwd -S</code> reports password status information on common Linux distributions.</p>
+<h3 id="security-habits">Security habits</h3><ul>
+<li>Never place a real password directly in a shell command or script.</li>
+<li>Don't share <code>/etc/shadow</code> contents; it contains sensitive password authentication data.</li>
+<li>Use a unique, strong password when password authentication is required.</li>
+<li>Follow your organization's identity and account lifecycle procedures.</li>
+<li>Prefer managed SSH keys or an approved identity system where appropriate.</li>
+</ul>
+<h2 id="7-use-sudo-safely">7. Use <code>sudo</code> safely</h2><p><code>sudo</code> allows an authorized user to run a command with elevated privileges, according to the system's sudo policy.</p>
+<p>For example, viewing a protected log might require:</p>
+<pre><code>sudo less /var/log/auth.log</code></pre><p>On systems using systemd, service logs can often be queried with:</p>
+<pre><code>sudo journalctl -u nginx --since "1 hour ago"</code></pre><p>Check whether you have sudo access:</p>
+<pre><code>sudo -l</code></pre><p>This displays the commands your account is allowed to run through sudo, subject to the policy and any required authentication.</p>
+<h3 id="why-sudo-matters">Why <code>sudo</code> matters</h3><p>Compare these commands:</p>
+<pre><code>cat /etc/hostname
+sudo systemctl status nginx</code></pre><p>The first typically works for an ordinary user. The second may require elevated privileges depending on the system's policy.</p>
+<p><code>sudo</code> doesn't make every command safe. A destructive command executed with elevated privileges can affect the entire server.</p>
+<h3 id="visualize-privilege-escalation">Visualize privilege escalation</h3><p>Ordinary user</p>
+<p>Has limited permissions</p>
+<p><code>sudo command</code></p>
+<p>System checks the sudo policy and may request authentication</p>
+<p>Authorized</p>
+<p>Command runs with permitted elevated privileges</p>
+<p>Not authorized</p>
+<p>Command is denied by policy</p>
+<h3 id="sudo-versus-su"><code>sudo</code> versus <code>su</code></h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sudo command</code></td>
+<td>Run a specific command with authorized elevated privileges</td>
+</tr>
+<tr>
+<td><code>sudo -i</code></td>
+<td>Start an interactive login shell as root, if authorized</td>
+</tr>
+<tr>
+<td><code>su - username</code></td>
+<td>Switch to another user's login environment, usually requiring that account's password or other configured authorization</td>
+</tr>
+<tr>
+<td><code>whoami</code></td>
+<td>Check the effective username of the current shell</td>
+</tr>
+</tbody></table>
+<p>For day-to-day DevOps work, prefer running the specific command that needs elevated privileges rather than staying in a root shell.</p>
+<p>Never use <code>sudo</code> to bypass a permission problem without understanding the cause. The correct fix might be a group membership, ownership adjustment, or deployment configuration—not permanent root execution.</p>
+<h2 id="8-realistic-devops-case-study-onboarding-a-deployment-engineer">8. Realistic DevOps case study: onboarding a deployment engineer</h2><p>Scenario: A new team member needs to deploy an application and read its logs. The team wants to avoid granting full administrator access unnecessarily.</p>
+<p>Assume the following accounts and groups are appropriate for your organization's policy:</p>
+<ul>
+<li>New engineer: <code>alice</code></li>
+<li>Deployment account: <code>deploy</code></li>
+<li>Shared application group: <code>webteam</code></li>
+</ul>
+<p>The following commands are examples for an administrator in a disposable lab or an approved server change. Do not run account-management commands on a production server without authorization.</p>
+<h3 id="step-1-check-whether-the-account-exists">Step 1 — Check whether the account exists</h3><pre><code>getent passwd alice
+getent group webteam</code></pre><p>If the account lookup returns no record, confirm that the account truly needs to be created and that it isn't managed by a central identity provider.</p>
+<h3 id="step-2-create-the-user-if-approved">Step 2 — Create the user, if approved</h3><pre><code>sudo useradd -m -s /bin/bash alice
+sudo passwd alice</code></pre><h3 id="step-3-add-the-user-to-the-shared-group">Step 3 — Add the user to the shared group</h3><pre><code>sudo usermod -aG webteam alice</code></pre><p>Verify:</p>
+<pre><code>id alice
+getent group webteam</code></pre><h3 id="step-4-check-the-application-s-ownership-and-permissions">Step 4 — Check the application's ownership and permissions</h3><pre><code>ls -ld /srv/myapp
+ls -l /srv/myapp</code></pre><p>Do not assume the whole application directory should be writable by the deployment team. Application code, secrets, runtime data, and logs often need different access policies.</p>
+<h3 id="step-5-grant-only-the-required-access">Step 5 — Grant only the required access</h3><p>If the directory is deliberately configured for <code>webteam</code> access, use the approved group and permission model. For example, an administrator might use group ownership and group read/execute permissions on a specific shared directory.</p>
+<pre><code>sudo chgrp webteam /srv/myapp
+sudo chmod 750 /srv/myapp</code></pre><p>This changes the group and mode of the directory itself—not its contents. Before applying it, verify that the directory's intended owner, group, and service access are compatible with the change.</p>
+<h3 id="step-6-check-administrative-privileges-separately">Step 6 — Check administrative privileges separately</h3><pre><code>sudo -l -U alice</code></pre><p>Where supported, this checks the sudo policy for <code>alice</code>. Group membership alone should not be treated as proof of what commands the user can run.</p>
+<p>Expected result: Alice can access only the resources allowed by the final permissions and system policy. Being in <code>webteam</code> does not automatically grant full root access.</p>
+<h3 id="case-study-lesson">Case study lesson</h3><p>A good DevOps engineer doesn't solve every access issue by adding users to the <code>sudo</code> group. They grant the minimum permissions required for the job, verify the outcome, and document the change.</p>
+<h2 id="9-interactive-exercise-predict-the-command">9. Interactive exercise: predict the command</h2><p>Choose a task, think of the correct command, and reveal the suggested answer.</p>
+<p>1. Find the effective username of the current shell.</p>
+<p>Reveal answer</p>
+<p>2. Display the current user's UID, primary GID, and groups.</p>
+<p>Reveal answer</p>
+<p>3. Look up the account record for deploy.</p>
+<p>Reveal answer</p>
+<p>4. Create an account named tester with a home directory.</p>
+<p>Reveal answer</p>
+<p>5. Add alice to webteam without replacing her other supplementary groups.</p>
+<p>Reveal answer</p>
+<p>6. Change another user's password as an authorized administrator.</p>
+<p>Reveal answer</p>
+<p>7. Check which sudo commands the current user is permitted to run.</p>
+<p>Reveal answer</p>
+<p>Hide all answers</p>
+<h2 id="10-knowledge-quiz">10. Knowledge quiz</h2><p>Test your understanding of Linux users, groups, account management, and <code>sudo</code>.</p>
+<p>Which command shows the effective username of the current shell?</p>
+<p>1 of 6</p>
+<p>Awhoami</p>
+<p>Bpasswd</p>
+<p>Cgroups</p>
+<p>Dgetent</p>
+<p>Next</p>
+<h2 id="11-practical-assignment">11. Practical assignment</h2><p>Complete this assignment in a disposable Linux virtual machine or another environment where account administration is authorized. Do not modify real employee accounts or production access policies for practice.</p>
+<h2 id="assignment-tracker">Assignment tracker</h2><p>0/8</p>
+<p>1. Run whoami, id, and groups. Record what each command tells you.</p>
+<p>2. Look up your own account with getent passwd and inspect its fields.</p>
+<p>3. Create a practice account named devlab with a home directory, if authorized.</p>
+<p>4. Set a password for devlab using the interactive passwd command.</p>
+<p>5. Create a practice group named devteam, if authorized and it does not already exist.</p>
+<p>6. Add devlab to devteam with usermod -aG and verify membership.</p>
+<p>7. Use sudo -l to inspect your own permitted administrative commands.</p>
+<p>8. Explain why adding a user to the sudo group should require explicit approval.</p>
+<p>The checklist tracks your progress here; it doesn't execute commands or verify changes on your server.</p>
+<h3 id="optional-practice-commands">Optional practice commands</h3><p>Only run the account-creation steps in a lab or on a server where you have authorization.</p>
+<pre><code>sudo useradd -m -s /bin/bash devlab
+sudo passwd devlab
+sudo groupadd devteam
+sudo usermod -aG devteam devlab
+
+id devlab
+getent passwd devlab
+getent group devteam</code></pre><p>If the group already exists, don't create it again; look it up with <code>getent group devteam</code> instead. On centrally managed systems, users and groups may need to be provisioned through an identity-management process rather than local commands.</p>
+<h2 id="12-cheat-sheet">12. Cheat sheet</h2><h2 id="users-groups-and-sudo">Users, groups, and sudo</h2><p> Copy commands</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>whoami</code></td>
+<td>Show effective username</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Show UID, GID, and groups</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Display group membership</td>
+</tr>
+<tr>
+<td><code>getent passwd USER</code></td>
+<td>Look up a user account</td>
+</tr>
+<tr>
+<td><code>getent group GROUP</code></td>
+<td>Look up a group</td>
+</tr>
+<tr>
+<td><code>sudo useradd -m USER</code></td>
+<td>Create a user with a home directory</td>
+</tr>
+<tr>
+<td><code>sudo passwd USER</code></td>
+<td>Set or change a user's password</td>
+</tr>
+<tr>
+<td><code>sudo usermod -aG GROUP USER</code></td>
+<td>Add a user to a supplementary group</td>
+</tr>
+<tr>
+<td><code>sudo passwd -S USER</code></td>
+<td>Inspect password status</td>
+</tr>
+<tr>
+<td><code>sudo passwd -l USER</code></td>
+<td>Lock password authentication</td>
+</tr>
+<tr>
+<td><code>sudo -l</code></td>
+<td>Inspect current sudo privileges</td>
+</tr>
+<tr>
+<td><code>sudo -l -U USER</code></td>
+<td>Inspect another user's sudo policy, where permitted</td>
+</tr>
+</tbody></table>
+<p>Replace USER and GROUP with the intended account and group names. Commands that modify accounts normally require appropriate privileges.</p>
+<h3 id="five-principles-to-remember">Five principles to remember</h3><ol>
+<li>Identify first: use <code>whoami</code> and <code>id</code>.</li>
+<li>Look up before changing: use <code>getent</code> to verify existing accounts and groups.</li>
+<li>Preserve group memberships: use <code>usermod -aG</code> when adding a supplementary group.</li>
+<li>Protect credentials: use interactive password tools and avoid exposing secrets.</li>
+<li>Follow least privilege: grant only the access necessary for the task.</li>
+</ol>
+<h2 id="up-next-module-1-lesson-7">Up next — Module 1, Lesson 7</h2><h2 id="processes-and-jobs-in-linux">Processes and jobs in Linux</h2><p>Learn <code>ps</code>, <code>top</code>, <code>pgrep</code>, <code>kill</code>, <code>jobs</code>, <code>bg</code>, <code>fg</code>, and <code>nohup</code> to inspect and manage running programs.</p>
+<p>Continue to Lesson 7 </p>
+
+</div>

@@ -1,0 +1,452 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="linux-for-devops-module-1-lesson-11">Linux for DevOps — Module 1, Lesson 11</h2><h2 id="linux-logging-and-log-analysis-on-ubuntu">Linux logging and log analysis on Ubuntu</h2><p>Module 1</p>
+<p>Lesson 11</p>
+<p>Beginner → Practical</p>
+<p>Learn to investigate application failures, web-server errors, failed services, and Linux system events by reading logs instead of guessing.</p>
+<h2 id="1-what-are-linux-logs-">1. What are Linux logs?</h2><p>A log is a record of something that happened on a system or application. Linux services write logs to help administrators understand normal activity, warnings, errors, and failures.</p>
+<p>Imagine that your Python web application stops responding. Instead of immediately restarting the server, you inspect its logs to find out what happened.</p>
+<p>Common log examples:</p>
+<ul>
+<li><code>Started nginx.service</code> — a service started.</li>
+<li><code>Permission denied</code> — a process couldn't access a file or directory.</li>
+<li><code>Connection refused</code> — a connection attempt was rejected, often because no service was listening on that port.</li>
+<li><code>No space left on device</code> — a filesystem or another storage resource is full.</li>
+<li><code>Traceback</code> — a Python program encountered an exception.</li>
+</ul>
+<h3 id="how-logging-works">How logging works</h3><p>Linux system and applications</p>
+<p>Ubuntu • Nginx • Python • SSH • Cron</p>
+<p>systemd journal</p>
+<p>Read with <code>journalctl</code></p>
+<p>Log files</p>
+<p>Often stored in <code>/var/log</code></p>
+<p>DevOps engineer investigates</p>
+<p>Filter → Find errors → Identify cause → Fix → Verify</p>
+<p>There are two important places to investigate:</p>
+<ol>
+<li>systemd journal: centralized records from services and the system, queried using <code>journalctl</code>.</li>
+<li><code>/var/log</code>: a directory containing many traditional log files, including application and service logs.</li>
+</ol>
+<p>Some services write to both; others mainly use one or the other.</p>
+<h2 id="2-explore-var-log">2. Explore <code>/var/log</code></h2><p>Start with these read-only commands.</p>
+<pre><code># List log directories and files
+ls -lah /var/log
+
+# Show the largest entries in a readable format
+du -sh /var/log/* 2&gt;/dev/null
+
+# Identify the Ubuntu version
+cat /etc/os-release</code></pre><p>The second command estimates the size of each top-level entry. It may omit hidden entries and some inaccessible content.</p>
+<h3 id="common-log-files-and-directories">Common log files and directories</h3><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Typical purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/var/log/syslog</code></td>
+<td>General system messages on many Ubuntu installations</td>
+</tr>
+<tr>
+<td><code>/var/log/auth.log</code></td>
+<td>Authentication and authorization events on systems using this log</td>
+</tr>
+<tr>
+<td><code>/var/log/kern.log</code></td>
+<td>Kernel messages, where configured</td>
+</tr>
+<tr>
+<td><code>/var/log/dpkg.log</code></td>
+<td>Package installation and removal activity</td>
+</tr>
+<tr>
+<td><code>/var/log/apt/</code></td>
+<td>APT package-manager logs</td>
+</tr>
+<tr>
+<td><code>/var/log/nginx/access.log</code></td>
+<td>Nginx HTTP requests, if configured</td>
+</tr>
+<tr>
+<td><code>/var/log/nginx/error.log</code></td>
+<td>Nginx errors, if configured</td>
+</tr>
+<tr>
+<td><code>/var/log/journal/</code></td>
+<td>Persistent systemd journal storage, if enabled</td>
+</tr>
+</tbody></table>
+<p>Important: Not every file exists on every Ubuntu server. Some systems use the systemd journal without maintaining traditional <code>syslog</code> or <code>auth.log</code> files. Application log paths also depend on their configuration.</p>
+<p>Try exploring safely:</p>
+<pre><code>ls -lah /var/log
+ls -lah /var/log/nginx/</code></pre><p>If Nginx isn't installed, the second command may report that the directory doesn't exist. That is not, by itself, a system problem.</p>
+<h2 id="3-read-logs-using-less-tail-and-grep">3. Read logs using <code>less</code>, <code>tail</code>, and <code>grep</code></h2><p>These three tools are essential for everyday Linux troubleshooting.</p>
+<p><code>less</code> — read a log comfortably</p>
+<pre><code>less /var/log/syslog</code></pre><p>Navigate with the arrow keys or Page Up/Page Down. Press <code>/error</code> to search for <code>error</code>, <code>n</code> for the next match, and <code>q</code> to quit. Search terms are case-sensitive by default.</p>
+<p><code>tail</code> — inspect the latest entries</p>
+<pre><code>tail -n 50 /var/log/syslog</code></pre><p>Show the last 50 lines. To watch new lines arrive:</p>
+<pre><code>tail -f /var/log/syslog</code></pre><p>Stop following with <code>Ctrl+C</code>. For a log that may be replaced during rotation, try <code>tail -F /var/log/syslog</code>.</p>
+<p><code>grep</code> — find matching text</p>
+<pre><code>grep -i "error" /var/log/syslog</code></pre><p>Find lines containing <code>error</code>, regardless of capitalization. Add line numbers using <code>-n</code>:</p>
+<pre><code>grep -in "failed" /var/log/syslog</code></pre><p>If a log is large, filter it instead of printing the entire file.</p>
+<h3 id="useful-command-patterns">Useful command patterns</h3><p>| Goal | Command |<br>|---|---|<br>| Show the last 100 lines | <code>tail -n 100 app.log</code> |<br>| Search without case sensitivity | <code>grep -i "timeout" app.log</code> |<br>| Show matching line numbers | <code>grep -n "ERROR" app.log</code> |<br>| Count matching lines | <code>grep -c "ERROR" app.log</code> |<br>| Search for several patterns | <code>grep -Ei "error|failed|timeout" app.log</code> |<br>| Search files under a directory | <code>grep -Rni "permission denied" /var/log/myapp/</code> |<br>| Read a long file with search | <code>less app.log</code> |</p>
+<p>Replace <code>app.log</code> with the real path on your server.</p>
+<h3 id="combine-commands-with-pipes">Combine commands with pipes</h3><p>A pipe (<code>|</code>) sends the output of one command to another command.</p>
+<pre><code>grep -i "error" /var/log/syslog | tail -n 20</code></pre><p>This finds matching lines and displays the last 20 matches.</p>
+<p>For a Python application's log:</p>
+<pre><code>grep -inE "traceback|exception|error|failed" /opt/myapp/logs/app.log</code></pre><p>This searches for several common failure indicators. Remember that not every occurrence of “error” represents an outage, and some failures use different wording.</p>
+<p>Permission note: If a log is unreadable, first check its permissions and ownership. Use <code>sudo</code> only when necessary, for example:</p>
+<pre><code>sudo less /var/log/auth.log</code></pre><p>Avoid running every command as root by habit.</p>
+<h2 id="4-use-journalctl-to-investigate-systemd-services">4. Use <code>journalctl</code> to investigate systemd services</h2><p>The <code>journalctl</code> command reads the systemd journal. It is especially useful when a service fails to start or stops unexpectedly.</p>
+<h3 id="start-with-these-commands">Start with these commands</h3><pre><code># Show recent journal entries
+sudo journalctl -n 50
+
+# Show logs from a specific service
+sudo journalctl -u nginx
+
+# Show the latest 50 lines from Nginx
+sudo journalctl -u nginx -n 50
+
+# Show entries from the last 30 minutes
+sudo journalctl --since "30 minutes ago"
+
+# Follow new journal entries
+sudo journalctl -f</code></pre><p>For a service-specific live view:</p>
+<pre><code>sudo journalctl -u nginx -f</code></pre><p>Press <code>Ctrl+C</code> to stop following logs.</p>
+<h3 id="filter-by-time-boot-and-severity">Filter by time, boot, and severity</h3><pre><code># Logs since midnight today
+sudo journalctl --since today
+
+# Logs from the current boot
+sudo journalctl -b
+
+# Errors and more severe messages since today
+sudo journalctl -p err --since today
+
+# Logs from a specific time window
+sudo journalctl --since "2026-10-25 09:00:00" \
+  --until "2026-10-25 10:00:00"</code></pre><p>The last command uses an example date and time; substitute the relevant time window for your incident.</p>
+<h3 id="what-do-priority-levels-mean-">What do priority levels mean?</h3><table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>Emergency</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Alert</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Critical</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>Error</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>Warning</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>Notice</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td>Informational</td>
+</tr>
+<tr>
+<td><code>7</code></td>
+<td>Debug</td>
+</tr>
+</tbody></table>
+<p>For example, <code>-p err</code> shows priorities 0 through 3. It does not mean every operational problem will appear as an error-level journal entry.</p>
+<h3 id="visual-troubleshooting-flow">Visual troubleshooting flow</h3><p>Service is failing</p>
+<p><code>systemctl status myapp</code></p>
+<p><code>journalctl -u myapp -n 100</code></p>
+<p>Configuration / file</p>
+<p>Check paths, permissions, syntax</p>
+<p>Port / dependency</p>
+<p>Check listeners and dependencies</p>
+<p>Fix the identified cause and verify</p>
+<p>The key habit: check the evidence before restarting the service. Restarting too early can remove useful context or temporarily hide the symptom.</p>
+<h2 id="5-realistic-devops-case-study-python-application-returns-http-500">5. Realistic DevOps case study: Python application returns HTTP 500</h2><p>Imagine an Ubuntu server running a Python web application through systemd. Users report that the website returns HTTP 500 after a deployment.</p>
+<p>An HTTP 500 response means the server encountered an internal error while handling the request. It does not tell us the exact cause.</p>
+<h3 id="step-1-check-the-service-state">Step 1 — Check the service state</h3><pre><code>sudo systemctl status myapp --no-pager -l</code></pre><p>Suppose the service is <code>active (running)</code>. That tells us the process is running, but it does not prove every request succeeds.</p>
+<h3 id="step-2-inspect-recent-application-logs">Step 2 — Inspect recent application logs</h3><pre><code>sudo journalctl -u myapp -n 100 --no-pager</code></pre><p>Imagine the logs contain:</p>
+<pre><code>Oct 25 09:14:21 app-server myapp[2418]: Request received: /reports
+Oct 25 09:14:21 app-server myapp[2418]: Traceback (most recent call last):
+Oct 25 09:14:21 app-server myapp[2418]:   File "/opt/myapp/app.py", line 84, in reports
+Oct 25 09:14:21 app-server myapp[2418]: KeyError: 'DATABASE_URL'</code></pre><p>This is an illustrative log, not a report from a real server.</p>
+<p>The useful clue is <code>KeyError: 'DATABASE_URL'</code>: the code tried to access a configuration key that wasn't available in the expected form.</p>
+<h3 id="step-3-narrow-the-search">Step 3 — Narrow the search</h3><pre><code>sudo journalctl -u myapp --since "1 hour ago" --no-pager \
+  | grep -inE "traceback|exception|error|failed|DATABASE_URL"</code></pre><p>This narrows the output to likely failure messages. If the logs use a different service name or timestamps, adjust the query.</p>
+<h3 id="step-4-investigate-the-configuration-safely">Step 4 — Investigate the configuration safely</h3><p>Inspect the application's systemd unit:</p>
+<pre><code>sudo systemctl cat myapp</code></pre><p>Check the <code>Environment=</code> or <code>EnvironmentFile=</code> entries, if present. A unit may reference a separate configuration file, and the application may also obtain configuration from another source.</p>
+<p>Check the configured file's existence and permissions without printing secrets:</p>
+<pre><code>sudo ls -l /etc/myapp/</code></pre><p>If a configuration file is involved, inspect its structure carefully. Do not paste database passwords, API tokens, or other secrets into logs, screenshots, or chat.</p>
+<h3 id="step-5-correct-the-actual-cause">Step 5 — Correct the actual cause</h3><p>If the investigation confirms that the required variable is missing, restore it using the application's approved configuration method. Avoid guessing the correct database URL or exposing credentials.</p>
+<p>If a systemd unit or its drop-in configuration was changed, reload unit definitions and restart only when appropriate:</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl restart myapp
+sudo systemctl status myapp --no-pager -l</code></pre><p>If only an application environment file was corrected, <code>daemon-reload</code> may not be needed; whether a restart is required depends on how the application loads that file.</p>
+<h3 id="step-6-verify-the-result">Step 6 — Verify the result</h3><pre><code>sudo journalctl -u myapp --since "5 minutes ago" --no-pager
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  --connect-timeout 5 http://127.0.0.1:8080/</code></pre><p>Replace the port and URL with the application's actual local endpoint. A response code alone is not enough: also test the affected route and review the logs for new errors.</p>
+<p>Lesson from the incident: the service was running, but application requests were failing because of a configuration problem. Logs helped identify the failure rather than treating every HTTP 500 as a network issue.</p>
+<h2 id="6-log-rotation-prevent-logs-from-filling-the-disk">6. Log rotation: prevent logs from filling the disk</h2><p>Applications can write logs continuously. Without a retention policy, log files can consume significant disk space.</p>
+<p>Log rotation is the process of rotating older log files, retaining a chosen history, and sometimes compressing or deleting old files according to a policy.</p>
+<p>For example:</p>
+<p>Today<br><code>app.log</code></p>
+<p>New log entries</p>
+<p>Rotation occurs</p>
+<p>The current log is renamed or otherwise rotated; a new log may be created</p>
+<p><code>app.log</code></p>
+<p>Current</p>
+<p><code>app.log.1</code></p>
+<p>Previous</p>
+<p><code>app.log.2.gz</code></p>
+<p>Older, compressed</p>
+<p>Illustrative naming pattern; actual filenames and retention rules depend on configuration.</p>
+<h3 id="explore-ubuntu-s-log-rotation-configuration">Explore Ubuntu's log-rotation configuration</h3><pre><code># Check whether logrotate is installed
+command -v logrotate
+
+# Read the main configuration
+less /etc/logrotate.conf
+
+# List configuration snippets
+ls -lah /etc/logrotate.d/</code></pre><p>Common settings include:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>daily</code></td>
+<td>Rotate daily</td>
+</tr>
+<tr>
+<td><code>weekly</code></td>
+<td>Rotate weekly</td>
+</tr>
+<tr>
+<td><code>rotate 7</code></td>
+<td>Retain seven rotated copies</td>
+</tr>
+<tr>
+<td><code>compress</code></td>
+<td>Compress rotated logs</td>
+</tr>
+<tr>
+<td><code>missingok</code></td>
+<td>Don't report an error if the log is missing</td>
+</tr>
+<tr>
+<td><code>notifempty</code></td>
+<td>Skip rotation for empty files</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td>Create a replacement log with specified permissions and ownership</td>
+</tr>
+</tbody></table>
+<p>These are configuration directives, not commands to run individually in the shell.</p>
+<h3 id="test-a-rotation-configuration-safely">Test a rotation configuration safely</h3><pre><code># Check the configuration without performing rotation
+sudo logrotate -d /etc/logrotate.conf</code></pre><p>Debug mode is intended to show what logrotate would do without changing log files. Review its output and confirm the configuration paths before using other modes.</p>
+<p>Avoid casually running <code>sudo logrotate -f ...</code> on a production server. Force mode can rotate logs immediately, potentially disrupting an application's logging behavior or complicating an active incident.</p>
+<h3 id="why-rotation-matters-for-devops">Why rotation matters for DevOps</h3><ul>
+<li>Controls disk consumption.</li>
+<li>Preserves a useful history of incidents.</li>
+<li>Reduces the size of individual files.</li>
+<li>Helps prevent applications from exhausting storage.</li>
+<li>Makes it easier to find older errors—provided retention hasn't deleted them.</li>
+</ul>
+<p>One subtle point: a running process may keep writing to an old file descriptor after a log is renamed. Some applications need a reload or a documented signal to reopen their logs. Follow the application's supported procedure rather than deleting logs manually.</p>
+<h2 id="7-check-disk-space-before-logs-become-an-incident">7. Check disk space before logs become an incident</h2><p>A log problem can itself become a system outage.</p>
+<pre><code># Filesystem capacity
+df -h
+
+# Inode availability
+df -i
+
+# Largest top-level log entries
+sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</code></pre><ul>
+<li><code>df -h</code> shows filesystem space in readable units.</li>
+<li><code>df -i</code> checks inode availability, which can run out even when some disk space remains.</li>
+<li><code>du</code> estimates disk usage. The example stays on the same filesystem with <code>-x</code> and summarizes one directory level.</li>
+</ul>
+<p>If the disk is full, first identify what is consuming space. Don't blindly delete logs or remove system files; logs may be essential evidence, and deletion may not free space while a process still holds the file open.</p>
+<h2 id="8-interactive-exercises">8. Interactive exercises</h2><p>Try these in a test environment or on a server where the commands are appropriate. Most are read-only. The log paths below are examples; not every Ubuntu system has every file.</p>
+<h2 id="practice-checklist">Practice checklist</h2><p>0 of 5</p>
+<p>Find the most recent system messages</p>
+<p>sudo journalctl -n 30 --no-pager</p>
+<p> Copy command</p>
+<p>Shows the latest 30 journal entries without opening a pager.</p>
+<p>Inspect a service's recent failures</p>
+<p>sudo journalctl -u nginx -p err -n 50 --no-pager</p>
+<p> Copy command</p>
+<p>Filters the Nginx service journal to error priority and limits the output.</p>
+<p>Search a log for timeouts</p>
+<p>grep -in "timeout" /var/log/syslog</p>
+<p> Copy command</p>
+<p>Finds timeout matches without case sensitivity and includes line numbers.</p>
+<p>Watch a log as new lines arrive</p>
+<p>sudo journalctl -u nginx -f</p>
+<p> Copy command</p>
+<p>Follows new service log entries until you stop with Ctrl+C.</p>
+<p>Check log-directory disk usage</p>
+<p>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h</p>
+<p> Copy command</p>
+<p>Summarizes log directory sizes so unusually large entries stand out.</p>
+<h3 id="mini-challenge-choose-the-next-command">Mini challenge: choose the next command</h3><p>Your application is returning HTTP 500. The service is active, and you suspect an application exception.</p>
+<p>Which command is the best next step to inspect recent application-specific errors?</p>
+<p><code>sudo journalctl -u myapp -n 100 --no-pager</code></p>
+<p><code>sudo reboot</code></p>
+<p><code>sudo chmod -R 777 /opt/myapp</code></p>
+<p><code>sudo rm -rf /var/log/myapp</code></p>
+<h2 id="9-safe-log-analysis-practices">9. Safe log-analysis practices</h2><p>Start with a narrow time window</p>
+<p>Use <code>--since</code>, <code>--until</code>, <code>-u</code>, and <code>-n</code> to reduce noise and focus on the incident.</p>
+<p>Protect secrets and personal data</p>
+<p>Logs can contain authorization headers, session IDs, email addresses, IP addresses, or tokens. Redact sensitive data before sharing.</p>
+<p>Use read-only commands first</p>
+<p>Prefer <code>journalctl</code>, <code>less</code>, <code>grep</code>, <code>tail</code>, <code>df</code>, and <code>du</code> before making configuration changes.</p>
+<p>Correlate timestamps</p>
+<p>Compare application logs with service logs and deployment times. Check timezone and timestamp formats before drawing conclusions.</p>
+<p>Don't destroy evidence</p>
+<p>Don't truncate logs, remove journal directories, disable logging, or delete log files to "fix" an error. Diagnose the issue and follow retention policies.</p>
+<h2 id="10-lesson-11-quiz">10. Lesson 11 quiz</h2><p>Test your understanding of Ubuntu logging. Select your answers in the quiz and review the explanations.</p>
+<p>A systemd-managed Python service named myapp is returning errors. Which command displays its latest 50 journal entries?</p>
+<p>1 of 5</p>
+<p>Asudo apt show myapp</p>
+<p>Bsudo journalctl -b -p debug</p>
+<p>Csudo journalctl -u myapp -n 50</p>
+<p>Dsudo systemctl enable myapp</p>
+<p>Next</p>
+<h2 id="11-assignment-tracker">11. Assignment tracker</h2><p>Complete these tasks to practice on an Ubuntu machine. If you are on a production server, inspect only logs you're authorized to access and avoid changing logging configuration without approval.</p>
+<h2 id="assignment-progress">Assignment progress</h2><h3 id="0-8">0/8</h3><p>Explore /var/log and identify which log files actually exist.</p>
+<p>Read the latest 30 system journal entries with journalctl.</p>
+<p>Find recent error messages for one service using journalctl -u.</p>
+<p>Use grep -inE to search a sample or authorized log for error, failed, and timeout.</p>
+<p>Follow a log with tail -f or journalctl -f, then stop safely with Ctrl+C.</p>
+<p>Read /etc/logrotate.conf and one applicable file under /etc/logrotate.d/.</p>
+<p>Run df -h and df -i and explain what each output tells you.</p>
+<p>Write a short incident summary: symptom, timestamp, evidence, likely cause, fix, verification.</p>
+<p> Copy assignment checklist</p>
+<h2 id="12-lesson-11-cheat-sheet">12. Lesson 11 cheat sheet</h2><p>Keep these commands handy when investigating a Linux server incident.</p>
+<h2 id="linux-logging-quick-reference">Linux logging quick reference</h2><p>Systemd journal</p>
+<p>sudo journalctl -u nginx -n 50 --no-pager<br>sudo journalctl --since '1 hour ago'<br>sudo journalctl -p err --since today<br>sudo journalctl -u nginx -f</p>
+<p> Copy</p>
+<p>Read and search logs</p>
+<p>less /var/log/syslog<br>tail -n 50 app.log<br>tail -F app.log<br>grep -in 'error' app.log<br>grep -inE 'error|failed|timeout' app.log</p>
+<p> Copy</p>
+<p>Disk usage and rotation</p>
+<p>df -h<br>df -i<br>sudo du -xhd1 /var/log 2&gt;/dev/null | sort -h<br>less /etc/logrotate.conf<br>sudo logrotate -d /etc/logrotate.conf</p>
+<p> Copy</p>
+<p>Service investigation</p>
+<p>sudo systemctl status nginx --no-pager -l<br>sudo journalctl -u nginx -n 100 --no-pager<br>sudo systemctl cat nginx<br>sudo ss -lntp</p>
+<p> Copy</p>
+<p>Replace example service names and file paths with those on your server. Commands that use sudo may require administrative privileges.</p>
+<h3 id="what-you-should-now-be-able-to-do">What you should now be able to do</h3><ul>
+<li>Find system and application logs on Ubuntu.</li>
+<li>Use <code>journalctl</code> to filter by service, time, and priority.</li>
+<li>Search logs with <code>grep</code> and inspect them with <code>less</code> and <code>tail</code>.</li>
+<li>Understand why log rotation and retention matter.</li>
+<li>Investigate an application failure using evidence before changing the system.</li>
+</ul>
+<h2 id="next-lesson-module-1-lesson-12">Next lesson — Module 1, Lesson 12</h2><h2 id="disk-management-and-storage-troubleshooting">Disk management and storage troubleshooting</h2><p>Learn how to inspect disks, partitions, filesystems, mounts, and disk usage on Ubuntu.</p>
+<p>Topics will include:</p>
+<ul>
+<li><code>lsblk</code>, <code>blkid</code>, <code>df</code>, and <code>du</code></li>
+<li>Filesystem capacity versus inode exhaustion</li>
+<li>Mount points and <code>/etc/fstab</code></li>
+<li>Diagnosing “No space left on device”</li>
+<li>A realistic disk-full DevOps incident</li>
+<li>Practical exercises, safety checks, quiz, and assignment tracker</li>
+</ul>
+<p>Continue to Lesson 12 </p>
+
+</div>

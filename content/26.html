@@ -1,0 +1,232 @@
+<style>
+.tool-md-preview, .export-container {
+  width: min(100%, 900px);
+  max-width: 900px;
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(32px, 5vw, 68px) clamp(22px, 5vw, 58px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+.tool-md-preview img, .export-container img,
+.tool-md-preview video, .export-container video,
+.tool-md-preview svg, .export-container svg { max-width: 100%; height: auto; }
+.tool-md-preview pre, .export-container pre {
+  max-width: 100%;
+  margin: 1.4em 0;
+  padding: 1.05em 1.2em;
+  overflow-x: auto;
+  box-sizing: border-box;
+  color: var(--html-code-text) !important;
+  font-size: 0.9em;
+  line-height: 1.62;
+  tab-size: 2;
+}
+.tool-md-preview pre code, .export-container pre code {
+  display: block;
+  min-width: max-content;
+  border: 0;
+  background: transparent !important;
+  color: var(--html-code-text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.tool-md-preview table, .export-container table { max-width: 100%; overflow-x: auto; }
+@media (max-width: 640px) {
+  .tool-md-preview, .export-container { padding: 28px 20px; }
+  .tool-md-preview pre, .export-container pre { margin-inline: -4px; padding: 0.9em 1em; }
+}
+
+body { margin: 0; background: #111318; color: #e5e7eb; }
+.tool-md-preview, .export-container {
+  background: #181b22; color: #e5e7eb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.72;
+  --html-code-text: #e5e7eb; --html-code-keyword: #f472b6;
+  --html-code-title: #60a5fa; --html-code-string: #a3e635;
+  --html-code-number: #fbbf24; --html-code-comment: #7c8597;
+}
+h1, h2, h3, h4 { color: #f9fafb; letter-spacing: -0.025em; }
+h1 { padding-bottom: 0.45em; border-bottom: 1px solid #343a46; font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { margin-top: 2em; color: #93c5fd; }
+h3 { color: #c4b5fd; }
+a { color: #7dd3fc; text-underline-offset: 0.2em; }
+blockquote { border-left: 4px solid #60a5fa; background: #20242d; color: #cbd5e1; }
+code { border: 1px solid #343a46; border-radius: 5px; background: #111318; color: #f9a8d4; padding: 0.14em 0.36em; }
+pre { border: 1px solid #343a46; border-radius: 10px; background: #0b0d12; box-shadow: 0 14px 32px rgba(0,0,0,.28); }
+table { display: table; width: 100%; border-collapse: collapse; }
+th { background: #252a35; color: #bfdbfe; }
+th, td { border: 1px solid #343a46; padding: 0.72em; }
+hr { border: 0; border-top: 1px solid #343a46; }
+
+.tool-md-preview pre .hljs-keyword, .export-container pre .hljs-keyword,
+.tool-md-preview pre .hljs-selector-tag, .export-container pre .hljs-selector-tag,
+.tool-md-preview pre .hljs-literal, .export-container pre .hljs-literal { color: var(--html-code-keyword) !important; }
+.tool-md-preview pre .hljs-title, .export-container pre .hljs-title,
+.tool-md-preview pre .hljs-title.function_, .export-container pre .hljs-title.function_,
+.tool-md-preview pre .hljs-built_in, .export-container pre .hljs-built_in { color: var(--html-code-title) !important; }
+.tool-md-preview pre .hljs-string, .export-container pre .hljs-string,
+.tool-md-preview pre .hljs-attr, .export-container pre .hljs-attr,
+.tool-md-preview pre .hljs-name, .export-container pre .hljs-name { color: var(--html-code-string) !important; }
+.tool-md-preview pre .hljs-number, .export-container pre .hljs-number,
+.tool-md-preview pre .hljs-symbol, .export-container pre .hljs-symbol,
+.tool-md-preview pre .hljs-variable, .export-container pre .hljs-variable { color: var(--html-code-number) !important; }
+.tool-md-preview pre .hljs-comment, .export-container pre .hljs-comment,
+.tool-md-preview pre .hljs-quote, .export-container pre .hljs-quote { color: var(--html-code-comment) !important; font-style: italic; }
+.tool-md-preview pre .hljs-params, .export-container pre .hljs-params,
+.tool-md-preview pre .hljs-punctuation, .export-container pre .hljs-punctuation { color: var(--html-code-text) !important; }
+</style>
+<div class="export-container">
+<h2 id="module-1-lesson-25-production-capstone-incident-response">Module 1, Lesson 25 — Production Capstone: Incident Response</h2><p>Level: Intermediate · Estimated time: 45–60 minutes · Practical focus: end-to-end troubleshooting</p>
+<p>This capstone brings everything together. You’ll investigate a simulated broken application, find the root cause, restore service, verify recovery, and write an incident report — exactly like a real DevOps on-call incident.</p>
+<h2 id="1-the-scenario">1. The scenario</h2><p>You receive an alert:</p>
+<blockquote>
+<p>“The delivery-tracking application is slow. Customers cannot place orders.”</p>
+</blockquote>
+<p>The application runs on Ubuntu behind Nginx, with a Python backend and systemd service <code>tracker.service</code>.</p>
+<h2 id="2-incident-triage-workflow">2. Incident triage workflow</h2><p>Follow this order — do not restart or reboot until you have evidence:</p>
+<ol>
+<li><strong>Define the symptom</strong> — what fails, who is affected, when did it start?</li>
+<li><strong>Check scope</strong> — one user, one app, one server, or many?</li>
+<li><strong>Collect evidence</strong> — logs, service status, CPU/memory/disk, network.</li>
+<li><strong>Form a hypothesis</strong> — test one change at a time.</li>
+<li><strong>Apply a fix</strong> — minimal, reversible change.</li>
+<li><strong>Verify recovery</strong> — confirm the symptom is gone.</li>
+<li><strong>Document</strong> — write an incident report.</li>
+</ol>
+<h2 id="3-step-by-step-investigation">3. Step-by-step investigation</h2><h3 id="step-1-confirm-the-symptom">Step 1 — Confirm the symptom</h3><pre><code class="hljs language-bash">curl -I http://localhost
+curl -w <span class="hljs-string">"@curl-format.txt"</span> -o /dev/null -s http://localhost</code></pre><p>If the site times out or returns 500, the application or Nginx is failing.</p>
+<h3 id="step-2-check-the-service">Step 2 — Check the service</h3><pre><code class="hljs language-bash">systemctl status tracker.service
+systemctl status nginx</code></pre><p>Look for: inactive, failed, activating, or crash-loop.</p>
+<h3 id="step-3-inspect-logs">Step 3 — Inspect logs</h3><pre><code class="hljs language-bash">journalctl -u tracker.service --since <span class="hljs-string">"30 minutes ago"</span>
+<span class="hljs-built_in">tail</span> -n 50 /var/log/tracker/app.log
+<span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tail</span> -n 50 /var/log/nginx/error.log</code></pre><p>Search for errors:</p>
+<pre><code class="hljs language-bash">grep -inE <span class="hljs-string">"error|traceback|failed|timeout|connection refused"</span> /var/log/tracker/app.log</code></pre><h3 id="step-4-check-system-resources">Step 4 — Check system resources</h3><pre><code class="hljs language-bash"><span class="hljs-built_in">df</span> -h
+free -h
+top -n 1</code></pre><p>Common culprits: full disk, memory pressure, high CPU.</p>
+<h3 id="step-5-form-and-test-a-hypothesis">Step 5 — Form and test a hypothesis</h3><p>Example: The tracker service crashed because the log disk is full.</p>
+<p>Fix (minimal and reversible):</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> systemctl restart tracker.service</code></pre><p>Then confirm:</p>
+<pre><code class="hljs language-bash">systemctl status tracker.service
+curl http://localhost</code></pre><h3 id="step-6-verify-recovery">Step 6 — Verify recovery</h3><ul>
+<li>The service is <code>active (running)</code>.</li>
+<li><code>curl</code> returns HTTP 200.</li>
+<li>New orders are being processed (check recent log entries).</li>
+</ul>
+<h3 id="step-7-write-the-incident-report">Step 7 — Write the incident report</h3><p>Template:</p>
+<pre><code class="hljs language-text">Title: Delivery-tracking application outage
+Date: 2026-10-27
+Duration: 18 minutes
+Impact: Customers could not place orders
+Root cause: tracker.service crashed after /var/log filled to 100%
+Fix: Cleared old logs, restarted tracker.service
+Prevention: Add log rotation and disk monitoring alert
+Timeline:
+  10:00 Alert received
+  10:05 Investigated logs, found disk full
+  10:12 Cleared logs, restarted service
+  10:18 Service verified, incident closed</code></pre><h2 id="4-interactive-practice-quiz">4. Interactive practice quiz</h2><p>1. What should you do FIRST during an incident?</p>
+<p>Reboot the server</p>
+<p>Restart all services</p>
+<p>Collect evidence and define the symptom</p>
+<p>Delete log files</p>
+<p>2. Which command shows recent service logs?</p>
+<p>journalctl -u tracker.service --since "30 minutes ago"</p>
+<p>cat /etc/passwd</p>
+<p>ls /home</p>
+<p>dmesg -w</p>
+<p>3. Which command checks if the disk is full?</p>
+<p>df -h</p>
+<p>ls -l</p>
+<p>uname -r</p>
+<p>systemctl status</p>
+<p>Check answers</p>
+<h2 id="5-practical-assignment">5. Practical assignment</h2><p>Simulate an incident and document it.</p>
+<h2 id="assignment-checklist">Assignment checklist</h2><p>0/6 completed</p>
+<ol>
+<li>Stop the tracker service to simulate failure</li>
+</ol>
+<p>sudo systemctl stop tracker.service</p>
+<ol start="2">
+<li>Confirm the symptom</li>
+</ol>
+<p>curl <a href="http://localhost">http://localhost</a>  (expect failure)</p>
+<ol start="3">
+<li>Investigate the cause</li>
+</ol>
+<p>systemctl status tracker.service &amp;&amp; journalctl -u tracker.service -n 20</p>
+<ol start="4">
+<li>Apply a fix</li>
+</ol>
+<p>sudo systemctl start tracker.service</p>
+<ol start="5">
+<li>Verify recovery</li>
+</ol>
+<p>systemctl status tracker.service &amp;&amp; curl <a href="http://localhost">http://localhost</a></p>
+<ol start="6">
+<li>Write a short incident report (use the template above)</li>
+</ol>
+<h2 id="6-cheat-sheet-incident-response">6. Cheat sheet — incident response</h2><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Command / Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Check HTTP</td>
+<td><code>curl -I http://localhost</code></td>
+</tr>
+<tr>
+<td>Service status</td>
+<td><code>systemctl status &lt;svc&gt;</code></td>
+</tr>
+<tr>
+<td>Service logs</td>
+<td><code>journalctl -u &lt;svc&gt; --since "30 min ago"</code></td>
+</tr>
+<tr>
+<td>App logs</td>
+<td><code>tail -n 50 /var/log/&lt;app&gt;/app.log</code></td>
+</tr>
+<tr>
+<td>Search errors</td>
+<td>`grep -inE "error</td>
+</tr>
+<tr>
+<td>Disk space</td>
+<td><code>df -h</code></td>
+</tr>
+<tr>
+<td>Memory</td>
+<td><code>free -h</code></td>
+</tr>
+<tr>
+<td>CPU/processes</td>
+<td><code>top -n 1</code></td>
+</tr>
+<tr>
+<td>Restart service</td>
+<td><code>sudo systemctl restart &lt;svc&gt;</code></td>
+</tr>
+</tbody></table>
+<h2 id="summary">Summary</h2><p>You’ve now completed all 25 lessons of Linotutor — from your first <code>ls</code> command to a full production incident response. You can:</p>
+<ul>
+<li>Navigate and manage the Linux filesystem.</li>
+<li>Handle users, permissions, and sudo.</li>
+<li>Inspect processes, networking, packages, and systemd services.</li>
+<li>Read logs, search with grep, and edit configs safely.</li>
+<li>Automate with Bash, cron, and Docker.</li>
+<li>Serve websites with Nginx and manage versions with Git.</li>
+<li>Understand the kernel, boot process, and rescue mode.</li>
+<li>Troubleshoot production incidents methodically.</li>
+</ul>
+<p>Keep practicing on real Linux systems, and you’ll be ready for production DevOps work.</p>
+<h2 id="keep-learning">Keep learning</h2><ul>
+<li>Contribute to open-source projects on GitHub.</li>
+<li>Run a personal Linux server at home or in the cloud.</li>
+<li>Study for certifications such as LFCS, LPI, or RHCSA.</li>
+<li>Explore Kubernetes, Terraform, and CI/CD next.</li>
+</ul>
+<p>Good luck, and happy troubleshooting!</p>
+
+</div>
