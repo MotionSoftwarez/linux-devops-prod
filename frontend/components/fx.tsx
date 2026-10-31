@@ -15,11 +15,11 @@ export function TypingTerminal({ lines, className = "" }: { lines: TermLine[]; c
   const containerRef = useRef<HTMLDivElement>(null);
 
   const full = useMemo(() => {
-    const seq: { text: string; out: boolean; start: number; end: number }[] = [];
+    const seq: { text: string; out: boolean; start: number; end: number; color?: string }[] = [];
     let cursor = 0;
     for (const l of lines) {
       const len = l.text.length;
-      seq.push({ text: l.text, out: !!l.out, start: cursor, end: cursor + len });
+      seq.push({ text: l.text, out: !!l.out, start: cursor, end: cursor + len, color: l.color });
       cursor += len + (l.out ? 0 : 10); // output lines appear instantly, commands type
     }
     return { seq, total: cursor + 30 }; // 30 ticks pause before loop restart

@@ -22,6 +22,8 @@ interface OutlineModule {
   key: string;
   title: string;
   stage: string | null;
+  description?: string | null;
+  order: number;
   lessons: { slug: string; title: string }[];
 }
 
